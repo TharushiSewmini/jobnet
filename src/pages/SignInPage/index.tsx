@@ -2,31 +2,46 @@ import React from "react";
 import "./index.css";
 import fly from "../../assets/flying.png";
 import SignInTextField from "../../components/SignInTextField";
+import ReusableButton from "../../components/ReusableButton";
 
 const SignInPage = () => {
   return (
     <div className="sign-in-container">
       <div className="sign-in-main-forum-container">
-      <div className="sign-in-box-white-form">
-        <div className="sign-in-form-welcome">
-          Welcome to <span className="sign-in-welcome-lorem">JobNet</span>
-        </div>
-        <div className="sign-in-big-word">
-        Sign in
-        </div>
+        <div className="sign-in-box-white-form">
+          <div className="signin-welcome-full-container">
+            <div className="sign-in-form-welcome">
+              Welcome to <span className="sign-in-welcome-lorem">JobNet</span>
+            </div>
+            <div className="sign-in-no-account">
+              <span className="sign-in-no-account-first">No Account ?</span>
+              <span className="sign-in-no-account-second">Sign up</span>
+            </div>
+          </div>
 
-        <div className="sign-in-enter-texts">
-        Enter your username or email address
+          <div className="sign-in-big-word">Sign in</div>
+
+          <div className="sign-in-enter-texts">
+            Enter your username or email address
+          </div>
+          <SignInTextField
+            placeHolderValue={"Username or email address"}
+            value={""}
+            onChange={()=>{}}
+          />
+
+          <div className="sign-in-enter-texts">Enter your Password</div>
+
+          <SignInTextField
+            placeHolderValue={"Password"}
+            value={""}
+            onChange={()=>{}}
+          />
+          <div className="sign-in-forget-password">Forgot Password</div>
+          <div className="signin-signin-btn">
+            <ReusableButton />
+          </div>
         </div>
-       <SignInTextField/>
-        
-        <div className="sign-in-enter-texts">
-        Enter your Password
-        </div>
-        
-        <SignInTextField/>
-       
-      </div>
       </div>
       <div className="sign-in-up-container">
         <div className="sign-in-up-left-container">
@@ -44,10 +59,8 @@ const SignInPage = () => {
           <img src={fly} className="sign-in-up-right-container-img" />
         </div>
       </div>
-     
-     
+
       <div className="sign-down-conatiner"></div>
-      
     </div>
   );
 };

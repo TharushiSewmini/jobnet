@@ -1,9 +1,7 @@
-import React from 'react'
-import "./index.css"
+import React from "react";
+import "./index.css";
 const ReusableButton = () => {
-  return (
-    <div>ReusableButton</div>
-  )
-}
+  return <button className="reuable-button">Sign in</button>;
+};
 
-export default ReusableButton
+export default ReusableButton;

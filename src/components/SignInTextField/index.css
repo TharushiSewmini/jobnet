@@ -1,10 +1,12 @@
 
-
+.signin-textfield-container{
+border-color: rgb(182, 182, 182);
+}
 .signin-textfield-content{
     padding: 1.25rem;
     height: 3.563rem;
     width: 100%;
-    border: 2px solid rgb(182, 182, 182);
+border : 2px solid #ADADAD;
     outline: none;
     border-radius: 0.563rem;
     box-shadow: none;
