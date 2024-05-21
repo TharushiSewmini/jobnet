@@ -1,0 +1,240 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600");
+
+.sign-in-container {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+  font-family: "Poppins", sans-serif;
+  overflow: hidden;
+}
+
+.sign-in-up-container {
+  display: flex;
+  flex-direction: row;
+  background-color: #0089ed;
+  flex: 1;
+  padding-left: 4.563rem;
+  z-index: 2;
+}
+
+.sign-down-conatiner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  background-color: white;
+  flex: 1;
+  gap: 4rem;
+}
+
+.sign-in-text-section-Sign-in-to {
+  font-size: 2.125rem;
+  font-weight: 600;
+  color: white;
+}
+
+.sign-in-text-lorem {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: white;
+}
+
+.sign-in-paragraph {
+  font-size: 0.813rem;
+  font-weight: 300;
+  color: white;
+  width: 19.438rem;
+  padding-top: 1.375rem;
+  line-height: 1.219rem;
+  padding-bottom: 2rem;
+}
+
+.sign-in-up-right-container {
+  height: 28.063rem;
+  width: 28.063rem;
+  padding-top: 0;
+}
+.sign-in-up-right-container-img {
+  height: 100%;
+  z-index: 0;
+  width: 100%;
+  object-fit: cover;
+}
+.sign-in-up-left-container {
+  padding-top: 9.375rem;
+}
+
+@media (max-width: 768px) {
+  .sign-in-up-right-container,
+  .sign-in-up-left-container,
+  .sign-in-paragraph,
+  .sign-down-conatiner,
+  .sign-in-up-container {
+    display: none;
+    transition: none !important;
+  }
+
+  .sign-in-main-forum-container {
+    background-color: white;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    right: 0 !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 0rem !important;
+    padding-inline: 0 !important;
+    padding: 0 !important;
+    transition: none !important;
+  }
+  .sign-in-box-white-form {
+    background-color: white;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    transition: none !important;
+    padding: 1rem !important;
+  }
+}
+
+.sign-in-main-forum-container {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  top: 0;
+  bottom: 0;
+  flex-direction: column;
+  justify-content: center;
+  padding-bottom: 1rem;
+  padding-inline: 2rem;
+}
+.sign-in-box-white-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 46.813rem;
+  padding: 2.5rem;
+  background-color: white;
+  width: 33rem;
+  border-radius: 2.5rem;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.sign-in-welcome-lorem {
+  color: #0089ed;
+  font-weight: 600;
+  font-size: 1.313rem;
+}
+
+.sign-in-form-welcome {
+  font-weight: 400;
+  font-size: 1.313rem;
+  top: 0;
+}
+.sign-in-big-word {
+  font-size: 2.5rem;
+  font-weight: 500;
+  line-height: 5.156rem;
+}
+.sign-in-enter-texts {
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 2.5rem;
+}
+.signin-signin-btn {
+  padding-top: 2.75rem;
+}
+.sign-in-forget-password {
+  padding-top: 0.75rem;
+  text-align: end;
+  color: #4285f4;
+  font-weight: 400;
+  font-size: 0.813rem;
+}
+.signin-welcome-full-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.sign-in-no-account {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.78rem;
+  color: #8d8d8d;
+  font-weight: 400;
+}
+.sign-in-no-account-second {
+  color: #4285f4;
+}
+.sign-in-rotate-box,
+.sign-down-emojies {
+  height: 8rem;
+  width: 8rem;
+  background-color: transparent;
+  position: relative; /* Ensure the element is positioned relative for left/right to work */
+  animation: movement 8s linear infinite;
+  border-radius: 1rem;
+}
+.sign-down-emojies {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10rem;
+}
+.sign-in-rotate-box {
+  height: 5rem;
+  width: 5rem;
+  animation-delay: 500ms;
+}
+
+.sign-in-rotate-box-happy-emoj,
+.sign-in-rotate-box-happy-emoj-2,
+.sign-in-rotate-box-happy-emoj-3 {
+  height: 5rem;
+  width: 5rem;
+  object-fit: cover;
+}
+.sign-in-rotate-box-happy-emoj-2 {
+  animation-delay: 0;
+  margin-left: 20rem;
+}
+.sign-in-rotate-box-happy-emoj-3 {
+  margin-left: 10rem;
+}
+@keyframes movement {
+  from {
+    left: 0;
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+    left: 100%; /* Change this value according to how far you want the element to move */
+  }
+}
+.signin-emojies {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 2rem;
+  position: relative;
+  animation: movement 8s linear;
+  animation-iteration-count: infinite;
+
+}
+.sign-up-user-name-conatiner{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
