@@ -9,6 +9,7 @@ import happy from "../../assets/happy.png";
 import happiest from "../../assets/happiest.png";
 import love from "../../assets/love.png";
 import { transform } from "typescript";
+import { useNavigate } from "react-router-dom";
 const SignInPage = () => {
   const [isLogin, setIsLogin] = useState(false);
   const changingStatesToLogin = () => {
@@ -16,7 +17,8 @@ const SignInPage = () => {
 
     setIsLogin(!isLogin);
   };
-  const signUpText = isLogin ? 'up' : 'in';
+  const signUpText = isLogin ? "up" : "in";
+  const navigate = useNavigate();
   return (
     <div className="sign-in-container">
       {/*  chnaging states */}
@@ -72,7 +74,9 @@ const SignInPage = () => {
             <div className="signin-signin-btn">
               <ReusableButton
                 buttonText={"Sign In"}
-                onClick={()=>{}}
+                onClick={() => {
+                  navigate("./home");
+                }}
               />
             </div>
           </div>
@@ -141,10 +145,7 @@ const SignInPage = () => {
               />
               <div className="sign-in-forget-password">Forgot Password</div>
               <div className="signin-signin-btn">
-                <ReusableButton
-                  buttonText={"Sign Up"}
-                  onClick={()=>{}}
-                />
+                <ReusableButton buttonText={"Sign Up"} onClick={() => {}} />
               </div>
             </div>
           </div>
@@ -165,7 +166,9 @@ const SignInPage = () => {
         }
       >
         <div className="sign-in-up-left-container">
-          <div className="sign-in-text-section-Sign-in-to">Sign {signUpText} to</div>
+          <div className="sign-in-text-section-Sign-in-to">
+            Sign {signUpText} to
+          </div>
           <div className="sign-in-text-lorem">
             Job net for your part time job
           </div>
