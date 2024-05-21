@@ -3,7 +3,11 @@ import "./index.css";
 import fly from "../../assets/flying.png";
 import SignInTextField from "../../components/SignInTextField";
 import ReusableButton from "../../components/ReusableButton";
+import lightbulb from "../../assets/light-bulb.png";
+import happy from "../../assets/happy.png";
 
+import happiest from "../../assets/happiest.png";
+import love from "../../assets/love.png";
 const SignInPage = () => {
   return (
     <div className="sign-in-container">
@@ -27,7 +31,7 @@ const SignInPage = () => {
           <SignInTextField
             placeHolderValue={"Username or email address"}
             value={""}
-            onChange={()=>{}}
+            onChange={() => {}}
           />
 
           <div className="sign-in-enter-texts">Enter your Password</div>
@@ -35,7 +39,7 @@ const SignInPage = () => {
           <SignInTextField
             placeHolderValue={"Password"}
             value={""}
-            onChange={()=>{}}
+            onChange={() => {}}
           />
           <div className="sign-in-forget-password">Forgot Password</div>
           <div className="signin-signin-btn">
@@ -60,7 +64,31 @@ const SignInPage = () => {
         </div>
       </div>
 
-      <div className="sign-down-conatiner"></div>
+      <div className="sign-down-conatiner">
+        <div className="sign-in-rotate-box">
+          <img src={lightbulb} />
+        </div>
+        <div className="signin-emojies">
+          <img
+            src={happy}
+            className="sign-in-rotate-box-happy-emoj"
+            id="sign-in-rotate-box-happy-emoj-1"
+          />
+
+          <img src={happiest} className="sign-in-rotate-box-happy-emoj-2" />
+
+          <img src={love} className="sign-in-rotate-box-happy-emoj-3" />
+          <img
+            src={happy}
+            className="sign-in-rotate-box-happy-emoj"
+            id="sign-in-rotate-box-happy-emoj-1"
+          />
+
+          <img src={happiest} className="sign-in-rotate-box-happy-emoj-2" />
+
+          <img src={love} className="sign-in-rotate-box-happy-emoj-3" />
+        </div>
+      </div>
     </div>
   );
 };
