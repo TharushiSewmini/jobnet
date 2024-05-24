@@ -1,0 +1,135 @@
+.sign-in-box-white-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 2.5rem;
+  background-color: white;
+  border-radius: 2.5rem;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.sign-in-welcome-lorem {
+  color: #0089ed;
+  font-weight: 600;
+  font-size: 1.313rem;
+}
+
+.sign-in-form-welcome {
+  font-weight: 400;
+  font-size: 1.313rem;
+  top: 0;
+}
+
+.sign-in-big-word {
+  font-size: 2.5rem;
+  font-weight: 500;
+}
+
+.sign-in-enter-texts {
+  font-size: 0.95rem;
+  font-weight: 400;
+}
+
+.signin-signin-btn {
+}
+
+.sign-in-forget-password {
+  padding-top: 0.75rem;
+  text-align: end;
+  color: #4285f4;
+  font-weight: 400;
+  font-size: 0.813rem;
+}
+
+.signin-welcome-full-container {
+  display: flex;
+  flex-direction: row;
+  gap: 5rem;
+  justify-content: space-between;
+}
+
+.sign-in-no-account {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.78rem;
+  color: #8d8d8d;
+  font-weight: 400;
+}
+
+.sign-in-no-account-second {
+  color: #4285f4;
+}
+
+.sign-up-user-name-conatiner {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+}
+
+/* Media queries for smaller screens */
+@media (max-width: 768px) {
+  .sign-in-box-white-form {
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    height: auto; /* Adjust height to auto for smaller screens */
+  }
+
+  .sign-in-welcome-lorem {
+    font-size: 1rem;
+  }
+
+  .sign-in-form-welcome {
+    font-size: 1rem;
+  }
+
+  .sign-in-big-word {
+    font-size: 1.8rem;
+  }
+
+  .sign-in-enter-texts {
+    font-size: 0.8rem;
+  }
+
+  .sign-in-forget-password {
+    font-size: 0.7rem;
+  }
+
+  .sign-in-no-account {
+    font-size: 0.7rem;
+  }
+}
+
+/* Media queries for even smaller screens */
+@media (max-width: 480px) {
+  .sign-in-box-white-form {
+    padding: 1rem;
+    border-radius: 1rem;
+    height: auto; /* Adjust height to auto for even smaller screens */
+  }
+
+  .sign-in-welcome-lorem {
+    font-size: 0.9rem;
+  }
+
+  .sign-in-form-welcome {
+    font-size: 0.9rem;
+  }
+
+  .sign-in-big-word {
+    font-size: 1.6rem;
+  }
+
+  .sign-in-enter-texts {
+    font-size: 0.7rem;
+  }
+
+  .sign-in-forget-password {
+    font-size: 0.6rem;
+  }
+
+  .sign-in-no-account {
+    font-size: 0.6rem;
+  }
+}
