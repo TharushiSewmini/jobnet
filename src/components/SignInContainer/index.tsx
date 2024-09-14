@@ -51,7 +51,7 @@ const SignInContainer = ({onChange}:SignInContainerProps) => {
       <ReusableButton
         buttonText={"Sign In"}
         onClick={() => {
-          navigate("./home");
+          navigate("./jobproviderdashboard");
         }}
       />
     </div>

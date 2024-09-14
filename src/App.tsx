@@ -13,7 +13,7 @@ function App() {
           <Route path="/" element={<SignInPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route
-            path="/job-provider-dashboard"
+            path="/jobproviderdashboard"
             element={<JobProviderDashboard />}
           />
         </Routes>
