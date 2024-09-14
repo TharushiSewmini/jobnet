@@ -1,0 +1,180 @@
+.jobs-container {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 8px;
+  padding-block: 20px;
+  font-size: small;
+  overflow: auto; /* Ensure only the job list scrolls */
+}
+
+.view-all {
+  display: flex;
+  align-items: center;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.view-all .arrow {
+  margin-left: 5px;
+}
+
+/* Table Header Row */
+.table-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  align-items: center;
+  background-color: #f9f9f9;
+  padding: 10px 20px;
+  font-weight: bold;
+  color: #777;
+  border-radius: 5px;
+  position: sticky; /* Keep header fixed */
+  top: 0;
+  z-index: 1; /* Make sure it's above the scrolling content */
+}
+
+/* Job List Items */
+.job-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 400px; /* Set a fixed height for scrollable area */
+  overflow-y: auto; /* Make the job list scrollable on the Y-axis */
+}
+
+.job-list::-webkit-scrollbar {
+  width: 6px; /* Set scrollbar width */
+}
+
+.job-list::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.job-item {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  align-items: center;
+  padding: 10px 20px;
+
+  border-bottom: 1px solid #e7e7e7;
+}
+
+.job-item .job-details {
+  font-size: medium;
+  font-weight: 500;
+}
+
+.job-item .job-details span {
+  display: block;
+  font-size: 0.9rem;
+  color: #888;
+}
+.job-status {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.job-status .active-status {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.job-status .expire-status {
+  color: #dc3545;
+  font-weight: bold;
+}
+.job-applications {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.job-applications span {
+  color: #555;
+}
+.job-applications img {
+}
+.job-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.job-actions .view-post {
+  padding: 8px 15px;
+  background-color: #28a745;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.view-post-edit-icon{
+cursor: pointer;
+}
+.job-actions .view-post:hover {
+  background-color: #218838;
+}
+.view-post-notclick {
+  padding: 8px 15px;
+
+  background-color: white;
+  border: 1px solid #28a745;
+  color: #28a745;
+  border-radius: 5px;
+  cursor: pointer;
+}
+/* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+  .job-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    padding-left: 15px;
+  }
+  .job-applications {
+    gap: 5px;
+  }
+}
+
+@media (max-width: 768px) {
+  .table-header,
+  .job-item {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 8px;
+  }
+
+  .table-header {
+    display: none; /* Hide table header on smaller screens */
+  }
+
+  .job-item {
+    padding: 15px;
+  }
+
+  .job-details span {
+    font-size: 0.85rem;
+  }
+
+  .job-actions .view-post {
+    padding: 10px;
+  }
+  .job-provider-dshboard-bottom-container-middle-recent-row {
+    gap: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .jobs-container {
+    padding: 10px;
+  }
+
+  .job-item {
+    font-size: 0.9rem;
+
+    gap: 8px;
+  }
+
+  .view-post {
+    padding: 6px 10px;
+  }
+}
