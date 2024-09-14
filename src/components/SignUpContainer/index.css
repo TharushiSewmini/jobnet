@@ -9,7 +9,7 @@
 }
 
 .sign-in-welcome-lorem {
-  color: #0089ed;
+  color: #098023;
   font-weight: 600;
   font-size: 1.313rem;
 }
@@ -36,7 +36,7 @@
 .sign-in-forget-password {
   padding-top: 0.75rem;
   text-align: end;
-  color: #4285f4;
+  color: #098023;
   font-weight: 400;
   font-size: 0.813rem;
 }
@@ -56,7 +56,7 @@
 }
 
 .sign-in-no-account-second {
-  color: #4285f4;
+  color: #098023;
 }
 
 .sign-up-user-name-conatiner {
