@@ -1,0 +1,36 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600");
+.ant-modal .css-dev-only-do-not-override-qnu6hi{
+width: 520px;
+display: flex;
+top: 0;
+gap: 50px;
+height: 56px;
+font-family: "Poppins", sans-serif;
+}
+.ant-modal-wrap{
+    display: flex;
+    align-items: center;
+}
+:where(.css-dev-only-do-not-override-qnu6hi).ant-modal .ant-modal-footer{
+    display: flex;
+    padding-top: 20px;
+    justify-content: space-between;
+}
+.ant-btn .css-dev-only-do-not-override-qnu6hi .ant-btn-default{
+    color: red;
+}
+:where(.css-dev-only-do-not-override-qnu6hi).ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover{
+    border-color: red;
+    color: red;
+}
+:where(.css-dev-only-do-not-override-qnu6hi).ant-btn-default{
+    border-color: red;
+    color: red;
+}
+:where(.css-dev-only-do-not-override-qnu6hi).ant-btn-primary{
+    background-color:  #218838 ;
+}
+:where(.css-dev-only-do-not-override-qnu6hi).ant-btn-primary{
+    background-color:  #218838 ;
+}
+/**/
