@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SignInPage from "./pages/SignInPage";
 import HomePage from "./pages/HomePage";
 import JobProviderDashboard from "./pages/JobProviderDashboard";
+import HomePageForJobProvider from "./pages/HomePageForJobProvider";
 
 function App() {
   return (
@@ -15,6 +16,10 @@ function App() {
           <Route
             path="/jobproviderdashboard"
             element={<JobProviderDashboard />}
+          />
+           <Route
+            path="/homepageforjobprovider"
+            element={<HomePageForJobProvider />}
           />
         </Routes>
       </Router>
