@@ -135,7 +135,7 @@ cursor: pointer;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 968px) {
   .table-header,
   .job-item {
     grid-template-columns: 1fr;
