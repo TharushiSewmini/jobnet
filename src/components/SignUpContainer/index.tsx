@@ -4,10 +4,7 @@ import ReusableButton from "../ReusableButton";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
 import SignInTextField from "../SignInTextField";
-interface SignUpContainerProps {
-  onChange: (e: any) => void;
-}
-const SignUpContainer = ({ onChange }: SignUpContainerProps) => {
+const SignUpContainer = () => {
  
 
   return (
