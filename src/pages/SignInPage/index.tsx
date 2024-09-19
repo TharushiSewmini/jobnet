@@ -10,6 +10,7 @@ import { transform } from "typescript";
 import { useNavigate } from "react-router-dom";
 import SignUpContainer from "../../components/SignUpContainer";
 import SignInContainer from "../../components/SignInContainer";
+import JobNetTopBar from "../../components/JobNetTopBar";
 
 const SignInPage = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -22,6 +23,7 @@ const SignInPage = () => {
  
   return (
     <div className="sign-up-container">
+      <JobNetTopBar/>
       {/*  chnaging states */}
 
       <div className="sign-up-up-container">
