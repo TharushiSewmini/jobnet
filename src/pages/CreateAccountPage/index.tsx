@@ -9,9 +9,8 @@ import love from "../../assets/love.png";
 import { transform } from "typescript";
 import { useNavigate } from "react-router-dom";
 import SignUpContainer from "../../components/SignUpContainer";
-import SignInContainer from "../../components/SignInContainer";
 
-const SignInPage = () => {
+const CreateAccountPage = () => {
   const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {}, []);
@@ -31,9 +30,7 @@ const SignInPage = () => {
       
 
         <div className="sign-up-main-forum-container">
-          <SignInContainer onChange={function (e: any): void {
-            throw new Error("Function not implemented.");
-          } }/>
+          <SignUpContainer onChange={changingContainers} />
         </div>
         <div className="sign-up-rotate-box">
           <img src={lightbulb} />
@@ -64,4 +61,4 @@ const SignInPage = () => {
   );
 };
 
-export default SignInPage;
+export default CreateAccountPage;

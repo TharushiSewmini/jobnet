@@ -28,7 +28,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  height: 405px;
+height: 405px;
   background-color: #098023;
   z-index: 4;
 }
@@ -79,6 +79,7 @@
   height: 80%;
   display: flex;
   justify-content: flex-end;
+
   align-items: flex-start;
   z-index: 2;
 }
@@ -136,7 +137,6 @@
     justify-content: center;
   }
   .sign-up-up-container {
-    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -151,11 +151,11 @@
     padding-top: 30px;
   }
   .sign-up-main-forum-container {
-    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: center;
+    padding-inline: 20px;
     padding-block: 30px;
     height: 0;
   }
