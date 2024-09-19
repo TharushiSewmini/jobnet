@@ -9,6 +9,7 @@ import love from "../../assets/love.png";
 import { transform } from "typescript";
 import { useNavigate } from "react-router-dom";
 import SignUpContainer from "../../components/SignUpContainer";
+import JobNetTopBar from "../../components/JobNetTopBar";
 
 const CreateAccountPage = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -21,8 +22,7 @@ const CreateAccountPage = () => {
  
   return (
     <div className="sign-up-container">
-      {/*  chnaging states */}
-
+    <JobNetTopBar/>
       <div className="sign-up-up-container">
         <div className="sign-up-up-img-main-container">
         <img src={fly} className="sign-up-container-image-fly"  />
