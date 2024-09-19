@@ -6,6 +6,8 @@ import HomePage from "./pages/HomePage";
 import JobProviderDashboard from "./pages/JobProviderDashboard";
 import HomePageForJobProvider from "./pages/HomePageForJobProvider";
 import CreateAccountPage from "./pages/CreateAccountPage";
+import PostJob from "./pages/PostJob";
+
 
 function App() {
   return (
@@ -25,6 +27,10 @@ function App() {
            <Route
             path="/createAccountPage"
             element={<CreateAccountPage />}
+          />
+          <Route
+            path="/postjob"
+            element={<PostJob/>}
           />
         </Routes>
       </Router>
