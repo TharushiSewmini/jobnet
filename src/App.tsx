@@ -5,6 +5,7 @@ import SignInPage from "./pages/SignInPage";
 import HomePage from "./pages/HomePage";
 import JobProviderDashboard from "./pages/JobProviderDashboard";
 import HomePageForJobProvider from "./pages/HomePageForJobProvider";
+import CreateAccountPage from "./pages/CreateAccountPage";
 
 function App() {
   return (
@@ -20,6 +21,10 @@ function App() {
            <Route
             path="/homepageforjobprovider"
             element={<HomePageForJobProvider />}
+          />
+           <Route
+            path="/createAccountPage"
+            element={<CreateAccountPage />}
           />
         </Routes>
       </Router>
