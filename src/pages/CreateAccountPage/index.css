@@ -13,22 +13,21 @@
 }
 
 .sign-up-up-container {
-  flex: 1;
+  flex: 2;
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   background-color: white;
   position: relative;
-  align-items: center;
+  align-items: start;
 }
 
 .sign-down-conatiner {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
-height: 405px;
+flex: 1;
   background-color: #098023;
   z-index: 4;
 }
@@ -52,8 +51,8 @@ height: 405px;
 }
 
 .sign-up-rotate-box {
-  height: 10rem;
-  width: 10rem;
+  height: 418px;
+  width: 281px;
   z-index: 0 !important;
 }
 .sign-up-rotate-box-happy-emoj,
@@ -84,8 +83,10 @@ height: 405px;
   z-index: 2;
 }
 .sign-up-up-img-main-container {
+  height: 100%;
   flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -124,10 +125,10 @@ height: 405px;
   }
   .sign-down-conatiner {
     display: flex;
-    flex: 1;
+ height: 280px;
   }
 }
-@media (max-width: 992px) {
+@media (max-width: 1020px) {
   .sign-up-container {
     width: 100%;
     flex: 1;
@@ -141,14 +142,14 @@ height: 405px;
     justify-content: center;
     align-items: center;
     flex: 1;
-    padding-block: 30px;
+    padding-block: 10px;
   }
   .sign-down-conatiner {
     display: none;
   }
   .sign-up-up-img-main-container {
     flex: 0;
-    padding-top: 30px;
+  
   }
   .sign-up-main-forum-container {
     display: flex;
@@ -156,14 +157,14 @@ height: 405px;
     justify-content: start;
     align-items: center;
     padding-inline: 20px;
-    padding-block: 30px;
+    padding-block: 0;
     height: 0;
   }
 
   .sign-up-container-image-fly {
     z-index: 2;
-    height: 150px;
-    width: 250px;
+    height: 120px;
+    width: 240px;
     object-fit: cover;
   }
 }
