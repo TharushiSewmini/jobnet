@@ -1,41 +1,36 @@
 import React, { useEffect, useState } from "react";
 import "./index.css";
-import fly from "../../assets/Illustration.png"
+import fly from "../../assets/Illustration.png";
 import lightbulb from "../../assets/light-bulb.png";
 import happy from "../../assets/happy.png";
-
 import happiest from "../../assets/happiest.png";
 import love from "../../assets/love.png";
-import { transform } from "typescript";
-import { useNavigate } from "react-router-dom";
-import SignUpContainer from "../../components/SignUpContainer";
 import SignInContainer from "../../components/SignInContainer";
 import JobNetTopBar from "../../components/JobNetTopBar";
 
 const SignInPage = () => {
-  const [isLogin, setIsLogin] = useState(false);
-
-  useEffect(() => {}, []);
-
-  const changingContainers = () => {
-    setIsLogin(!isLogin);
-  };
  
   return (
     <div className="sign-up-container">
-      <JobNetTopBar/>
+      <JobNetTopBar />
       {/*  chnaging states */}
 
       <div className="sign-up-up-container">
         <div className="sign-up-up-img-main-container">
-        <img src={fly} className="sign-up-container-image-fly"  />
+          <img src={fly} className="sign-up-container-image-fly" />
         </div>
-      
 
         <div className="sign-up-main-forum-container">
-          <SignInContainer onChange={function (e: any): void {
-            throw new Error("Function not implemented.");
-          } }/>
+          <SignInContainer
+            onChangeEmail={function (e: any): void {
+              throw new Error("Function not implemented.");
+            }}
+            onChangePassword={function (e: any): void {
+              throw new Error("Function not implemented.");
+            }}
+            useremail={""}
+            password={""}
+          />
         </div>
         <div className="sign-up-rotate-box">
           <img src={lightbulb} />
