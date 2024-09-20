@@ -1,0 +1,77 @@
+.sign-up-box-white-form {
+    box-sizing: content-box;
+    width: 80%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: transparent;
+   padding: 0;
+   margin: 0;
+  }
+  
+  .sign-up-big-word {
+    font-size: 24px;
+    font-weight: 500;
+    color: #18191C;
+  }
+  
+  .sign-up-enter-texts {
+    font-size: 14px;
+    font-weight: 400;
+    
+  }
+  
+  
+  
+  .sign-up-forget-password {
+  
+    text-align: end;
+    color: #098023;
+    font-weight: 400;
+    font-size: 16px;
+  }
+  
+  .signup-welcome-full-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .sign-up-no-account {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    color: #8d8d8d;
+    font-weight: 400;
+  }
+  
+  .sign-up-no-account-second {
+    color: #098023;
+  }
+  
+  .sign-up-user-name-conatiner {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .sign-up-enter-login-text{
+    color: #0A65CC;
+    padding-left: 4px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .sign-up-sign-up-btn{
+    margin-top: 32px;
+  }
+  /* Media queries for smaller screens */
+  @media (max-width: 768px) {
+    .sign-up-box-white-form{
+      width: 100%;
+      padding: 15px;
+      height: 300px;
+    }
+  
+  }
+  

@@ -6,6 +6,8 @@ import HomePage from "./pages/HomePage";
 import JobProviderDashboard from "./pages/JobProviderDashboard";
 import HomePageForJobProvider from "./pages/HomePageForJobProvider";
 import CreateAccountPage from "./pages/CreateAccountPage";
+import ForgetPasswordPage from "./pages/ForgetPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 import PostJob from "./pages/PostJob";
 
 
@@ -25,8 +27,16 @@ function App() {
             element={<HomePageForJobProvider />}
           />
            <Route
-            path="/createAccountPage"
+            path="/createAccount"
             element={<CreateAccountPage />}
+          />
+           <Route
+            path="/forgetPassword"
+            element={<ForgetPasswordPage />}
+          />
+           <Route
+            path="/resetPassword"
+            element={<ResetPasswordPage />}
           />
           <Route
             path="/postjob"

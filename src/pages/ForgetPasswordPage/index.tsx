@@ -3,15 +3,13 @@ import "./index.css";
 import fly from "../../assets/Illustration.png"
 import lightbulb from "../../assets/light-bulb.png";
 import happy from "../../assets/happy.png";
-
 import happiest from "../../assets/happiest.png";
 import love from "../../assets/love.png";
-import { transform } from "typescript";
-import { useNavigate } from "react-router-dom";
 import SignUpContainer from "../../components/SignUpContainer";
 import JobNetTopBar from "../../components/JobNetTopBar";
+import ForgetPasswordContainer from "../../components/ForgetPasswordContainer";
 
-const CreateAccountPage = () => {
+const ForgetPasswordPage = () => {
 
  
   return (
@@ -24,7 +22,7 @@ const CreateAccountPage = () => {
       
 
         <div className="sign-up-main-forum-container">
-          <SignUpContainer  />
+       <ForgetPasswordContainer/>
         </div>
         <div className="sign-up-rotate-box">
           <img src={lightbulb} />
@@ -55,4 +53,4 @@ const CreateAccountPage = () => {
   );
 };
 
-export default CreateAccountPage;
+export default ForgetPasswordPage;
