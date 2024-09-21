@@ -16,6 +16,9 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ProtectedRoute from "./utils/protectedRoutes";
 import { AuthProvider, useAuthContext } from "./contexts/AuthContext";
 import AppRoutes from "./utils/routes";
+import HomePageJobSeeker from "./pages/HomePageJobSeeker";
+import PostJob from "./pages/PostJob";
+
 
 function App() {
   return (
