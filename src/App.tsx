@@ -9,6 +9,8 @@ import CreateAccountPage from "./pages/CreateAccountPage";
 import ForgetPasswordPage from "./pages/ForgetPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import HomePageJobSeeker from "./pages/HomePageJobSeeker";
+import PostJob from "./pages/PostJob";
+
 
 function App() {
   return (
@@ -30,6 +32,10 @@ function App() {
           <Route path="/resetPassword" element={<ResetPasswordPage />} />
 
           <Route path="/HomePageJobSeeker" element={<HomePageJobSeeker />} />
+          <Route
+            path="/postjob"
+            element={<PostJob/>}
+          />
         </Routes>
       </Router>
     </div>
