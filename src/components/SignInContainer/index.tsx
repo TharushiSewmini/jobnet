@@ -8,7 +8,7 @@ interface SignInContainerProps {
  
   onChangeEmail: (e: any) => void;
   onChangePassword: (e: any) => void;
-
+onSubmit:(e:any)=>void;
   useremail: string;
   password: string;
 
@@ -19,6 +19,7 @@ const SignInContainer = ({
   onChangePassword,
   useremail,
   password,
+onSubmit
 }: SignInContainerProps) => {
   const navigate = useNavigate();
 
@@ -34,7 +35,7 @@ const SignInContainer = ({
       <SignInTextField
         placeHolderValue={"Email address"}
         value={useremail}
-        onChange={(value)=>onChangeEmail(value)}
+        onChange={onChangeEmail}
       />
 
       <div className="sign-in-enter-texts">Enter your Password</div>
@@ -42,11 +43,11 @@ const SignInContainer = ({
       <SignInTextField
         placeHolderValue={"Password"}
         value={password}
-        onChange={(value)=>onChangePassword(value)}
+        onChange={onChangePassword}
       />
 
       <div className="signin-signin-btn">
-        <ReusableButton buttonText={"Sign In"} onClick={() => {}} />
+        <ReusableButton buttonText={"Sign In"} onClick={onSubmit} />
       </div>
     </div>
   );
