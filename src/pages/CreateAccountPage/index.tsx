@@ -7,6 +7,7 @@ import happiest from "../../assets/happiest.png";
 import love from "../../assets/love.png";
 import SignUpContainer from "../../components/SignUpContainer";
 import JobNetTopBar from "../../components/JobNetTopBar";
+import { Flex, Spin } from "antd";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -19,7 +20,7 @@ import {
   Timestamp,
   getDoc,
 } from "firebase/firestore";
-
+import { useNavigate } from "react-router-dom";
 interface User {
   userFullName: string;
   userName: string;
@@ -34,7 +35,7 @@ const CreateAccountPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [userType, setUserType] = useState("admin");
-
+  const [isloading, setIsLoading] = useState(false);
   const user: User = {
     userFullName: userFullName,
     userName: userName,
@@ -46,8 +47,10 @@ const CreateAccountPage = () => {
   //initilizing firebase auth and firestore
   const auth = getAuth();
   const db = getFirestore();
+  const navigate = useNavigate();
 
   async function handleSignUp(user: User) {
+    setIsLoading(true);
     try {
       // Check if the username already exists
       const usernameDoc = await getDoc(doc(db, "usernames", user.userName));
@@ -85,8 +88,10 @@ const CreateAccountPage = () => {
     } catch (error) {
       console.error("Error during signup:", error);
     }
+    setIsLoading(false);
+    navigate("/login");
   }
-  return (
+  return !isloading ? (
     <div className="sign-up-container">
       <JobNetTopBar />
       <div className="sign-up-up-container">
@@ -136,6 +141,14 @@ const CreateAccountPage = () => {
       </div>
       <div className="sign-down-conatiner"></div>
     </div>
+  ) : (
+    <Flex
+      align="center"
+      gap="middle"
+      className="w-screen h-screen flex justify-center items-center bg-transparent"
+    >
+      <Spin size="large" />
+    </Flex>
   );
 };
 

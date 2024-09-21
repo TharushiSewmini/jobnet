@@ -11,6 +11,7 @@ import HomePageForJobProvider from "../pages/HomePageForJobProvider";
 import ProtectedRoute from "./protectedRoutes";
 import HomePageJobSeeker from "../pages/HomePageJobSeeker";
 import PostJob from "../pages/PostJob";
+import { Flex, Spin } from "antd";
 
 function AppRoutes() {
   const { authenticated, userType } = useAuthContext();
@@ -18,6 +19,7 @@ function AppRoutes() {
   // Public routes accessible to all
   const publicRoutes = (
     <>
+      <Route path="/" element={<SignInPage />} />
       <Route path="/login" element={<SignInPage />} />
       <Route path="/createAccount" element={<CreateAccountPage />} />
       <Route path="/forgetPassword" element={<ForgetPasswordPage />} />
@@ -28,10 +30,7 @@ function AppRoutes() {
   // Routes for authenticated users (non-admin)
   const userRoutes = (
     <>
-      <Route path="/userHome" element={<HomePage />} />
-      <Route path="/" element={<Navigate to="/userHome" replace />} />
-      <Route path="*" element={<div>Loading</div>} />
-      <Route path="/HomePageJobSeeker" element={<HomePageJobSeeker />} />
+      <Route path="/" element={<HomePageJobSeeker />} />
     </>
   );
 
@@ -39,24 +38,13 @@ function AppRoutes() {
   const adminRoutes = (
     <>
       <Route
-        path="/userHome"
-        element={<Navigate to="/jobproviderdashboard" replace />}
-      />
-      <Route path="/jobproviderdashboard" element={<JobProviderDashboard />} />
-      <Route
         path="/homepageforjobprovider"
         element={<HomePageForJobProvider />}
       />
-      <Route
-        path="/login"
-        element={<Navigate to="/homepageforjobprovider" replace />}
-      />
-      <Route
-        path="/"
-        element={<Navigate to="/jobproviderdashboard" replace />}
-      />
-      <Route path="*" element={<div>Loading</div>} />
+
       <Route path="/postjob" element={<PostJob />} />
+
+      <Route path="/" element={<JobProviderDashboard />} />
     </>
   );
 
@@ -71,7 +59,11 @@ function AppRoutes() {
 
       {authenticated && (
         <Route element={<ProtectedRoute />}>
-          {userType === "admin" ? adminRoutes : userRoutes}
+          {userType === "undefined"
+            ? publicRoutes
+            : userType === "admin"
+            ? adminRoutes
+            : userRoutes}
         </Route>
       )}
     </Routes>

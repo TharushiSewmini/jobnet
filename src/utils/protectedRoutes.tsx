@@ -6,7 +6,7 @@ function ProtectedRoute() {
   // Use the custom hook for safe context access
   const { authenticated } = useAuthContext();
 
-  return authenticated ? <Outlet /> : <Navigate to="/" />;
+  return authenticated ? <Outlet /> : <Navigate to="/login" />;
 }
 
 export default ProtectedRoute;
