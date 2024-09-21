@@ -6,6 +6,9 @@ import HomePage from "./pages/HomePage";
 import JobProviderDashboard from "./pages/JobProviderDashboard";
 import HomePageForJobProvider from "./pages/HomePageForJobProvider";
 import CreateAccountPage from "./pages/CreateAccountPage";
+import ForgetPasswordPage from "./pages/ForgetPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
+import HomePageJobSeeker from "./pages/HomePageJobSeeker";
 import PostJob from "./pages/PostJob";
 
 
@@ -20,14 +23,15 @@ function App() {
             path="/jobproviderdashboard"
             element={<JobProviderDashboard />}
           />
-           <Route
+          <Route
             path="/homepageforjobprovider"
             element={<HomePageForJobProvider />}
           />
-           <Route
-            path="/createAccountPage"
-            element={<CreateAccountPage />}
-          />
+          <Route path="/createAccount" element={<CreateAccountPage />} />
+          <Route path="/forgetPassword" element={<ForgetPasswordPage />} />
+          <Route path="/resetPassword" element={<ResetPasswordPage />} />
+
+          <Route path="/HomePageJobSeeker" element={<HomePageJobSeeker />} />
           <Route
             path="/postjob"
             element={<PostJob/>}
