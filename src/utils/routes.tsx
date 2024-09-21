@@ -9,6 +9,8 @@ import HomePage from "../pages/HomePage";
 import JobProviderDashboard from "../pages/JobProviderDashboard";
 import HomePageForJobProvider from "../pages/HomePageForJobProvider";
 import ProtectedRoute from "./protectedRoutes";
+import HomePageJobSeeker from "../pages/HomePageJobSeeker";
+import PostJob from "../pages/PostJob";
 
 function AppRoutes() {
   const { authenticated, userType } = useAuthContext();
@@ -29,6 +31,10 @@ function AppRoutes() {
       <Route path="/userHome" element={<HomePage />} />
       <Route path="/" element={<Navigate to="/userHome" replace />} />
       <Route path="*" element={<div>Loading</div>} />
+      <Route
+            path="/postjob"
+            element={<PostJob/>}
+          />
     </>
   );
 
@@ -50,6 +56,8 @@ function AppRoutes() {
         element={<Navigate to="/jobproviderdashboard" replace />}
       />
       <Route path="*" element={<div>Loading</div>} />
+      <Route path="/HomePageJobSeeker" element={<HomePageJobSeeker />} />
+         
     </>
   );
 
