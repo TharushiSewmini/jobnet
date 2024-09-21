@@ -1,6 +1,11 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import SignInPage from "./pages/SignInPage";
 import HomePage from "./pages/HomePage";
 import JobProviderDashboard from "./pages/JobProviderDashboard";
@@ -8,6 +13,9 @@ import HomePageForJobProvider from "./pages/HomePageForJobProvider";
 import CreateAccountPage from "./pages/CreateAccountPage";
 import ForgetPasswordPage from "./pages/ForgetPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import ProtectedRoute from "./utils/protectedRoutes";
+import { AuthProvider, useAuthContext } from "./contexts/AuthContext";
+import AppRoutes from "./utils/routes";
 import HomePageJobSeeker from "./pages/HomePageJobSeeker";
 import PostJob from "./pages/PostJob";
 
@@ -15,29 +23,11 @@ import PostJob from "./pages/PostJob";
 function App() {
   return (
     <div className="App">
-      <Router>
-        <Routes>
-          <Route path="/" element={<SignInPage />} />
-          <Route path="/home" element={<HomePage />} />
-          <Route
-            path="/jobproviderdashboard"
-            element={<JobProviderDashboard />}
-          />
-          <Route
-            path="/homepageforjobprovider"
-            element={<HomePageForJobProvider />}
-          />
-          <Route path="/createAccount" element={<CreateAccountPage />} />
-          <Route path="/forgetPassword" element={<ForgetPasswordPage />} />
-          <Route path="/resetPassword" element={<ResetPasswordPage />} />
-
-          <Route path="/HomePageJobSeeker" element={<HomePageJobSeeker />} />
-          <Route
-            path="/postjob"
-            element={<PostJob/>}
-          />
-        </Routes>
-      </Router>
+      <AuthProvider>
+        <Router>
+          <AppRoutes />
+        </Router>
+      </AuthProvider>
     </div>
   );
 }
