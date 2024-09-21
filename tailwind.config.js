@@ -1,12 +1,9 @@
 module.exports = {
   content: [
-    './src/**/*.{js,ts,jsx,tsx}', // Add TypeScript file types here
+    './src/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extends:{
-      
-    },
+    extend: {},
+  },
   plugins: [],
-}};
-
-
+};
