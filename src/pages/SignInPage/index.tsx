@@ -1,41 +1,78 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./index.css";
-import fly from "../../assets/Illustration.png"
+import fly from "../../assets/Illustration.png";
 import lightbulb from "../../assets/light-bulb.png";
 import happy from "../../assets/happy.png";
-
 import happiest from "../../assets/happiest.png";
 import love from "../../assets/love.png";
-import { transform } from "typescript";
-import { useNavigate } from "react-router-dom";
-import SignUpContainer from "../../components/SignUpContainer";
 import SignInContainer from "../../components/SignInContainer";
 import JobNetTopBar from "../../components/JobNetTopBar";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { useAuthContext } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+
+interface User {
+  useremail: string;
+  password: string;
+  userType?: string;
+}
 
 const SignInPage = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const { userType } = useAuthContext();
+  const [userEmail, setUserEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  useEffect(() => {}, []);
-
-  const changingContainers = () => {
-    setIsLogin(!isLogin);
+  const user: User = {
+    useremail: userEmail,
+    password: password,
   };
- 
+
+  const auth = getAuth();
+
+  const navigate = useNavigate();
+
+  // handle sign
+
+  const handleSignIn = async (user: User) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        user.useremail,
+        user.password
+      );
+      if (!userCredential) {
+        alert("you not logged in");
+      }
+      userType == "admin"
+        ? navigate("/jobproviderdashboard")
+        : navigate("/userHome");
+    } catch (error) {
+      console.error("Error signing in: ", error);
+    }
+  };
+
   return (
     <div className="sign-up-container">
-      <JobNetTopBar/>
+      <JobNetTopBar />
       {/*  chnaging states */}
 
       <div className="sign-up-up-container">
         <div className="sign-up-up-img-main-container">
-        <img src={fly} className="sign-up-container-image-fly"  />
+          <img src={fly} className="sign-up-container-image-fly" />
         </div>
-      
 
         <div className="sign-up-main-forum-container">
-          <SignInContainer onChange={function (e: any): void {
-            throw new Error("Function not implemented.");
-          } }/>
+          <SignInContainer
+            onChangeEmail={(e) => setUserEmail(e.target.value)}
+            onChangePassword={(e) => setPassword(e.target.value)}
+            useremail={userEmail}
+            password={password}
+            onSubmit={() => handleSignIn(user)}
+          />
         </div>
         <div className="sign-up-rotate-box">
           <img src={lightbulb} />

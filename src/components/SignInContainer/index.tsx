@@ -5,10 +5,22 @@ import { useNavigate } from "react-router-dom";
 import "./index.css";
 
 interface SignInContainerProps {
-  onChange: (e: any) => void;
+ 
+  onChangeEmail: (e: any) => void;
+  onChangePassword: (e: any) => void;
+onSubmit:(e:any)=>void;
+  useremail: string;
+  password: string;
+
 }
 
-const SignInContainer = ({ onChange }: SignInContainerProps) => {
+const SignInContainer = ({
+  onChangeEmail,
+  onChangePassword,
+  useremail,
+  password,
+onSubmit
+}: SignInContainerProps) => {
   const navigate = useNavigate();
 
   return (
@@ -16,33 +28,26 @@ const SignInContainer = ({ onChange }: SignInContainerProps) => {
       <div className="sign-in-big-word">Sign in</div>
 
       <div className="sign-up-enter-texts">
-     Don't have an account ?
-      <span className="sign-up-enter-login-text">
-   Create and Account 
-      </span>
+        Don't have an account ?
+        <span className="sign-up-enter-login-text" onClick={()=>navigate("/createAccount")}>Create and Account</span>
       </div>
 
       <SignInTextField
-        placeHolderValue={"Username or email address"}
-        value={""}
-        onChange={() => {}}
+        placeHolderValue={"Email address"}
+        value={useremail}
+        onChange={onChangeEmail}
       />
 
       <div className="sign-in-enter-texts">Enter your Password</div>
 
       <SignInTextField
         placeHolderValue={"Password"}
-        value={""}
-        onChange={() => {}}
+        value={password}
+        onChange={onChangePassword}
       />
-    
+
       <div className="signin-signin-btn">
-        <ReusableButton
-          buttonText={"Sign In"}
-          onClick={() => {
-            navigate("./jobproviderdashboard");
-          }}
-        />
+        <ReusableButton buttonText={"Sign In"} onClick={onSubmit} />
       </div>
     </div>
   );
