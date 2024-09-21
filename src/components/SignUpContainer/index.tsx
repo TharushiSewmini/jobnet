@@ -12,11 +12,11 @@ interface SignUpContainerProps {
   onChangePassword: (e: any) => void;
   onChangeConfirmPassword: (e: any) => void;
   onSubmit: (e: any) => void;
-  userFullName : string;
+  userFullName: string;
   userName: string;
   useremail: string;
   password: string;
-  confirmassword : string;
+  confirmassword: string;
   userType: string;
 }
 
@@ -34,13 +34,19 @@ const SignUpContainer = ({
   useremail,
   password,
 }: SignUpContainerProps) => {
+  const navigate = useNavigate();
   return (
     <div className="sign-up-box-white-form">
       <div className="sign-up-big-word">Create Account</div>
 
       <div className="sign-up-enter-texts">
         Already have account?
-        <span className="sign-up-enter-login-text">Log In</span>
+        <span
+          className="sign-up-enter-login-text"
+          onClick={() => navigate("/login")}
+        >
+          Log In
+        </span>
       </div>
 
       <div className="sign-up-user-name-conatiner">

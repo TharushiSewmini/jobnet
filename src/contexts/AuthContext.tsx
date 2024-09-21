@@ -15,6 +15,7 @@ import {
   collection,
   getDocs,
 } from "firebase/firestore";
+import { Flex, Spin } from "antd";
 
 // Initialize Firebase app with the provided configuration
 initializeApp(firebaseConfig);
@@ -45,7 +46,6 @@ const AuthContext = createContext<IAuthContext | undefined>(undefined);
 
 // AuthProvider component to provide authentication state and actions
 const AuthProvider = ({ children }: Props) => {
-
   //states
   const [authenticated, setAuthenticated] = useState(false);
   const [userType, setUserType] = useState<string | undefined>(undefined);
@@ -56,8 +56,6 @@ const AuthProvider = ({ children }: Props) => {
 
   //firebase - db
   const db = getFirestore();
-
-
 
   // Function to fetch the userType from Firestore
   async function fetchinguserType(email: string | null) {
@@ -85,9 +83,11 @@ const AuthProvider = ({ children }: Props) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
+        setLoading(true);
         setAuthenticated(true);
 
         fetchinguserType(user.email);
+        setLoading(false);
       } else {
         setAuthenticated(false);
         setUserType(undefined);
@@ -110,7 +110,7 @@ const AuthProvider = ({ children }: Props) => {
 
     const resetTimer = () => {
       if (timer) clearTimeout(timer);
-      timer = setTimeout(() => logout(), 10 * 60 * 1000); // 60 minutes timeout
+      timer = setTimeout(() => logout(), 1* 60 * 1000); // 60 minutes timeout
     };
 
     const logout = () => {
@@ -135,9 +135,13 @@ const AuthProvider = ({ children }: Props) => {
 
   if (loading) {
     return (
-      <div className="w-full h-full flex justify-center items-center">
-        Loading...
-      </div>
+      <Flex
+        align="center"
+        gap="middle"
+        className="w-screen h-screen flex justify-center items-center bg-transparent"
+      >
+        <Spin size="large" />
+      </Flex>
     );
   }
 

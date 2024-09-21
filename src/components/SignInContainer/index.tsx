@@ -38,7 +38,7 @@ onSubmit
         onChange={onChangeEmail}
       />
 
-      <div className="sign-in-enter-texts">Enter your Password</div>
+
 
       <SignInTextField
         placeHolderValue={"Password"}
