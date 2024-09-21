@@ -31,17 +31,17 @@ function AppRoutes() {
       <Route path="/userHome" element={<HomePage />} />
       <Route path="/" element={<Navigate to="/userHome" replace />} />
       <Route path="*" element={<div>Loading</div>} />
-      <Route
-            path="/postjob"
-            element={<PostJob/>}
-          />
+      <Route path="/HomePageJobSeeker" element={<HomePageJobSeeker />} />
     </>
   );
 
   // Routes for authenticated admins
   const adminRoutes = (
     <>
-       <Route path="/userHome" element={<Navigate to="/jobproviderdashboard" replace />}/>
+      <Route
+        path="/userHome"
+        element={<Navigate to="/jobproviderdashboard" replace />}
+      />
       <Route path="/jobproviderdashboard" element={<JobProviderDashboard />} />
       <Route
         path="/homepageforjobprovider"
@@ -56,8 +56,7 @@ function AppRoutes() {
         element={<Navigate to="/jobproviderdashboard" replace />}
       />
       <Route path="*" element={<div>Loading</div>} />
-      <Route path="/HomePageJobSeeker" element={<HomePageJobSeeker />} />
-         
+      <Route path="/postjob" element={<PostJob />} />
     </>
   );
 
