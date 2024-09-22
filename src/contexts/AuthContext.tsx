@@ -32,6 +32,7 @@ interface IAuthContext {
   setUserType: (userType: string) => void;
   setAuthenticated: (newState: boolean) => void;
   logout: () => void;
+  isLoading : boolean
 }
 
 // Interface for user properties from Firestore
@@ -79,22 +80,21 @@ const AuthProvider = ({ children }: Props) => {
     }
   }
 
-  // useEffect to handle authentication state changes
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setLoading(true);
-        setAuthenticated(true);
 
-        fetchinguserType(user.email);
-        setLoading(false);
+  //cheking login or logout
+  useEffect(() => {
+    setLoading(true);
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setAuthenticated(true);
+        await fetchinguserType(user.email);
       } else {
         setAuthenticated(false);
         setUserType(undefined);
       }
       setLoading(false);
     });
-
+  
     return () => unsubscribe();
   }, [auth]);
 
@@ -104,13 +104,17 @@ const AuthProvider = ({ children }: Props) => {
     console.log("User type updated:", userType);
   }, [authenticated, userType]);
 
+
+
+
+
   // useEffect to handle inactivity timeout
   useEffect(() => {
     let timer: NodeJS.Timeout;
 
     const resetTimer = () => {
       if (timer) clearTimeout(timer);
-      timer = setTimeout(() => logout(), 30* 60 * 1000); // 60 minutes timeout
+      timer = setTimeout(() => logout(), 10 * 60 * 1000); // 60 minutes timeout
     };
 
     const logout = () => {
@@ -133,6 +137,9 @@ const AuthProvider = ({ children }: Props) => {
     };
   }, [auth, authenticated, userType]);
 
+
+
+
   if (loading) {
     return (
       <Flex
@@ -147,16 +154,17 @@ const AuthProvider = ({ children }: Props) => {
 
   return (
     <AuthContext.Provider
-      value={{
-        authenticated,
-        setAuthenticated,
-        userType,
-        setUserType,
-        logout: () => signOut(auth),
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+    value={{
+      authenticated,
+      setAuthenticated,
+      userType,
+      setUserType,
+      logout: () => signOut(auth),
+      isLoading: loading,
+    }}
+  >
+    {children}
+  </AuthContext.Provider>
   );
 };
 

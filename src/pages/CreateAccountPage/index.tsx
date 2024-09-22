@@ -29,13 +29,15 @@ interface User {
   userType: string;
 }
 const CreateAccountPage = () => {
+  const options = ["Admin", "User"];
   const [userFullName, setUserFullName] = useState("");
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [userType, setUserType] = useState("admin");
+  const [userType, setUserType] = useState(options[1]);
   const [isloading, setIsLoading] = useState(false);
+
   const user: User = {
     userFullName: userFullName,
     userName: userName,
@@ -113,6 +115,8 @@ const CreateAccountPage = () => {
             userType={userType}
             onSubmit={() => handleSignUp(user)} // Implemented correctly
             confirmassword={confirmPassword}
+            onSelevtUserType={(e) => setUserType(e.target.value)}
+            options={options}
           />
         </div>
         <div className="sign-up-rotate-box">

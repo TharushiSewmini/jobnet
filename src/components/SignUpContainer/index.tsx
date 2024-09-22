@@ -4,7 +4,7 @@ import ReusableButton from "../ReusableButton";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
 import SignInTextField from "../SignInTextField";
-
+import { Dropdown } from "antd";
 interface SignUpContainerProps {
   onChangeUserFullName: (e: any) => void;
   onChangeUserName: (e: any) => void;
@@ -18,6 +18,8 @@ interface SignUpContainerProps {
   password: string;
   confirmassword: string;
   userType: string;
+  onSelevtUserType: (e: any) => void;
+  options: string[];
 }
 
 const SignUpContainer = ({
@@ -30,23 +32,43 @@ const SignUpContainer = ({
   confirmassword,
   userFullName,
   userName,
-  userType = "user",
+  userType,
   useremail,
   password,
+  onSelevtUserType,
+  options,
 }: SignUpContainerProps) => {
   const navigate = useNavigate();
+
   return (
     <div className="sign-up-box-white-form">
-      <div className="sign-up-big-word">Create Account</div>
+      <div className="create-cpntainer-whole-row">
+        <div className="create-container-left">
+          <div className="sign-up-big-word">Create Account</div>
 
-      <div className="sign-up-enter-texts">
-        Already have account?
-        <span
-          className="sign-up-enter-login-text"
-          onClick={() => navigate("/login")}
-        >
-          Log In
-        </span>
+          <div className="sign-up-enter-texts">
+            Already have account?
+            <span
+              className="sign-up-enter-login-text"
+              onClick={() => navigate("/login")}
+            >
+              Log In
+            </span>
+          </div>
+        </div>
+        <div className="dropdown-container">
+          <select
+            value={userType}
+            onChange={onSelevtUserType}
+            className="dropdown"
+          >
+            {options.map((option, index) => (
+              <option key={index} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <div className="sign-up-user-name-conatiner">
