@@ -4,16 +4,15 @@ import JobNetSymbol from "../../components/JobNetSymbol";
 import signOut from "../../assets/signout.svg";
 import OpenBoxContainer from "../../components/OpenBoxContainer";
 import JobList from "../../components/DashBoardTable";
-import { Button, Modal } from 'antd';
+import { Button, Modal } from "antd";
+import { useAuthContext } from "../../contexts/AuthContext";
 
 const JobProviderDashboard = () => {
-
+  const { logout } = useAuthContext();
   return (
     <div className="job-provider-dashboard">
-     
-  
       <div className="job-provider-dshboard-top-row">
-        <JobNetSymbol />
+        <JobNetSymbol onClick={function (e: any): void {}} />
         <button className="job-provider-dshboard-top-row-button">
           Post a Job{" "}
         </button>
@@ -25,11 +24,15 @@ const JobProviderDashboard = () => {
               imageIcon={signOut}
               textColor="#767F8C"
               tileText="Edit details"
+              onClick={function (e: any): void {}}
             />
             <JobNetSymbol
               imageIcon={signOut}
               textColor="#767F8C"
               tileText="Logout"
+              onClick={function (e: any): void {
+                logout();
+              }}
             />
           </div>
         </div>
@@ -50,10 +53,9 @@ const JobProviderDashboard = () => {
               View All
             </span>
           </div>
-          <JobList/>
+          <JobList />
         </div>
         <div className="job-provider-dshboard-bottom-container-right"></div>
-        
       </div>
     </div>
   );

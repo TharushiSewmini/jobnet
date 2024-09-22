@@ -1,19 +1,19 @@
 .sign-up-box-white-form {
   box-sizing: content-box;
-  width: 80%;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   gap: 10px;
   background-color: transparent;
- padding: 0;
- margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 .sign-up-big-word {
   font-size: 24px;
   font-weight: 500;
-  color: #18191C;
+  color: #18191c;
 }
 
 .sign-up-enter-texts {
@@ -21,10 +21,7 @@
   font-weight: 400;
 }
 
-
-
 .sign-up-forget-password {
-
   text-align: end;
   color: #098023;
   font-weight: 400;
@@ -54,20 +51,54 @@
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
+  flex: 1;
 }
-.sign-up-enter-login-text{
-  color: #0A65CC;
+.sign-up-user-name-flow {
+  flex: 1;
+  display: flex;
+}
+.sign-up-enter-login-text {
+  color: #0a65cc;
   padding-left: 4px;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
 }
+.create-cpntainer-whole-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dropdown-container {
+  display: inline-block;
+}
+
+.dropdown {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #E4E5E8;
+  border-radius: 6px;
+  background-color: white;
+
+  cursor: pointer;
+  width: 150px;
+}
+
+.dropdown:focus {
+  outline: none;
+  border-color: #888;
+}
+
+.dropdown option {
+  font-size: 16px;
+  padding: 10px;
+}
+
 /* Media queries for smaller screens */
 @media (max-width: 768px) {
-  .sign-up-box-white-form{
+  .sign-up-box-white-form {
     width: 100%;
     padding: 15px;
     height: 300px;
   }
-
 }

@@ -18,22 +18,24 @@ interface User {
 }
 
 const SignInPage = () => {
-  const { authenticated, userType } = useAuthContext();
+  const { authenticated, userType, setAuthenticated } = useAuthContext();
   const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const auth = getAuth();
 
-  const handleSignIn = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
+  //handling sign function
+  const handleSignIn = async () => {
     try {
       setIsLoading(true);
       await signInWithEmailAndPassword(auth, userEmail, password);
-      // The navigation will be handled by the useEffect hook
+      alert(userType);
+      userType === "admin"
+        ? navigate("/jobProviderDashboard")
+        : navigate("/userHome");
+
       setIsLoading(false);
-      navigate("/");
     } catch (error) {
       console.error("Error signing in: ", error);
       alert("Failed to sign in. Please check your credentials.");
@@ -42,19 +44,7 @@ const SignInPage = () => {
     }
   };
 
-  if (authenticated) {
-    return (
-      <Flex
-        align="center"
-        gap="middle"
-        className="w-screen h-screen flex justify-center items-center bg-transparent"
-      >
-        <Spin size="large" />
-      </Flex>
-    );
-  }
-
-  return (
+  return !isLoading ? (
     <div className="sign-up-container">
       <JobNetTopBar />
       <div className="sign-up-up-container">
@@ -110,6 +100,14 @@ const SignInPage = () => {
       </div>
       <div className="sign-down-conatiner"></div>
     </div>
+  ) : (
+    <Flex
+      align="center"
+      gap="middle"
+      className="w-screen h-screen flex justify-center items-center bg-transparent"
+    >
+      <Spin size="large" />
+    </Flex>
   );
 };
 

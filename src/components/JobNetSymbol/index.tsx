@@ -8,6 +8,7 @@ interface JobNetSymbolPropos {
   textSize?: string;
   textColor?: string;
   gap?: string;
+  onClick: (e: any) => void;
 }
 const JobNetSymbol = ({
   imageIcon,
@@ -15,9 +16,14 @@ const JobNetSymbol = ({
   textSize,
   textColor,
   gap,
+  onClick,
 }: JobNetSymbolPropos) => {
   return (
-    <div className="job-net-symbol-icon" style={{ gap: gap ? gap : "8px" }}>
+    <div
+      className="job-net-symbol-icon"
+      style={{ gap: gap ? gap : "8px" }}
+      onClick={onClick}
+    >
       <div className="job-net-symbol-letter-icon">
         <img src={imageIcon ? imageIcon : Letter} />
       </div>
