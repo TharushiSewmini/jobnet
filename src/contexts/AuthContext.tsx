@@ -32,7 +32,7 @@ interface IAuthContext {
   setUserType: (userType: string) => void;
   setAuthenticated: (newState: boolean) => void;
   logout: () => void;
-  isLoading : boolean
+  isLoading: boolean;
 }
 
 // Interface for user properties from Firestore
@@ -69,7 +69,7 @@ const AuthProvider = ({ children }: Props) => {
       const currentUserDocs = await getDocs(useQuery);
       if (!currentUserDocs.empty) {
         const userData = currentUserDocs.docs[0].data() as UserProps;
-        setUserType(userData.userType === "admin" ? "admin" : "user");
+        setUserType(userData.userType);
 
         console.log("User type fetched: ", userData.userType);
       } else {
@@ -80,35 +80,41 @@ const AuthProvider = ({ children }: Props) => {
     }
   }
 
-
   //cheking login or logout
+
   useEffect(() => {
+    
     setLoading(true);
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        setAuthenticated(true);
+     
+        
         await fetchinguserType(user.email);
+        setAuthenticated(true);
       } else {
         setAuthenticated(false);
         setUserType(undefined);
       }
       setLoading(false);
     });
-  
+
+
     return () => unsubscribe();
-  }, [auth]);
+  }, [auth , userType , setUserType]);
+
 
   // useEffect to log the updated state
+
   useEffect(() => {
     console.log("Authentication state updated:", authenticated);
     console.log("User type updated:", userType);
+    console.log(auth.currentUser!);
+    
   }, [authenticated, userType]);
 
 
-
-
-
   // useEffect to handle inactivity timeout
+
   useEffect(() => {
     let timer: NodeJS.Timeout;
 
@@ -124,7 +130,9 @@ const AuthProvider = ({ children }: Props) => {
       });
     };
 
+
     // Attach event listeners to reset the timer
+
     window.addEventListener("mousemove", resetTimer);
     window.addEventListener("keypress", resetTimer);
 
@@ -136,8 +144,6 @@ const AuthProvider = ({ children }: Props) => {
       window.removeEventListener("keypress", resetTimer);
     };
   }, [auth, authenticated, userType]);
-
-
 
 
   if (loading) {
@@ -154,21 +160,22 @@ const AuthProvider = ({ children }: Props) => {
 
   return (
     <AuthContext.Provider
-    value={{
-      authenticated,
-      setAuthenticated,
-      userType,
-      setUserType,
-      logout: () => signOut(auth),
-      isLoading: loading,
-    }}
-  >
-    {children}
-  </AuthContext.Provider>
+      value={{
+        authenticated,
+        setAuthenticated,
+        userType,
+        setUserType,
+        logout: () => signOut(auth),
+        isLoading: loading,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
   );
 };
 
 // Custom hook to use the AuthContext
+
 const useAuthContext = () => {
   const context = useContext(AuthContext);
   if (!context) {

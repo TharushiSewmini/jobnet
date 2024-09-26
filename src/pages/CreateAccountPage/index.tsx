@@ -21,12 +21,13 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../contexts/AuthContext";
 interface User {
   userFullName: string;
   userName: string;
   useremail: string;
   password: string;
-  userType: string;
+  uType: string;
 }
 const CreateAccountPage = () => {
   const options = ["Admin", "User"];
@@ -35,14 +36,14 @@ const CreateAccountPage = () => {
   const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [userType, setUserType] = useState(options[1]);
+  const [uType, setUserType] = useState(options[1]);
   const [isloading, setIsLoading] = useState(false);
 
   const user: User = {
     userFullName: userFullName,
     userName: userName,
     useremail: userEmail,
-    userType: userType,
+    uType: uType,
     password: password,
   };
 
@@ -51,6 +52,7 @@ const CreateAccountPage = () => {
   const db = getFirestore();
   const navigate = useNavigate();
 
+  const { userType } = useAuthContext();
   async function handleSignUp(user: User) {
     setIsLoading(true);
     try {
@@ -78,7 +80,7 @@ const CreateAccountPage = () => {
         userEmail: user.useremail,
         userFullName: user.userFullName,
         userName: user.userName,
-        userType: user.userType,
+        userType: user.uType,
         createdAt: new Date().getTime(),
         timeStamp: Timestamp.fromDate(new Date()),
       });
@@ -91,7 +93,9 @@ const CreateAccountPage = () => {
       console.error("Error during signup:", error);
     }
     setIsLoading(false);
-    navigate("/login");
+    userType === "admin"
+      ? navigate("/jobProviderDashboard")
+      : navigate("/userHome");
   }
   return !isloading ? (
     <div className="sign-up-container">
@@ -112,7 +116,7 @@ const CreateAccountPage = () => {
             userName={userName}
             useremail={userEmail}
             password={password}
-            userType={userType}
+            userType={uType}
             onSubmit={() => handleSignUp(user)} // Implemented correctly
             confirmassword={confirmPassword}
             onSelevtUserType={(e) => setUserType(e.target.value)}

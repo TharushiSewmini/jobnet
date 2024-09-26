@@ -51,7 +51,6 @@
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
-  flex: 1;
 }
 .sign-up-user-name-flow {
   flex: 1;

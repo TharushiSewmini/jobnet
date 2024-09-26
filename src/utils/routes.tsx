@@ -11,6 +11,7 @@ import HomePageForJobProvider from "../pages/HomePageForJobProvider";
 import ProtectedRoute from "./protectedRoutes";
 import HomePageJobSeeker from "../pages/HomePageJobSeeker";
 import PostJob from "../pages/PostJob";
+import BlankPage from "../pages/BlankPage";
 
 function AppRoutes() {
   const { authenticated, userType, isLoading } = useAuthContext();
@@ -18,7 +19,9 @@ function AppRoutes() {
   // Public routes accessible to all
   const publicRoutes = (
     <>
-      <Route path="/" element={<SignInPage />} />
+     <Route path="/" element={<SignInPage />} />
+      <Route path="/waiting" element={<BlankPage />} />
+      <Route path="*" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<SignInPage />} />
       <Route path="/createAccount" element={<CreateAccountPage />} />
       <Route path="/forgetPassword" element={<ForgetPasswordPage />} />
@@ -29,12 +32,13 @@ function AppRoutes() {
   // Routes for authenticated users (non-admin)
   const userRoutes = (
     <>
-      <Route path="/userHome" element={<HomePageJobSeeker />} />
-      {/* <Route path="/login" element={<Navigate to={"/userHome"} replace />} /> */}
+   
+ 
+      <Route path="/userHome" element={<HomePageJobSeeker />} /> 
       <Route
-        path="/jobProviderDashboard"
+        path="/waiting"
         element={<Navigate to={"/userHome"} replace />}
-      />
+      />  
       <Route path="/" element={<HomePageJobSeeker />} />
       <Route path="*" element={<HomePageJobSeeker />} />
     </>
@@ -43,11 +47,7 @@ function AppRoutes() {
   // Routes for authenticated admins
   const adminRoutes = (
     <>
-      <Route
-        path="/login"
-        element={<Navigate to={"/jobProviderDashboard"} replace />}
-      />
-
+    
       <Route
         path="/homepageforjobprovider"
         element={<HomePageForJobProvider />}
@@ -56,33 +56,28 @@ function AppRoutes() {
       <Route path="/postjob" element={<PostJob />} />
 
       <Route path="/jobProviderDashboard" element={<JobProviderDashboard />} />
+
       <Route
-        path="/userHome"
+        path="/"
         element={<Navigate to={"/jobProviderDashboard"} replace />}
       />
-
-      <Route path="/" element={<JobProviderDashboard />} />
-      <Route path="*" element={<JobProviderDashboard />} />
+      <Route
+        path="*"
+        element={<Navigate to={"/jobProviderDashboard"} replace />}
+      />
     </>
   );
 
   return (
     <Routes>
-      {!authenticated && (
-        <>
-          {publicRoutes}
-          <Route path="*" element={<Navigate to="/login" replace />} />
-        </>
-      )}
+      {!authenticated && <>{publicRoutes}</>}
 
-      {authenticated && (
+      {authenticated ? (
         <Route element={<ProtectedRoute />}>
-          {userType === "undefined"
-            ? publicRoutes
-            : userType !== "admin"
-            ? userRoutes
-            : adminRoutes}
+          {userType == "admin" ? adminRoutes : userRoutes}
         </Route>
+      ) : (
+        <Route>{publicRoutes}</Route>
       )}
     </Routes>
   );
