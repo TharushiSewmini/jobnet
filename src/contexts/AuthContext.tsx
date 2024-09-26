@@ -83,12 +83,9 @@ const AuthProvider = ({ children }: Props) => {
   //cheking login or logout
 
   useEffect(() => {
-    
     setLoading(true);
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-     
-        
         await fetchinguserType(user.email);
         setAuthenticated(true);
       } else {
@@ -98,10 +95,8 @@ const AuthProvider = ({ children }: Props) => {
       setLoading(false);
     });
 
-
     return () => unsubscribe();
-  }, [auth , userType , setUserType]);
-
+  }, [auth, userType, setUserType]);
 
   // useEffect to log the updated state
 
@@ -109,9 +104,7 @@ const AuthProvider = ({ children }: Props) => {
     console.log("Authentication state updated:", authenticated);
     console.log("User type updated:", userType);
     console.log(auth.currentUser!);
-    
   }, [authenticated, userType]);
-
 
   // useEffect to handle inactivity timeout
 
@@ -130,7 +123,6 @@ const AuthProvider = ({ children }: Props) => {
       });
     };
 
-
     // Attach event listeners to reset the timer
 
     window.addEventListener("mousemove", resetTimer);
@@ -144,7 +136,6 @@ const AuthProvider = ({ children }: Props) => {
       window.removeEventListener("keypress", resetTimer);
     };
   }, [auth, authenticated, userType]);
-
 
   if (loading) {
     return (
