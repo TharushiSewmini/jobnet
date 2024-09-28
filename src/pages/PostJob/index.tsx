@@ -3,6 +3,7 @@ import { FaBriefcase } from "react-icons/fa6";
 
  const PostJob: React.FC = () => {
  
+  
 
 return (
 
@@ -12,7 +13,7 @@ return (
     <div className='w-full h-8 p-8 bg-white shadow-lg'>
 
     <div className="mb-8">
-  <div className="-my-4 text-3xl font-semibold ms-20">Jobnet</div>
+  <div className="-my-4 text-3xl font-semibold ms-20" >Jobnet</div>
   
     <FaBriefcase className='-my-8 text-2xl text-green-950 ms-12'/>
 </div>
