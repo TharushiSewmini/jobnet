@@ -19,7 +19,7 @@ function AppRoutes() {
   // Public routes accessible to all
   const publicRoutes = (
     <>
-     <Route path="/" element={<SignInPage />} />
+      <Route path="/" element={<SignInPage />} />
       <Route path="/waiting" element={<BlankPage />} />
       <Route path="*" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<SignInPage />} />
@@ -32,13 +32,9 @@ function AppRoutes() {
   // Routes for authenticated users (non-admin)
   const userRoutes = (
     <>
-   
- 
-      <Route path="/userHome" element={<HomePageJobSeeker />} /> 
-      <Route
-        path="/waiting"
-        element={<Navigate to={"/userHome"} replace />}
-      />  
+      <Route path="/JobViewPage" element={<HomePageForJobProvider />} />
+      <Route path="/userHome" element={<HomePageJobSeeker />} />
+      <Route path="/waiting" element={<Navigate to={"/userHome"} replace />} />
       <Route path="/" element={<HomePageJobSeeker />} />
       <Route path="*" element={<HomePageJobSeeker />} />
     </>
@@ -47,12 +43,6 @@ function AppRoutes() {
   // Routes for authenticated admins
   const adminRoutes = (
     <>
-    
-      <Route
-        path="/homepageforjobprovider"
-        element={<HomePageForJobProvider />}
-      />
-
       <Route path="/postjob" element={<PostJob />} />
 
       <Route path="/jobProviderDashboard" element={<JobProviderDashboard />} />
