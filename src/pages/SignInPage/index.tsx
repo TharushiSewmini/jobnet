@@ -30,16 +30,15 @@ const SignInPage = () => {
     try {
       setIsLoading(true);
       await signInWithEmailAndPassword(auth, userEmail, password);
-    
-        if (userType === "admin") {
-          navigate("/jobProviderDashboard");
-        } else if (userType === "User") {
-          navigate("/userHome");
-        } else {
-          navigate("/waiting");
-        }
-      
-    
+
+      if (userType === "admin") {
+        navigate("/jobProviderDashboard");
+      } else if (userType === "User") {
+        navigate("/userHome");
+      } else {
+        navigate("/waiting");
+      }
+
       setIsLoading(false);
     } catch (error) {
       console.error("Error signing in: ", error);

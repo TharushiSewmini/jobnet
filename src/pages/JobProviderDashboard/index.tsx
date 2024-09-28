@@ -6,14 +6,22 @@ import OpenBoxContainer from "../../components/OpenBoxContainer";
 import JobList from "../../components/DashBoardTable";
 import { Button, Modal } from "antd";
 import { useAuthContext } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const JobProviderDashboard = () => {
   const { logout } = useAuthContext();
+  const navigate = useNavigate();
+  const NavigationToJobPost = () => {
+    navigate("/postjob");
+  };
   return (
     <div className="job-provider-dashboard">
       <div className="job-provider-dshboard-top-row">
         <JobNetSymbol onClick={function (e: any): void {}} />
-        <button className="job-provider-dshboard-top-row-button">
+        <button
+          className="job-provider-dshboard-top-row-button"
+          onClick={NavigationToJobPost}
+        >
           Post a Job{" "}
         </button>
       </div>
