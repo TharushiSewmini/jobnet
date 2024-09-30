@@ -1,23 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaBriefcase } from "react-icons/fa6";
 import jobPost from "../../assets/jobpost.jpg";
+import { Flex, Spin } from "antd";
+import MaterPlusbtn from "../../components/MasterPlusButton";
+
 const PostJob: React.FC = () => {
-  return (
-    <div className=" bg-[#098023] w-full h-screen flex">
-      <div className="w-full sm:h-6  bg-white shadow-lg fixed flex items-center justify-between px-2 sm:px-20  h-6 z-10 py-6">
-        <div className="">
-          <div className=" text-3xl font-semibold  ">Jobnet</div>
 
-          <FaBriefcase className="-my-8 text-2xl text-green-950 hidden sm:visible" />
-        </div>
 
-        <button className="  text-base font-bold bg-white border-2 border-green-950 p-1">
-          Post A Job
-        </button>
-      </div>
+
+  const [click, setClick] = useState(false);
+  const onClick=()=>{
+setClick(!click);
+  }
+  return(
+
+    <div className=" bg-[#098023] w-full h-screen flex ">
+     
       <div className=" w-full lg:w-3/5 overflow-y-auto ">
-        <div className="pt-20 h-full sm:mx-20 mx-4">
-          <div className="  text-3xl font-medium text-white">Post a Job</div>
+        <div className="pt-4 h-full sm:mx-20 mx-4">
+          <div className="  text-3xl font-medium text-white pb-2">
+            Post a Job
+          </div>
 
           <div className=" ">
             <label className="block text-base text-white">Job Title </label>
@@ -107,6 +110,7 @@ const PostJob: React.FC = () => {
       </div>
 
       <div className="w-2/5 h-full invisible hidden lg:visible lg:block relative ">
+      <  MaterPlusbtn isClick={click} onClick={onClick}/>
         <img src={jobPost} className="w-full h-full object-cover " />
         <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black opacity-40"></div>
       </div>

@@ -1,0 +1,35 @@
+.master-plus {
+  position: absolute;
+  display: inline-block;
+  bottom: 20px;
+  right: 20px;
+  z-index: 15;
+}
+
+.plus-button {
+  background-color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  position: relative;
+}
+
+.additional-button-1,
+.additional-button-2 {
+  position: absolute;
+  background-color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+
+}
+.additional-button-1 {
+  bottom: 70px;
+}
+.additional-button-2 {
+  bottom: 130px;
+}
