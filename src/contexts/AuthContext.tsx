@@ -118,7 +118,7 @@ const AuthProvider = ({ children }: Props) => {
 
     const resetTimer = () => {
       if (timer) clearTimeout(timer);
-      timer = setTimeout(() => logout(), 10 * 60 * 1000); // 60 minutes timeout
+      timer = setTimeout(() => logout(), 60 * 60 * 1000); // 60 minutes timeout
     };
 
     const logout = () => {

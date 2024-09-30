@@ -47,7 +47,7 @@ const SignInPage = () => {
   return !isLoading ? (
     <div className="sign-up-container">
       <JobNetTopBar />
-      <div className="sign-up-up-container">
+      <div className="sign-up-up-container" >
         <div className="sign-up-up-img-main-container">
           <img src={fly} className="sign-up-container-image-fly" alt="Fly" />
         </div>
