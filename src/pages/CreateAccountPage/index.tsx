@@ -22,6 +22,7 @@ import {
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
+import { createUser } from "../../controllers/auth/createUser";
 interface User {
   userFullName: string;
   userName: string;
@@ -31,6 +32,7 @@ interface User {
 }
 const CreateAccountPage = () => {
   const options = ["Admin", "User"];
+
   const [userFullName, setUserFullName] = useState("");
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
@@ -48,55 +50,17 @@ const CreateAccountPage = () => {
   };
 
   //initilizing firebase auth and firestore
-  const auth = getAuth();
-  const db = getFirestore();
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   const { userType } = useAuthContext();
+
+  //handle signup
   async function handleSignUp(user: User) {
     setIsLoading(true);
-    try {
-      // Check if the username already exists
-      const usernameDoc = await getDoc(doc(db, "usernames", user.userName));
-
-      if (usernameDoc.exists()) {
-        // Username already exists, show an alert
-        alert("This username is already taken. Please choose a different one.");
-        return; // Exit the function if the username exists
-      }
-
-      // Create the user in Firebase Auth
-      const userCredential: UserCredential =
-        await createUserWithEmailAndPassword(
-          auth,
-          user.useremail,
-          user.password
-        );
-      const createdUser = userCredential.user;
-      console.log("User creation successful", createdUser);
-
-      // Store user information in Firestore
-      await setDoc(doc(db, "users", createdUser.uid), {
-        userEmail: user.useremail,
-        userFullName: user.userFullName,
-        userName: user.userName,
-        userType: user.uType,
-        createdAt: new Date().getTime(),
-        timeStamp: Timestamp.fromDate(new Date()),
-      });
-
-      // Set the username in Firestore
-      await setDoc(doc(db, "usernames", user.userName), {
-        uid: createdUser.uid,
-      });
-    } catch (error) {
-      console.error("Error during signup:", error);
-    }
+    createUser(user, userType, navigate);
     setIsLoading(false);
-    userType === "admin"
-      ? navigate("/jobProviderDashboard")
-      : navigate("/userHome");
   }
+
   return !isloading ? (
     <div className="sign-up-container">
       <JobNetTopBar />
