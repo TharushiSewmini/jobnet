@@ -6,7 +6,13 @@ import {
 } from "firebase/firestore";
 
 import JobPost from "../../components/JobPost";
+import { getAuth } from "firebase/auth";
 
+
+
+
+const db = getFirestore();
+const auth = getAuth();
 interface JobPost {
   jobTitle: string;
   salary: string;
@@ -18,13 +24,15 @@ interface JobPost {
   jobLocation: string;
   //when you give the user email to this object make sure the give email using auth context
   userEmail: string | undefined;
-}
 
-const db = getFirestore();
+}
 
 export const createJob = async (jobPost: JobPost) => {
   try {
-    await addDoc(collection(db, "jobs"), { jonbs: jobPost });
+    await addDoc(collection(db, "jobs"), {
+      ...jobPost, // Spread the jobPost object properties
+      userId: auth.currentUser?.uid, // Add the userId as a new property
+    });
   } catch (error) {
     alert(error);
   }
