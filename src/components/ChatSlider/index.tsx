@@ -135,13 +135,13 @@ const ChatSlider = ({ onCallBackgiveReceiverId }: ChatSliderProps) => {
   };
 
   return (
-    <div className="min-w-64 md:w-2/5 w-1/5 h-full bg-[green-500] overflow-auto p-4 flex flex-col gap-3 rounded-r-2xl">
+    <div className="min-w-64 lg:w-2/5   bg-[green-500] overflow-auto p-4 flex flex-col gap-3 rounded-r-2xl">
       <div className="text-2xl text-green-500 font-medium mb-3 items-center">
         YOUR CHAT LIST . . .
       </div>
 
-      <div className="flex flex-col gap-2 flex-1 bg-white p-3 rounded-lg">
-        {loading ? (
+      <div className="flex md:flex-col gap-2 flex-1 bg-white p-3 rounded-lg md:overflow-hidden overflow-auto ">
+        {loading ? ( 
           <div className="text-gray-500">Loading chats...</div>
         ) : chatUsers.length > 0 ? (
           chatUsers.map((user) => (

@@ -16,7 +16,7 @@ const ChatPage = () => {
     setClick(!click);
   };
   return (
-    <div className="w-screen h-screen flex bg-green-100">
+    <div className="w-screen h-screen flex bg-green-100 lg:flex-row flex-col ">
     
       {/* slider */}
       <ChatSlider onCallBackgiveReceiverId={handleReceiverIdSelect} />
