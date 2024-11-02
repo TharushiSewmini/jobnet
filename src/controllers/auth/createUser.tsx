@@ -65,7 +65,7 @@ export async function createUser(
     console.error("Error during signup:", error);
   }
 
-  userType === "admin"
+  userType === "Admin"
     ? navigate("/jobProviderDashboard")
     : navigate("/userHome");
 }

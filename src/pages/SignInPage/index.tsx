@@ -51,7 +51,7 @@ const SignInPage = () => {
         <div className="sign-up-up-img-main-container">
           <img src={fly} className="sign-up-container-image-fly" alt="Fly" />
         </div>
-        <div className="sign-up-main-forum-container">
+        <div className="sign-up-main-forum-container" >
           <SignInContainer
             onChangeEmail={(e) => setUserEmail(e.target.value)}
             onChangePassword={(e) => setPassword(e.target.value)}
@@ -59,6 +59,7 @@ const SignInPage = () => {
             password={password}
             onSubmit={handleSignIn}
           />
+       
         </div>
         <div className="sign-up-rotate-box">
           <img src={lightbulb} alt="Lightbulb" />
