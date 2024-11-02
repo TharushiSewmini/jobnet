@@ -14,7 +14,7 @@ import PostJob from "../pages/PostJob";
 import BlankPage from "../pages/BlankPage";
 import Chat from "../pages/ChatPage";
 import ChatPage from "../pages/ChatPage";
-import ChatBinding from "../pages/ChatBinding";
+
 
 function AppRoutes() {
   const { authenticated, userType, isLoading } = useAuthContext();
@@ -49,7 +49,7 @@ function AppRoutes() {
       <Route path="/postjob" element={<PostJob />} />
 
       <Route path="/jobProviderDashboard" element={<JobProviderDashboard />} />
-      <Route path="/chat" element={<ChatBinding />} />
+      
 
       <Route
         path="/"
