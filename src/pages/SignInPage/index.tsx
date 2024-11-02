@@ -8,41 +8,37 @@ import love from "../../assets/love.png";
 import SignInContainer from "../../components/SignInContainer";
 import JobNetTopBar from "../../components/JobNetTopBar";
 import { Flex, Spin } from "antd";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useAuthContext } from "../../contexts/AuthContext";
+
 import { useNavigate } from "react-router-dom";
+import { LoginUser } from "../../controllers/auth/loginUser";
 
 interface User {
-  useremail: string;
-  password: string;
+  userEmail: string;
+  userPassword: string;
 }
 
 const SignInPage = () => {
-  const { authenticated, userType, setAuthenticated } = useAuthContext();
+  const { userType } = useAuthContext();
   const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
-  const auth = getAuth();
+
+  const user: User = {
+    userEmail: userEmail,
+    userPassword: password,
+  };
 
   //handling sign function
   const handleSignIn = async () => {
     try {
       setIsLoading(true);
-      await signInWithEmailAndPassword(auth, userEmail, password);
-
-      if (userType === "admin") {
-        navigate("/jobProviderDashboard");
-      } else if (userType === "User") {
-        navigate("/userHome");
-      } else {
-        navigate("/waiting");
-      }
-
+      //login user function
+      LoginUser(user, userType, navigate);
       setIsLoading(false);
     } catch (error) {
-      console.error("Error signing in: ", error);
-      alert("Failed to sign in. Please check your credentials.");
     } finally {
       setIsLoading(false);
     }
@@ -51,11 +47,11 @@ const SignInPage = () => {
   return !isLoading ? (
     <div className="sign-up-container">
       <JobNetTopBar />
-      <div className="sign-up-up-container">
+      <div className="sign-up-up-container" >
         <div className="sign-up-up-img-main-container">
           <img src={fly} className="sign-up-container-image-fly" alt="Fly" />
         </div>
-        <div className="sign-up-main-forum-container">
+        <div className="sign-up-main-forum-container" >
           <SignInContainer
             onChangeEmail={(e) => setUserEmail(e.target.value)}
             onChangePassword={(e) => setPassword(e.target.value)}
@@ -63,6 +59,7 @@ const SignInPage = () => {
             password={password}
             onSubmit={handleSignIn}
           />
+       
         </div>
         <div className="sign-up-rotate-box">
           <img src={lightbulb} alt="Lightbulb" />

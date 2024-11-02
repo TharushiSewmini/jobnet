@@ -33,6 +33,8 @@ interface IAuthContext {
   setAuthenticated: (newState: boolean) => void;
   logout: () => void;
   isLoading: boolean;
+  userEmail : string | undefined;
+  setUserEmail : (userEmail : string ) => void;
 }
 
 // Interface for user properties from Firestore
@@ -51,6 +53,7 @@ const AuthProvider = ({ children }: Props) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [userType, setUserType] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(true);
+  const [userEmail , setUserEmail] = useState<string | undefined>(undefined)
 
   //firebase - auth
   const auth = getAuth();
@@ -80,6 +83,7 @@ const AuthProvider = ({ children }: Props) => {
     }
   }
 
+ 
   //cheking login or logout
 
   useEffect(() => {
@@ -87,6 +91,7 @@ const AuthProvider = ({ children }: Props) => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         await fetchinguserType(user.email);
+         setUserEmail(auth.currentUser!.email as string | undefined);
         setAuthenticated(true);
       } else {
         setAuthenticated(false);
@@ -113,7 +118,7 @@ const AuthProvider = ({ children }: Props) => {
 
     const resetTimer = () => {
       if (timer) clearTimeout(timer);
-      timer = setTimeout(() => logout(), 10 * 60 * 1000); // 60 minutes timeout
+      timer = setTimeout(() => logout(), 60 * 60 * 1000); // 60 minutes timeout
     };
 
     const logout = () => {
@@ -152,6 +157,8 @@ const AuthProvider = ({ children }: Props) => {
   return (
     <AuthContext.Provider
       value={{
+        userEmail,
+        setUserEmail,
         authenticated,
         setAuthenticated,
         userType,
