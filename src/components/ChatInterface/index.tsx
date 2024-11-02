@@ -185,7 +185,7 @@ const ChatInterface = ({ receiversId }: ChatInterfaceProps) => {
 
 
   return (
-    <div className="flex w-full flex-col h-full gap-4 md:p-10 mr-4">
+    <div className="flex w-full flex-col h-full gap-4 lg:p-10 mr-4 p-4">
       <div className="flex justify-between items-center">
       <div className="flex w-full text-start text-lg items-center px-4 py-2 rounded-xl">
         Chat With
