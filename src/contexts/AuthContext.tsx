@@ -109,6 +109,7 @@ const AuthProvider = ({ children }: Props) => {
     console.log("Authentication state updated:", authenticated);
     console.log("User type updated:", userType);
     console.log(auth.currentUser!);
+    
   }, [authenticated, userType]);
 
   // useEffect to handle inactivity timeout

@@ -12,9 +12,7 @@ import ProtectedRoute from "./protectedRoutes";
 import HomePageJobSeeker from "../pages/HomePageJobSeeker";
 import PostJob from "../pages/PostJob";
 import BlankPage from "../pages/BlankPage";
-import Chat from "../pages/ChatPage";
 import ChatPage from "../pages/ChatPage";
-
 
 function AppRoutes() {
   const { authenticated, userType, isLoading } = useAuthContext();
@@ -38,8 +36,10 @@ function AppRoutes() {
       <Route path="/JobViewPage" element={<HomePageForJobProvider />} />
       <Route path="/userHome" element={<HomePageJobSeeker />} />
       <Route path="/waiting" element={<Navigate to={"/userHome"} replace />} />
+      <Route path="/login" element={<Navigate to={"/userHome"} replace />} />
       <Route path="/" element={<HomePageJobSeeker />} />
       <Route path="*" element={<HomePageJobSeeker />} />
+      <Route path="/chat" element={<ChatPage />} />
     </>
   );
 
@@ -49,7 +49,7 @@ function AppRoutes() {
       <Route path="/postjob" element={<PostJob />} />
 
       <Route path="/jobProviderDashboard" element={<JobProviderDashboard />} />
-      
+      <Route path="/chat" element={<ChatPage />} />
 
       <Route
         path="/"
@@ -72,7 +72,7 @@ function AppRoutes() {
 
       {authenticated ? (
         <Route element={<ProtectedRoute />}>
-          {userType == "Admin" || "admin" ? adminRoutes : userRoutes}
+          {userType == "Admin"  ? adminRoutes : userRoutes}
         </Route>
       ) : (
         <Route>{publicRoutes}</Route>
