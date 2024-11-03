@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import MessageBubble from "../MessageBubble";
 import {
   addDoc,
@@ -12,8 +12,8 @@ import {
   where,
 } from "firebase/firestore";
 import { auth, db } from "../../utils/firebaseConfig";
-import { useAuthContext } from "../../contexts/AuthContext";
-import logout from "../../assets/user-logout.png"
+import logout from "../../assets/user-logout.png";
+import send from "../../assets/send.png";
 
 interface Conversation {
   id: string;
@@ -38,9 +38,10 @@ interface Message extends MessageData {
 
 interface ChatInterfaceProps {
   receiversId: string;
+  receiverName: string;
 }
 
-const ChatInterface = ({ receiversId }: ChatInterfaceProps) => {
+const ChatInterface = ({ receiversId, receiverName }: ChatInterfaceProps) => {
   let senderId: string;
   if (auth.currentUser && auth.currentUser.uid) {
     senderId = auth.currentUser.uid;
@@ -52,8 +53,52 @@ const ChatInterface = ({ receiversId }: ChatInterfaceProps) => {
   const [chatMessage, setChatMessage] = useState("");
   const [conversation, setConversation] = useState<Conversation | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+  const [shouldScrollToBottom, setShouldScrollToBottom] = useState(true);
 
-  // Checking if a conversation exists, or creating one
+  const scrollToBottom = () => {
+    if (chatContainerRef.current && shouldScrollToBottom) {
+      const scrollHeight = chatContainerRef.current.scrollHeight;
+      const height = chatContainerRef.current.clientHeight;
+      const maxScrollTop = scrollHeight - height;
+
+      chatContainerRef.current.scrollTo({
+        top: maxScrollTop,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  // Handle scroll events to determine if we should auto-scroll
+  const handleScroll = () => {
+    if (chatContainerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } =
+        chatContainerRef.current;
+      const isNearBottom = scrollHeight - scrollTop - clientHeight < 100;
+      setShouldScrollToBottom(isNearBottom);
+    }
+  };
+
+  // Add scroll event listener
+  useEffect(() => {
+    const chatContainer = chatContainerRef.current;
+    if (chatContainer) {
+      chatContainer.addEventListener("scroll", handleScroll);
+      return () => chatContainer.removeEventListener("scroll", handleScroll);
+    }
+  }, []);
+
+  // Scroll on new messages
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  // Initial scroll and message loading
+  useEffect(() => {
+    const timer = setTimeout(scrollToBottom, 100);
+    return () => clearTimeout(timer);
+  }, []);
+
   const getOrCreateConversation = async (
     senderId: string,
     receiverId: string
@@ -95,7 +140,6 @@ const ChatInterface = ({ receiversId }: ChatInterfaceProps) => {
     return conversation;
   };
 
-  // Sending a message
   const sendAMessage = async (
     conversationId: string,
     senderId: string,
@@ -122,6 +166,10 @@ const ChatInterface = ({ receiversId }: ChatInterfaceProps) => {
         },
         { merge: true }
       );
+
+      // Force scroll to bottom on send
+      setShouldScrollToBottom(true);
+      setTimeout(scrollToBottom, 100);
     } catch (error) {
       console.error("Error sending message:", error);
     }
@@ -158,10 +206,12 @@ const ChatInterface = ({ receiversId }: ChatInterfaceProps) => {
 
           setMessages(sortedMessages);
 
-          // Mark messages as read
           snapshot.docs.forEach(async (doc) => {
             const messageData = doc.data() as MessageData;
-            if (messageData.receiverId === senderId && messageData.read === false) {
+            if (
+              messageData.receiverId === senderId &&
+              messageData.read === false
+            ) {
               await setDoc(doc.ref, { read: true }, { merge: true });
             }
           });
@@ -178,62 +228,102 @@ const ChatInterface = ({ receiversId }: ChatInterfaceProps) => {
 
   const handleSendMessage = async () => {
     if (chatMessage.trim() && conversation) {
-      await sendAMessage(conversation.id, senderId, receiverId, chatMessage);
-      setChatMessage("");
+      try {
+        const messageToSend = chatMessage;
+        setChatMessage("");
+        await sendAMessage(
+          conversation.id,
+          senderId,
+          receiverId,
+          messageToSend
+        );
+      } catch (error) {
+        console.error("Error sending message:", error);
+      }
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
 
   return (
-    <div className="flex w-full flex-col h-full gap-4 lg:p-10 mr-4 p-4">
-      <div className="flex justify-between items-center">
-      <div className="flex w-full text-start text-lg items-center px-4 py-2 rounded-xl">
-        Chat With
-        <span className="text-green-500 ml-2 text-2xl">Noah Martinez</span>
-      </div>
-      <div>
-        <img src={logout} alt="logout" className="w-10 h-10 cursor-pointer" onClick={() => auth.signOut()}/>
-      </div>
+    <div className="flex lg:w-4/5 w-full flex-col lg:h-full h-[80%]  lg:pt-4 pl-4 pr-4 mb-4 box-border lg:gap-2">
+      <div className="flex lg:justify-between justify-start items-center">
+        <div className="flex w-full text-start lg:text-lg text-base items-center mb-2 lg:mb-0 rounded-xl">
+          Chat With
+          <span className="text-green-500 ml-2 lg:text-2xl text-lg">
+            {receiverName}
+          </span>
+        </div>
+        <div className="lg:block hidden">
+          <img
+            src={logout}
+            alt="logout"
+            className="w-10 h-10 cursor-pointer"
+            onClick={() => auth.signOut()}
+          />
+        </div>
       </div>
 
-      <div className="rounded-xl border-[1px] border-gray-200 flex-1 w-full flex-col overflow-y-auto py-4 bg-white text-sm text-black">
+      <div
+        ref={chatContainerRef}
+        className="rounded-xl border-[1px] border-gray-200 flex-1 w-full flex flex-col overflow-y-auto py-4 bg-white text-sm text-black lg:mb-0 mb-2"
+      >
         {messages.length !== 0 ? (
-          messages.map((message) => (
-            <div
-              key={message.id}
-              className={`flex ${
-                message.isUser ? "justify-end" : "justify-start"
-              } mb-2`}
-            >
-              <MessageBubble
-                messageContent={message.text}
-                messageBgColor={message.isUser ? "bg-green-200" : "bg-yellow-200"}
-                messageTextColor={message.isUser ? "text-white" : "text-black"}
-                isUser={message.isUser}
-              />
-            </div>
-          ))
+          <div className="flex-1 flex flex-col">
+            {messages.map((message) => (
+              <div
+                key={message.id}
+                className={`flex ${
+                  message.isUser ? "justify-end" : "justify-start"
+                } mb-2 px-4`}
+              >
+                <MessageBubble
+                  messageContent={message.text}
+                  messageBgColor={
+                    message.isUser ? "bg-green-200" : "bg-yellow-200"
+                  }
+                  messageTextColor={
+                    message.isUser ? "text-white" : "text-black"
+                  }
+                  isUser={message.isUser}
+                />
+              </div>
+            ))}
+          </div>
         ) : (
-          <div className="text-xl text-gray-500 h-full flex items-center justify-center">
+          <div className="lg:text-xl text-gray-500 h-full flex items-center justify-center text-sm">
             No messages yet
           </div>
         )}
       </div>
 
-      <div className="flex gap-4 items-center justify-between rounded-xl">
+      <div className="flex gap-4 items-center justify-between rounded-xl w-full lg:mt-4">
         <input
+          onKeyDown={handleKeyDown}
           value={chatMessage}
           onChange={(e) => setChatMessage(e.target.value)}
-          placeholder="Type a message"
-          className="flex flex-1 rounded-xl p-4 focus:outline-none border-[1px] border-gray-200 bg-white"
+          placeholder="Type a message ... "
+          className="flex flex-1 rounded-xl p-4 focus:outline-none border-[1px] border-gray-200 bg-white lg:placeholder:text-sm text-xs"
           aria-multiline={true}
         />
         <button
-          className="bg-green-500 rounded-xl px-4 py-2 text-white"
+          className="bg-green-500 lg:rounded-xl px-4 py-2 text-white rounded-full lg:block hidden"
           onClick={handleSendMessage}
         >
           Send
         </button>
+
+        <div
+          className="h-12 w-12 p-2 rounded-full bg-green-500 flex items-center justify-center cursor-pointer lg:hidden visible"
+          onClick={handleSendMessage}
+        >
+          <img src={send} alt="send" />
+        </div>
       </div>
     </div>
   );
