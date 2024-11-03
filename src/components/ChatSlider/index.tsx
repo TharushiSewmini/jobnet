@@ -8,110 +8,31 @@ import {
   where,
   QuerySnapshot,
   DocumentData,
+  onSnapshot,
+  Unsubscribe,
 } from "firebase/firestore";
 
 interface ChatUser {
   id: string;
   name: string;
   messageCount: number;
+  userImage: string;
+  lastMessageTimestamp?: number;
 }
 
 interface ChatSliderProps {
-  onCallBackgiveReceiverId: (receiverId: string) => void;
+  onCallBackgiveReceiverId: (receiverId: string, receiverName: string) => void;
 }
 
-const ChatSlider = ({ onCallBackgiveReceiverId }: ChatSliderProps) => {
+const ChatSlider: React.FC<ChatSliderProps> = ({
+  onCallBackgiveReceiverId,
+}) => {
   const [chatUsers, setChatUsers] = useState<ChatUser[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedUserId, setSelectedUserId] = useState<string>("");
 
-  const handleUserSelect = (userId: string) => {
-  
-    setSelectedUserId(userId);
-    onCallBackgiveReceiverId(userId);
-  };
-
-  useEffect(() => {
-    const fetchChatUsers = async () => {
-      try {
-        let currentUserId: string;
-  if (auth.currentUser && auth.currentUser.uid) {
-    currentUserId = auth.currentUser.uid;
-  } else {
-    currentUserId = "";
-  }
-      
-
-        // 1. First get all conversations where current user is a participant
-        const conversationRef = collection(db, "conversations");
-        const conversationQuery = query(
-          conversationRef,
-          where("participants", "array-contains", currentUserId)
-        );
-        const conversationSnapshot = await getDocs(conversationQuery);
-
-        // 2. Extract unique participant IDs (excluding current user)
-        const uniqueParticipantIds = new Set<string>();
-        conversationSnapshot.forEach((doc) => {
-          const data = doc.data();
-          if (data.participants && Array.isArray(data.participants)) {
-            // Only add participants who have had actual message exchanges
-            if (data.lastMessage) { // Check if there's been any message exchange
-              data.participants.forEach((participantId: string) => {
-                if (participantId !== currentUserId) {
-                  uniqueParticipantIds.add(participantId);
-                }
-              });
-            }
-          }
-        });
-
-        // 3. Fetch user details for participants
-        const userRef = collection(db, "users");
-        const userPromises = Array.from(uniqueParticipantIds).map(async (userId) => {
-          try {
-            // Try direct ID match first
-            const userQuery = query(userRef, where("__name__", "==", userId));
-            let userSnapshot = await getDocs(userQuery);
-
-            // If no results, try uid field
-            if (userSnapshot.empty) {
-              const uidQuery = query(userRef, where("uid", "==", userId));
-              userSnapshot = await getDocs(uidQuery);
-            }
-
-            if (!userSnapshot.empty) {
-              const userData = userSnapshot.docs[0].data();
-              return {
-                id: userId,
-                name: userData.userFullName || "Unknown User",
-                messageCount: await getUnreadMessageCount(currentUserId, userId),
-              };
-            }
-            return null;
-          } catch (error) {
-            console.error(`Error fetching user ${userId}:`, error);
-            return null;
-          }
-        });
-
-        const users = (await Promise.all(userPromises)).filter(
-          (user): user is ChatUser => user !== null
-        );
-
-        // 4. Sort users by unread message count
-        users.sort((a, b) => b.messageCount - a.messageCount);
-        
-        setChatUsers(users);
-      } catch (error) {
-        console.error("Error fetching chat users:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-  
-    fetchChatUsers();
-  }, []);
+  // Create a ref for the cache to persist between renders
+  const userDataCache = React.useRef(new Map<string, ChatUser>());
 
   const getUnreadMessageCount = async (
     currentUserId: string,
@@ -134,22 +55,181 @@ const ChatSlider = ({ onCallBackgiveReceiverId }: ChatSliderProps) => {
     }
   };
 
+  const handleUserSelect = (userId: string, receiverName: string) => {
+    setSelectedUserId(userId);
+    onCallBackgiveReceiverId(userId, receiverName);
+  };
+
+  useEffect(() => {
+    let unsubscribeConversations: Unsubscribe | null = null;
+    let unsubscribeMessages: Unsubscribe | null = null;
+
+    const setupRealtimeListeners = async () => {
+      try {
+        let currentUserId: string;
+        if (auth.currentUser && auth.currentUser.uid) {
+          currentUserId = auth.currentUser.uid;
+        } else {
+          currentUserId = "";
+        }
+
+        const conversationRef = collection(db, "conversations");
+        const conversationQuery = query(
+          conversationRef,
+          where("participants", "array-contains", currentUserId)
+        );
+
+        unsubscribeConversations = onSnapshot(
+          conversationQuery,
+          async (conversationSnapshot) => {
+            const uniqueParticipantIds = new Set<string>();
+
+            conversationSnapshot.forEach((doc) => {
+              const data = doc.data();
+              if (data.participants?.length && data.lastMessage) {
+                data.participants.forEach((participantId: string) => {
+                  if (participantId !== currentUserId) {
+                    uniqueParticipantIds.add(participantId);
+                  }
+                });
+              }
+            });
+
+            const userRef = collection(db, "users");
+            const updatePromises = Array.from(uniqueParticipantIds).map(
+              async (userId) => {
+                try {
+                  const cachedUser = userDataCache.current.get(userId);
+                  if (cachedUser) return cachedUser;
+
+                  let userSnapshot = await getDocs(
+                    query(userRef, where("__name__", "==", userId))
+                  );
+
+                  if (userSnapshot.empty) {
+                    userSnapshot = await getDocs(
+                      query(userRef, where("uid", "==", userId))
+                    );
+                  }
+
+                  if (!userSnapshot.empty) {
+                    const userData = userSnapshot.docs[0].data();
+                    const userInfo: ChatUser = {
+                      id: userId,
+                      name: userData.userFullName || "Unknown User",
+                      messageCount: await getUnreadMessageCount(
+                        currentUserId,
+                        userId
+                      ),
+                      userImage: await userData.userImage,
+                      lastMessageTimestamp: 0,
+                    };
+                    userDataCache.current.set(userId, userInfo);
+                    return userInfo;
+                  }
+                  return null;
+                } catch (error) {
+                  console.error(`Error fetching user ${userId}:`, error);
+                  return null;
+                }
+              }
+            );
+
+            const users = (await Promise.all(updatePromises)).filter(
+              (user): user is ChatUser => user !== null
+            );
+
+            const messagesRef = collection(db, "messages");
+            const messageQuery = query(
+              messagesRef,
+              where("receiverId", "==", currentUserId)
+            );
+
+            unsubscribeMessages = onSnapshot(
+              messageQuery,
+              (messageSnapshot) => {
+                const updatedUsers = users.map((user) => {
+                  const userMessages = messageSnapshot.docs.filter((doc) => {
+                    const data = doc.data();
+                    return (
+                      data.senderId === user.id || data.receiverId === user.id
+                    );
+                  });
+
+                  const unreadCount = messageSnapshot.docs.filter((doc) => {
+                    const data = doc.data();
+                    return data.senderId === user.id && data.read === false;
+                  }).length;
+
+                  const lastMessage = userMessages.sort((a, b) => {
+                    const timestampA = a.data().timestamp?.seconds ?? 0;
+                    const timestampB = b.data().timestamp?.seconds ?? 0;
+                    return timestampB - timestampA;
+                  })[0];
+
+                  return {
+                    ...user,
+                    messageCount: unreadCount,
+                    lastMessageTimestamp:
+                      lastMessage?.data().timestamp?.seconds ?? 0,
+                  };
+                });
+
+                updatedUsers.sort((a, b) => {
+                  if (b.messageCount !== a.messageCount) {
+                    return b.messageCount - a.messageCount;
+                  }
+                  return (
+                    (b.lastMessageTimestamp ?? 0) -
+                    (a.lastMessageTimestamp ?? 0)
+                  );
+                });
+
+                setChatUsers(updatedUsers);
+                setLoading(false);
+              },
+              (error) => {
+                console.error("Error in message listener:", error);
+                setLoading(false);
+              }
+            );
+          },
+          (error) => {
+            console.error("Error in conversation listener:", error);
+            setLoading(false);
+          }
+        );
+      } catch (error) {
+        console.error("Error setting up real-time listeners:", error);
+        setLoading(false);
+      }
+    };
+
+    setupRealtimeListeners();
+
+    return () => {
+      unsubscribeConversations?.();
+      unsubscribeMessages?.();
+    };
+  }, []);
+
   return (
-    <div className="min-w-64 lg:w-2/5   bg-[green-500] overflow-auto p-4 flex flex-col gap-3 rounded-r-2xl">
-      <div className="text-2xl text-green-500 font-medium mb-3 items-center">
+    <div className="min-w-64 lg:w-2/5 w-full lg:h-full h-[20%] flex-1 bg-[green-500] overflow-auto lg:p-4 px-4 flex flex-col rounded-r-2xl p-2">
+      <div className="text-2xl text-green-500 font-medium lg:mb-1 mb-2 items-center pt-2">
         YOUR CHAT LIST . . .
       </div>
 
-      <div className="flex md:flex-col gap-2 flex-1 bg-white p-3 rounded-lg md:overflow-hidden overflow-auto ">
-        {loading ? ( 
-          <div className="text-gray-500">Loading chats...</div>
+      <div className=" flex w-full lg:flex-col flex-row bg-white p-3 rounded-lg lg:overflow-hidden overflow-auto">
+        {loading ? (
+          <div className="text-gray-500 w-full flex ">Loading chats...</div>
         ) : chatUsers.length > 0 ? (
           chatUsers.map((user) => (
             <ChatPeopleRow
               key={user.id}
               userName={user.name}
+              userImage={user.userImage}
               userMessageCount={user.messageCount}
-              onClick={() => handleUserSelect(user.id)}
+              onClick={() => handleUserSelect(user.id, user.name)}
             />
           ))
         ) : (
