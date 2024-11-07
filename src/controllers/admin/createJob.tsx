@@ -17,7 +17,7 @@ interface JobPost {
   jobTitle: string;
   salary: string;
   noOfVacancies: number;
-  expireDate: Timestamp;
+  expireDate: Timestamp
   Time: string;
   description: string;
   responsibilities: string;

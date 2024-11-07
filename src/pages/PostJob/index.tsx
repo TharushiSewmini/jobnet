@@ -5,9 +5,6 @@ import { Flex, Spin } from "antd";
 import MaterPlusbtn from "../../components/MasterPlusButton";
 
 const PostJob: React.FC = () => {
-
-
-
   const [click, setClick] = useState(false);
   const onClick=()=>{
 setClick(!click);
