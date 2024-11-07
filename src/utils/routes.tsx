@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import SignInPage from "../pages/SignInPage";
 import CreateAccountPage from "../pages/CreateAccountPage";
@@ -12,6 +12,7 @@ import ProtectedRoute from "./protectedRoutes";
 import HomePageJobSeeker from "../pages/HomePageJobSeeker";
 import PostJob from "../pages/PostJob";
 import BlankPage from "../pages/BlankPage";
+import ChatPage from "../pages/ChatPage";
 
 function AppRoutes() {
   const { authenticated, userType, isLoading } = useAuthContext();
@@ -35,8 +36,10 @@ function AppRoutes() {
       <Route path="/JobViewPage" element={<HomePageForJobProvider />} />
       <Route path="/userHome" element={<HomePageJobSeeker />} />
       <Route path="/waiting" element={<Navigate to={"/userHome"} replace />} />
+      <Route path="/login" element={<Navigate to={"/userHome"} replace />} />
       <Route path="/" element={<HomePageJobSeeker />} />
       <Route path="*" element={<HomePageJobSeeker />} />
+      <Route path="/chat" element={<ChatPage />} />
     </>
   );
 
@@ -46,9 +49,14 @@ function AppRoutes() {
       <Route path="/postjob" element={<PostJob />} />
 
       <Route path="/jobProviderDashboard" element={<JobProviderDashboard />} />
+      <Route path="/chat" element={<ChatPage />} />
 
       <Route
         path="/"
+        element={<Navigate to={"/jobProviderDashboard"} replace />}
+      />
+      <Route
+        path="/login"
         element={<Navigate to={"/jobProviderDashboard"} replace />}
       />
       <Route
@@ -64,7 +72,7 @@ function AppRoutes() {
 
       {authenticated ? (
         <Route element={<ProtectedRoute />}>
-          {userType == "admin" ? adminRoutes : userRoutes}
+          {userType == "Admin"  ? adminRoutes : userRoutes}
         </Route>
       ) : (
         <Route>{publicRoutes}</Route>

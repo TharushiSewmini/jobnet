@@ -46,7 +46,7 @@ const JobProviderDashboard = () => {
         </div>
         <div className="job-provider-dshboard-bottom-container-middle">
           <h2 className="job-provider-dshboard-bottom-container-middle-helllo">
-            Hello , Dulari
+            Hello , Dulari 
           </h2>
           <h5 className="job-provider-dshboard-bottom-container-middle-helllo-under">
             Here is your daily activities and applications
