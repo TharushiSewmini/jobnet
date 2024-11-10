@@ -7,17 +7,27 @@ import { FiEdit3, FiSave, FiCamera } from 'react-icons/fi';
 import { Spin } from 'antd';
 import '../../assets/99x.png';
 
-const AdminProfile = () => {
-  const [profile, setProfile] = useState({
-    name: '',
-    email: '',
-    bio: '',
-    location: '',
-    photoURL: '',
-    userType: '',
-  });
+interface ProfileData {
+  userFullName: string;
+  userEmail: string;
+  bio: string;
+  location: string;
+  userImage: string;
+  userType: string;
+}
 
-  const [tempProfile, setTempProfile] = useState(profile);
+const defaultProfile: ProfileData = {
+  userFullName: '',
+  userEmail: '',
+  bio: '',
+  location: '',
+  userImage: '',
+  userType: '',
+};
+
+const AdminProfile = () => {
+  const [profile, setProfile] = useState<ProfileData>(defaultProfile);
+  const [tempProfile, setTempProfile] = useState<ProfileData>(defaultProfile);
   const [isEditing, setIsEditing] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(true);
@@ -25,45 +35,50 @@ const AdminProfile = () => {
   const navigate = useNavigate();
   const userId = auth.currentUser?.uid;
 
-  // Fetch the existing profile data from Firestore based on userType
   const fetchProfile = async () => {
-    if (userId) {
-      try {
-        // Get the document of the current user by ID
-        const docRef = doc(db, 'users', userId);
-        const docSnap = await getDoc(docRef);
-  
-        if (docSnap.exists()) {
-          const fetchedProfile = docSnap.data();
-  
-          // Check if the user has the correct userType ('Admin' or 'User')
-          if (fetchedProfile?.userType === 'Admin' || fetchedProfile?.userType === 'User') {
-            setProfile({
-              name: fetchedProfile?.name || '',  
-              email: fetchedProfile?.email || '',  
-              bio: fetchedProfile?.bio || '',
-              location: fetchedProfile?.location || '',
-              photoURL: fetchedProfile?.photoURL || '',
-              userType: fetchedProfile?.userType || '',
-            });
-  
-            setTempProfile({
-              name: fetchedProfile?.name || '',  
-              email: fetchedProfile?.email || '',  
-              bio: fetchedProfile?.bio || '',
-              location: fetchedProfile?.location || '',
-              photoURL: fetchedProfile?.photoURL || '',
-              userType: fetchedProfile?.userType || '',
-            });
-          } else {
-            console.warn('Invalid user type');
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching profile:', error);
-      }
+    if (!userId) {
+      setLoading(false);
+      return;
     }
-    setLoading(false);
+
+    try {
+      const docRef = doc(db, 'users', userId);
+      const docSnap = await getDoc(docRef);
+
+      if (!docSnap.exists()) {
+        console.warn('No profile document found');
+        setLoading(false);
+        return;
+      }
+
+      const userData = docSnap.data() as ProfileData;
+
+      console.log(userData.userImage);
+      
+      
+      const cleanProfile: ProfileData =  {
+        userFullName: userData.userFullName ,
+        userEmail: userData.userEmail ,
+        bio: userData.bio ,
+        location: userData.location ,
+        userImage: userData.userImage ,
+        userType: userData.userType ,
+      };
+ 
+      
+      setProfile(cleanProfile);
+      console.log("ewdew", cleanProfile.userImage, profile.userImage);
+      
+      setTempProfile(cleanProfile);
+
+      if (!userData.userType) {
+        console.warn('Invalid user type');
+      }
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -72,7 +87,7 @@ const AdminProfile = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setTempProfile({ ...tempProfile, [name]: value });
+    setTempProfile(prev => ({ ...prev, [name]: value }));
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,31 +97,38 @@ const AdminProfile = () => {
   };
 
   const handleSave = async () => {
+    if (!userId) {
+      console.error('No user ID found');
+      return;
+    }
+
     setLoading(true);
-    let photoURL = profile.photoURL;
+    try {
+      let updatedPhotoURL = profile.userImage;
 
-    if (file && userId) {
-      const storageRef = ref(storage, `profile_pictures/${userId}`);
-      await uploadBytes(storageRef, file);
-      photoURL = await getDownloadURL(storageRef);
-    }
+      if (file) {
+        const storageRef = ref(storage, "profile_pictures/${userId}");
+        await uploadBytes(storageRef, file);
+        updatedPhotoURL = await getDownloadURL(storageRef);
+      }
 
-    const updatedProfile = { ...tempProfile, photoURL };
-    if (userId) {
+      const updatedProfile = { ...tempProfile, photoURL: updatedPhotoURL };
       await setDoc(doc(db, 'users', userId), updatedProfile);
+      setProfile(updatedProfile);
+      setIsEditing(false);
+      setFile(null);
+    } catch (error) {
+      console.error('Error saving profile:', error);
+    } finally {
+      setLoading(false);
     }
-
-    setProfile(updatedProfile);
-    setIsEditing(false);
-    setFile(null);
-    setLoading(false);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-green-600 to-green-700 flex items-center justify-center p-6">
       <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-3xl">
         <h2 className="text-4xl font-bold text-center text-green-800 mb-6">
-          {profile.userType === 'Admin' ? 'My Profile' : 'User Profile'}
+          {profile?.userType === 'Admin' ? 'My Profile' : 'User Profile'}
         </h2>
         {loading ? (
           <div className="flex justify-center items-center h-64">
@@ -118,8 +140,8 @@ const AdminProfile = () => {
             <div className="flex justify-center mb-6 relative">
               <div className="relative">
                 <img
-                  src={profile.photoURL || `https://ui-avatars.com/api/?name=${profile.name}`}
-                  alt="Profile"
+                  src={profile.userImage ? profile.userImage : "https://ui-avatars.com/api/?name=${profile.userFullName}"}
+               
                   className="w-32 h-32 rounded-full object-cover shadow-lg border-4 border-green-700"
                 />
               </div>
@@ -127,8 +149,8 @@ const AdminProfile = () => {
 
             {/* Admin/User Info */}
             <div className="text-center mb-8">
-              <p className="text-xl font-semibold text-green-800">{profile.name}</p>
-              <p className="text-lg text-green-700">{profile.email}</p>
+              <p className="text-xl font-semibold text-green-800">{profile.userFullName}</p>
+              <p className="text-lg text-green-700">{profile.userEmail}</p>
             </div>
 
             {isEditing ? (
@@ -136,7 +158,7 @@ const AdminProfile = () => {
                 <input
                   type="text"
                   name="name"
-                  value={tempProfile.name}
+                  value={tempProfile.userFullName}
                   onChange={handleInputChange}
                   className="w-full p-3 border border-green-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                   placeholder="Name"
@@ -144,7 +166,7 @@ const AdminProfile = () => {
                 <input
                   type="email"
                   name="email"
-                  value={tempProfile.email}
+                  value={tempProfile.userEmail}
                   onChange={handleInputChange}
                   className="w-full p-3 border border-green-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                   placeholder="Email"
@@ -163,6 +185,12 @@ const AdminProfile = () => {
                   onChange={handleInputChange}
                   className="w-full p-3 border border-green-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                   placeholder="Location"
+                />
+                <input
+                  type="file"
+                  onChange={handleFileChange}
+                  className="w-full p-3 border border-green-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  accept="image/*"
                 />
 
                 <button
