@@ -1,7 +1,7 @@
 // src/components/JobModal.tsx
 import React from 'react';
 import { Modal } from 'antd';
-import JobPost from "../../components/JobPost/index"
+import JobPost from '../../components/JobPost';
 
 interface JobModalProps {
   visible: boolean;
