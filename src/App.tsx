@@ -5,7 +5,8 @@ import {
   Route,
   Routes,
   Navigate,
-} from "react-router-dom";
+} 
+from "react-router-dom";
 import SignInPage from "./pages/SignInPage";
 import HomePage from "./pages/HomePage";
 import JobProviderDashboard from "./pages/JobProviderDashboard";

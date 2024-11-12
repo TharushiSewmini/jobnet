@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { FaBriefcase } from "react-icons/fa6";
+
 import jobPost from "../../assets/jobpost.jpg";
 import { Flex, Spin } from "antd";
 import MaterPlusbtn from "../../components/MasterPlusButton";
 
 const PostJob: React.FC = () => {
-
-
-
   const [click, setClick] = useState(false);
   const onClick=()=>{
 setClick(!click);
@@ -16,38 +14,38 @@ setClick(!click);
 
     <div className=" bg-[#098023] w-full h-screen flex ">
      
-      <div className=" w-full lg:w-3/5 overflow-y-auto ">
-        <div className="pt-4 h-full sm:mx-20 mx-4">
-          <div className="  text-3xl font-medium text-white pb-2">
+      <div className="w-full overflow-y-auto lg:w-3/5">
+        <div className="h-full pt-4 mx-4 sm:mx-20">
+          <div className="pb-2 text-3xl font-medium text-white ">
             Post a Job
           </div>
 
-          <div className=" ">
+          <div className="">
             <label className="block text-base text-white">Job Title </label>
             <input
               type="text"
-              className=" w-4/5  mt-2 mb-6 text-sm p-3 rounded-md"
+              className="w-4/5 p-3 mt-2 mb-6 text-sm rounded-md "
               placeholder="Add job title, role, vacancies etc"
             />
           </div>
 
-          <div className=" ">
+          <div className="">
             <label className="block text-base text-white">Salary</label>
             <input
               type="text"
-              className="w-4/5  mt-2 p-3 rounded-md"
+              className="w-4/5 p-3 mt-2 rounded-md"
               placeholder="Add Salary per day"
             />
           </div>
 
-          <div className="mt-16 mb-6  text-lg text-white ">
+          <div className="mt-16 mb-6 text-lg text-white ">
             Advance Information
           </div>
 
-          <div className="grid grid-cols-1 gap-4  md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div>
               <label className="block text-base text-white">Vacancies</label>
-              <select className=" mt-2 text-sm border p-3 rounded-md w-4/5 ">
+              <select className="w-4/5 p-3 mt-2 text-sm border rounded-md ">
                 <option value="" className="">
                   Select No of Vacancies
                 </option>
@@ -65,14 +63,14 @@ setClick(!click);
               </label>
               <input
                 type="date"
-                className=" mt-2 text-sm border w-4/5 p-3 rounded-md"
+                className="w-4/5 p-3 mt-2 text-sm border rounded-md "
                 placeholder="DD/MM/YYYY"
               />
             </div>
 
             <div>
               <label className="block text-base text-white">Time</label>
-              <select className="mt-2 text-sm border w-4/5 p-3 rounded-md">
+              <select className="w-4/5 p-3 mt-2 text-sm border rounded-md">
                 <option value="">Select Noon</option>
                 <option value="Morning">Morning</option>
                 <option value="Afternoon">Afternoon</option>
@@ -88,7 +86,7 @@ setClick(!click);
           <div className="">
             <label className="block text-base text-white">Description</label>
             <textarea
-              className="w-11/12  mt-1 text-sm p-3 rounded-md"
+              className="w-11/12 p-3 mt-1 text-sm rounded-md"
               placeholder="Add your job description..."
               rows={5}
             />
@@ -97,21 +95,21 @@ setClick(!click);
               Responsibilities
             </label>
             <textarea
-              className="w-11/12  mt-1 text-sm p-3 rounded-md"
+              className="w-11/12 p-3 mt-1 text-sm rounded-md"
               placeholder="Add your job responsibilities..."
               rows={5}
             />
           </div>
 
-          <button className=" text-base font-bold text-white bg-amber-950 p-3 rounded-md my-4">
+          <button className="p-3 my-4 text-base font-bold text-white rounded-md bg-amber-950">
             Post A Job →
           </button>
         </div>
       </div>
 
-      <div className="w-2/5 h-full invisible hidden lg:visible lg:block relative ">
+      <div className="relative invisible hidden w-2/5 h-full lg:visible lg:block ">
       <  MaterPlusbtn isClick={click} onClick={onClick}/>
-        <img src={jobPost} className="w-full h-full object-cover " />
+        <img src={jobPost} className="object-cover w-full h-full " />
         <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black opacity-40"></div>
       </div>
     </div>
