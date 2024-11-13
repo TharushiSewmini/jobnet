@@ -11,6 +11,7 @@ import HomePageForJobProvider from "../pages/HomePageForJobProvider";
 import ProtectedRoute from "./protectedRoutes";
 import HomePageJobSeeker from "../pages/HomePageJobSeeker";
 import PostJob from "../pages/PostJob";
+import EditJobPost from "../pages/EditJobPost"
 import BlankPage from "../pages/BlankPage";
 import ChatPage from "../pages/ChatPage";
 
@@ -21,6 +22,8 @@ function AppRoutes() {
   const publicRoutes = (
     <>
       <Route path="/" element={<SignInPage />} />
+      
+      <Route path="/editjobpost" element={<EditJobPost />} />
       <Route path="/waiting" element={<BlankPage />} />
       <Route path="*" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<SignInPage />} />
@@ -47,6 +50,7 @@ function AppRoutes() {
   const adminRoutes = (
     <>
       <Route path="/postjob" element={<PostJob />} />
+
 
       <Route path="/jobProviderDashboard" element={<JobProviderDashboard />} />
       <Route path="/chat" element={<ChatPage />} />

@@ -33,7 +33,6 @@ const ChatSlider: React.FC<ChatSliderProps> = ({
 
   // Create a ref for the cache to persist between renders
   const userDataCache = React.useRef(new Map<string, ChatUser>());
-
   const getUnreadMessageCount = async (
     currentUserId: string,
     otherUserId: string
@@ -215,13 +214,13 @@ const ChatSlider: React.FC<ChatSliderProps> = ({
 
   return (
     <div className="min-w-64 lg:w-2/5 w-full lg:h-full h-[20%] flex-1 bg-[green-500] overflow-auto lg:p-4 px-4 flex flex-col rounded-r-2xl p-2">
-      <div className="text-2xl text-green-500 font-medium lg:mb-1 mb-2 items-center pt-2">
+      <div className="items-center pt-2 mb-2 text-2xl font-medium text-green-500 lg:mb-1">
         YOUR CHAT LIST . . .
       </div>
 
-      <div className=" flex w-full lg:flex-col flex-row bg-white p-3 rounded-lg lg:overflow-hidden overflow-auto">
+      <div className="flex flex-row w-full p-3 overflow-auto bg-white rounded-lg  lg:flex-col lg:overflow-hidden">
         {loading ? (
-          <div className="text-gray-500 w-full flex ">Loading chats...</div>
+          <div className="flex w-full text-gray-500 ">Loading chats...</div>
         ) : chatUsers.length > 0 ? (
           chatUsers.map((user) => (
             <ChatPeopleRow
