@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { FiEdit3, FiSave, FiCamera } from 'react-icons/fi';
 import { Spin } from 'antd';
 import '../../assets/99x.png';
+import MaterPlusbtn from "../../components/MasterPlusButton";
 
 interface ProfileData {
   userFullName: string;
@@ -31,6 +32,9 @@ const AdminProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(true);
+  const [click, setClick] = useState(false);
+  const onClick=()=>{setClick(!click);
+  }
 
   const navigate = useNavigate();
   const userId = auth.currentUser?.uid;
@@ -186,12 +190,7 @@ const AdminProfile = () => {
                   className="w-full p-3 border border-green-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                   placeholder="Location"
                 />
-                <input
-                  type="file"
-                  onChange={handleFileChange}
-                  className="w-full p-3 border border-green-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                  accept="image/*"
-                />
+               
 
                 <button
                   onClick={handleSave}
@@ -213,6 +212,7 @@ const AdminProfile = () => {
                 </button>
               </div>
             )}
+             <  MaterPlusbtn isClick={click} onClick={onClick}/>
           </div>
         )}
       </div>
