@@ -8,23 +8,19 @@ import {
 import JobPost from "../../components/JobPost";
 import { getAuth } from "firebase/auth";
 
-
-
-
 const db = getFirestore();
 const auth = getAuth();
 interface JobPost {
   jobTitle: string;
   salary: string;
   noOfVacancies: number;
-  expireDate: Timestamp
+  expireDate: Timestamp;
   Time: string;
   description: string;
   responsibilities: string;
   jobLocation: string;
   //when you give the user email to this object make sure the give email using auth context
   userEmail: string | undefined;
-
 }
 
 export const createJob = async (jobPost: JobPost) => {
