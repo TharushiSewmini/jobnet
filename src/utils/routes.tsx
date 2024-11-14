@@ -23,7 +23,6 @@ function AppRoutes() {
     <>
       <Route path="/" element={<SignInPage />} />
       
-      <Route path="/editjobpost" element={<EditJobPost />} />
       <Route path="/waiting" element={<BlankPage />} />
       <Route path="*" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<SignInPage />} />
@@ -50,7 +49,7 @@ function AppRoutes() {
   const adminRoutes = (
     <>
       <Route path="/postjob" element={<PostJob />} />
-
+      <Route path="/editjobpost" element={<EditJobPost />} />
 
       <Route path="/jobProviderDashboard" element={<JobProviderDashboard />} />
       <Route path="/chat" element={<ChatPage />} />

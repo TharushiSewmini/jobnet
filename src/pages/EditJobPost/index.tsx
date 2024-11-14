@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import jobPost from "../../assets/jobpost.jpg";
+import MaterPlusbtn from "../../components/MasterPlusButton";
 
 
 const EditJobPost: React.FC = () => {
@@ -9,7 +9,7 @@ const EditJobPost: React.FC = () => {
   setClick(!click);
     }
   return (
-    <div className='flex w-full h-screen bg-slate-200 '>
+    <div className='flex w-full h-screen bg-white'>
 <div className="w-full overflow-y-auto lg:w-3/5">
         <div className="h-full pt-4 mx-4 sm:mx-20">
           <div className="pb-2 text-3xl font-medium text-teal-700">
@@ -20,7 +20,7 @@ const EditJobPost: React.FC = () => {
             <label className="block text-base text-teal-700">Job Title </label>
             <input
               type="text"
-              className="w-4/5 p-3 mt-2 mb-6 text-sm rounded-md "
+              className="w-4/5 p-3 mt-2 mb-6 text-sm rounded-md bg-slate-300"
               placeholder="Add job title, role, vacancies etc"
             />
           </div>
@@ -29,7 +29,7 @@ const EditJobPost: React.FC = () => {
             <label className="block text-base text-teal-700">Salary</label>
             <input
               type="text"
-              className="w-4/5 p-3 mt-2 rounded-md"
+              className="w-4/5 p-3 mt-2 rounded-md bg-slate-300"
               placeholder="Add Salary per day"
             />
           </div>
@@ -41,7 +41,7 @@ const EditJobPost: React.FC = () => {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div>
               <label className="block text-base text-teal-700">Vacancies</label>
-              <select className="w-4/5 p-3 mt-2 text-sm border rounded-md ">
+              <select className="w-4/5 p-3 mt-2 text-sm border rounded-md bg-slate-300">
                 <option value="" className="">
                   Select No of Vacancies
                 </option>
@@ -59,14 +59,14 @@ const EditJobPost: React.FC = () => {
               </label>
               <input
                 type="date"
-                className="w-4/5 p-3 mt-2 text-sm border rounded-md "
+                className="w-4/5 p-3 mt-2 text-sm border rounded-md bg-slate-300"
                 placeholder="DD/MM/YYYY"
               />
             </div>
 
             <div>
               <label className="block text-base text-teal-700">Time</label>
-              <select className="w-4/5 p-3 mt-2 text-sm border rounded-md">
+              <select className="w-4/5 p-3 mt-2 text-sm border rounded-md bg-slate-300">
                 <option value="">Select Noon</option>
                 <option value="Morning">Morning</option>
                 <option value="Afternoon">Afternoon</option>
@@ -82,7 +82,7 @@ const EditJobPost: React.FC = () => {
           <div className="">
             <label className="block text-base text-teal-700">Description</label>
             <textarea
-              className="w-11/12 p-3 mt-1 text-sm rounded-md"
+              className="w-11/12 p-3 mt-1 text-sm rounded-md bg-slate-300"
               placeholder="Add your job description..."
               rows={5}
             />
@@ -91,7 +91,7 @@ const EditJobPost: React.FC = () => {
               Responsibilities
             </label>
             <textarea
-              className="w-11/12 p-3 mt-1 text-sm rounded-md"
+              className="w-11/12 p-3 mt-1 text-sm rounded-md bg-slate-300"
               placeholder="Add your job responsibilities..."
               rows={5}
             />
@@ -110,9 +110,9 @@ const EditJobPost: React.FC = () => {
       </div>
 
       <div className="relative invisible hidden w-2/5 h-full lg:visible lg:block ">
-        <img src={jobPost} className="object-cover w-full h-full " />
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black opacity-40"></div>
+      <  MaterPlusbtn isClick={click} onClick={onClick}/>
       </div>
+
     </div>
   );
 };
