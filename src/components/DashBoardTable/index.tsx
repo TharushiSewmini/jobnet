@@ -109,6 +109,10 @@ const JobList = () => {
           >
             <Spin size="large" />
           </Flex>
+        ) : jobs.length === 0 ? (
+          <div className="w-full h-full flex justify-center items-center lg:-scroll-mt-52 mt-32 lg:text-xl text-gray-500 text-sm">
+            You Don't have posted any Job{" "}
+          </div>
         ) : (
           jobs.map((job, index) => (
             <div key={index} className="job-item">
