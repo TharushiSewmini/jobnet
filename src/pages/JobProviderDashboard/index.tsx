@@ -36,7 +36,7 @@ const JobProviderDashboard = () => {
               imageIcon={signOut}
               textColor="#767F8C"
               tileText="Edit details"
-              onClick={function (e: any): void {}}
+              onClick={() => navigate("/userprofile")}
             />
             <JobNetSymbol
               imageIcon={signOut}

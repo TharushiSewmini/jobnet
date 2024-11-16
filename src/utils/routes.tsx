@@ -14,6 +14,7 @@ import PostJob from "../pages/PostJob";
 import EditJobPost from "../pages/EditJobPost"
 import BlankPage from "../pages/BlankPage";
 import ChatPage from "../pages/ChatPage";
+import AdminProfile from "../pages/AdminProfile";
 
 function AppRoutes() {
   const { authenticated, userType, isLoading } = useAuthContext();
@@ -42,6 +43,8 @@ function AppRoutes() {
       <Route path="/" element={<HomePageJobSeeker />} />
       <Route path="*" element={<HomePageJobSeeker />} />
       <Route path="/chat" element={<ChatPage />} />
+      <Route path="/userProfile" element={<AdminProfile/>} />
+      
     </>
   );
 
@@ -66,6 +69,7 @@ function AppRoutes() {
         path="*"
         element={<Navigate to={"/jobProviderDashboard"} replace />}
       />
+      <Route path="/userProfile" element={<AdminProfile/>} />
     </>
   );
 
