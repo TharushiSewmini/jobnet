@@ -14,6 +14,7 @@ import PostJob from "../pages/PostJob";
 import BlankPage from "../pages/BlankPage";
 import ChatPage from "../pages/ChatPage";
 import AdminProfile from "../pages/AdminProfile";
+import ViewJobPost from "../pages/ViewJob";
 
 function AppRoutes() {
   const { authenticated, userType, isLoading } = useAuthContext();
@@ -67,6 +68,8 @@ function AppRoutes() {
         element={<Navigate to={"/jobProviderDashboard"} replace />}
       />
       <Route path="/userProfile" element={<AdminProfile/>} />
+      <Route path="/viewJobPost" element={<ViewJobPost/>} />
+
     </>
   );
 
