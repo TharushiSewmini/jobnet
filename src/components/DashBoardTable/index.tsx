@@ -8,6 +8,7 @@ import "../../comman.css";
 import { Flex, Modal, Spin } from "antd";
 import { fetchJobsFromAdminId } from "../../controllers/admin/fetchJobsFromAdminId";
 
+
 interface JobPost {
   Time: string;
   description: string;
@@ -25,6 +26,7 @@ const JobList = () => {
   const [jobs, setJobPosts] = useState<JobPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [active, setActive] = useState(false);
+  
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -79,7 +81,7 @@ const JobList = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
+  
   return (
     <div className="jobs-container">
       <Modal
@@ -115,7 +117,7 @@ const JobList = () => {
           </div>
         ) : (
           jobs.map((job, index) => (
-            <div key={index} className="job-item">
+            <div key={job.userId} className="job-item">
               <div className="job-details">
                 <strong>{job.jobTitle}</strong>
                 <span>

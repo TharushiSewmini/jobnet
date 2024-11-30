@@ -29,6 +29,7 @@ export const fetchJobsFromAdminId = async () => {
         ...(doc.data() as JobPost),
         id: doc.id,
       }));
+      
       JobList.push(...jobData);
     } else {
       console.log("job snap shot comes with empty list");
@@ -47,3 +48,4 @@ export const adminPostedJobsYet = async () => {
     return 0;
   }
 };
+

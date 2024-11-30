@@ -7,6 +7,7 @@ import { FiEdit3, FiSave, FiCamera } from 'react-icons/fi';
 import { Spin } from 'antd';
 import '../../assets/99x.png';
 import MaterPlusbtn from "../../components/MasterPlusButton";
+import JobNetTopBar from "../../components/JobNetTopBar";
 
 interface ProfileData {
   userFullName: string;
@@ -129,8 +130,10 @@ const AdminProfile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-green-600 to-green-700 flex items-center justify-center p-6">
-      <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-3xl">
+    <div className="min-h-screen bg-gradient-to-r from-green-600 to-green-700 flex flex-col items-center justify-start overflow-hidden">
+      <JobNetTopBar/>
+      <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-3xl mt-10">
+     
         <h2 className="text-4xl font-bold text-center text-green-800 mb-6">
           {profile?.userType === 'Admin' ? 'My Profile' : 'User Profile'}
         </h2>
@@ -144,7 +147,15 @@ const AdminProfile = () => {
             <div className="flex justify-center mb-6 relative">
               <div className="relative">
                 <img
-                  src={profile.userImage ? profile.userImage : "https://ui-avatars.com/api/?name=${profile.userFullName}"}
+                 src={
+                  profile.userImage
+                    ? profile.userImage
+                    : `https://ui-avatars.com/api/?name=${profile.userFullName
+                        .split(' ')
+                        .map((word) => word[0])
+                        .join('')
+                        .toUpperCase()}`
+                }
                
                   className="w-32 h-32 rounded-full object-cover shadow-lg border-4 border-green-700"
                 />
@@ -212,10 +223,11 @@ const AdminProfile = () => {
                 </button>
               </div>
             )}
-             <  MaterPlusbtn isClick={click} onClick={onClick}/>
+             
           </div>
         )}
       </div>
+      <  MaterPlusbtn  isClick={click} onClick={onClick}/>
     </div>
   );
 };
