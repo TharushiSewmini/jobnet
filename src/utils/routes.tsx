@@ -63,6 +63,7 @@ function AppRoutes() {
         path="/login"
         element={<Navigate to={"/jobProviderDashboard"} replace />}
       />
+      <Route path="/userProfile" element={<AdminProfile/>} />
     </>
   );
 

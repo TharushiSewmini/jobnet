@@ -183,7 +183,7 @@ const SignUpContainer = ({
           <span>
             <img src={google} />
           </span>
-          <span> Sign in with Google</span>
+          <span> Sign up with Google</span>
         </div>
       </center>
     </div>
