@@ -12,6 +12,7 @@ import ProtectedRoute from "./protectedRoutes";
 import HomePageJobSeeker from "../pages/HomePageJobSeeker";
 import PostJob from "../pages/PostJob";
 import BlankPage from "../pages/BlankPage";
+import AdminProfile from "../pages/AdminProfile";
 
 function AppRoutes() {
   const { authenticated, userType, isLoading } = useAuthContext();
