@@ -9,6 +9,7 @@
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "isolatedModules": false,
     "noEmit": true,
     
     /* Visit https://aka.ms/tsconfig to read more about this file */
