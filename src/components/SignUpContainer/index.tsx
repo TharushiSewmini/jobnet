@@ -97,11 +97,11 @@ const SignUpContainer = ({
       console.log("Google sign-in successful", result);
       setUserType(userType);
      // alert(userType + "user type");
-      if (userType === "User") {
-        navigate("/userHome");
-      } else {
-        navigate("/jobProviderDashboard");
-      }
+      // if (userType === "User") {
+      //   navigate("/userHome");
+      // } else {
+      //   navigate("/jobProviderDashboard");
+      // }
     } catch (error) {
       console.log("Error during Google sign-in:", error);
     }
