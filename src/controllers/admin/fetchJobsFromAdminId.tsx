@@ -1,4 +1,4 @@
-import { collection, getDoc, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { auth, db } from "../../utils/firebaseConfig";
 
 interface JobPost {
@@ -12,40 +12,45 @@ interface JobPost {
   salary: string;
   userEmail: string;
   userId: string;
-} 
-
-// use NF2k4wLgfoYz65fkRMGjVqilHqf1 for currentUserId development since other users dont have posted jobs
-const currentUserId = auth.currentUser?.uid || "";
-const jobRef = collection(db, "jobs");
-const adminJobsQuery = query(jobRef, where("userId", "==", currentUserId));
-
-const JobList: JobPost[] = [];
+}
 
 export const fetchJobsFromAdminId = async () => {
   try {
-    const jobSnapShot = await getDocs(adminJobsQuery);
-    if (!jobSnapShot.empty) {
-      const jobData = jobSnapShot.docs.map((doc) => ({
-        ...(doc.data() as JobPost),
-        id: doc.id,
-      }));
-      
-      JobList.push(...jobData);
-    } else {
-      console.log("job snap shot comes with empty list");
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      console.log("No user is logged in");
+      return [];
     }
-    return JobList;
+
+    const jobRef = collection(db, "jobs");
+    const adminJobsQuery = query(jobRef, where("userId", "==", currentUser.uid));
+
+    const jobSnapShot = await getDocs(adminJobsQuery);
+
+    if (!jobSnapShot.empty) {
+      const jobList = jobSnapShot.docs.map((doc) => ({
+        ...(doc.data() as JobPost), // Correctly cast each doc.data() to JobPost
+        id: doc.id,                 // Include the document ID
+      }));
+      console.log("Fetched Jobs:", jobList);
+      return jobList;
+    } else {
+      console.log("No jobs found for this user");
+      return [];
+    }
   } catch (error) {
-    console.log("no admin job post");
+    console.error("Error fetching jobs:", error);
+    return [];
   }
 };
 export const adminPostedJobsYet = async () => {
+  const currentUser = auth.currentUser;
+  if (!currentUser) return 0;
+
+  const jobRef = collection(db, "jobs");
+  const adminJobsQuery = query(jobRef, where("userId", "==", currentUser.uid));
   const jobSnapShot = await getDocs(adminJobsQuery);
-  if (!jobSnapShot.empty) {
-    const jobsCount = jobSnapShot.docs.length;
-    return jobsCount;
-  } else {
-    return 0;
-  }
+
+  return jobSnapShot.size; // Returns number of jobs
 };
 

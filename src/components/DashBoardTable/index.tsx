@@ -27,18 +27,19 @@ const JobList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [active, setActive] = useState(false);
   
-
   useEffect(() => {
     const fetchJobs = async () => {
       const jobs = await fetchJobsFromAdminId();
       if (jobs) {
         setJobPosts(jobs);
+        setClicked(Array(jobs.length).fill(false)); // Initialize clicked state dynamically
         setIsLoading(false);
       }
     };
-
+  
     fetchJobs();
   }, []);
+  
 
   const isWithinFiveDays = (targetDateInput: Date | string): boolean => {
     const today = new Date();
@@ -59,7 +60,8 @@ const JobList = () => {
   };
 
   // Create an array of false values initially, corresponding to each job
-  const [clicked, setClicked] = useState(Array(jobs.length).fill(false));
+  const [clicked, setClicked] = useState<boolean[]>([]);
+
 
   // Function to handle button click
   const handleButtonClick = (index: number) => {

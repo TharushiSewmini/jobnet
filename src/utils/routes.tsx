@@ -68,8 +68,7 @@ function AppRoutes() {
         element={<Navigate to={"/jobProviderDashboard"} replace />}
       />
       <Route path="/userProfile" element={<AdminProfile/>} />
-      <Route path="/viewJobPost" element={<ViewJobPost/>} />
-
+      <Route path="/viewJobPost" element={<ViewJobPost/>} /> 
     </>
   );
 
