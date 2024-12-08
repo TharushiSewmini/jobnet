@@ -1,4 +1,3 @@
-// src/Components/SearchBar.tsx
 import React from "react";
 import { CiSearch } from "react-icons/ci";
 

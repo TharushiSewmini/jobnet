@@ -8,6 +8,7 @@ import { Button, Modal } from "antd";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../utils/firebaseConfig";
+import MaterPlusbtn from "../../components/MasterPlusButton";
 
 const JobProviderDashboard = () => {
   const { logout } = useAuthContext();
@@ -17,6 +18,8 @@ const JobProviderDashboard = () => {
   };
 
   const userName = auth.currentUser?.displayName;
+  const [click, setClick] = useState(false);
+  const onClick = () => setClick(!click);
   
   return (
     <div className="job-provider-dashboard">
@@ -66,6 +69,7 @@ const JobProviderDashboard = () => {
             </span>
           </div>
           <JobList />
+          <MaterPlusbtn isClick={click} onClick={onClick} />
         </div>
         <div className="job-provider-dshboard-bottom-container-right"></div>
       </div>

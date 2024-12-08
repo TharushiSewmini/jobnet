@@ -3,7 +3,7 @@ import SearchBar from "../../components/SearchBar";
 import Seperator from "../../components/Seperator";
 import JobPostsPage from "../../components/JobPostPage";
 import fetchJobs from "../../controllers/user/fetchJobs";
-import { Timestamp } from "firebase/firestore";
+import { Spin } from "antd";
 import MaterPlusbtn from "../../components/MasterPlusButton";
 
 interface Job {
@@ -24,7 +24,9 @@ const HomePageJobSeeker: React.FC = () => {
   const [keyword, setKeyword] = useState<string>("");
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
+  const [click, setClick] = useState(false);
 
+  // Fetch jobs from Firestore
   useEffect(() => {
     const getJobs = async () => {
       try {
@@ -46,10 +48,9 @@ const HomePageJobSeeker: React.FC = () => {
   const handleKeywordChange = (text: string) => {
     setKeyword(text);
   };
-  const [click, setClick] = useState(false);
-  const onClick = () => {
-    setClick(!click);
-  };
+
+  const onClick = () => setClick(!click);
+
   return (
     <div className="bg-[#cdf4e1] h-screen">
       <MaterPlusbtn isClick={click} onClick={onClick} />
@@ -61,23 +62,17 @@ const HomePageJobSeeker: React.FC = () => {
         </div>
       </div>
       <div>
-      <Seperator onCityChange={handleCityChange} onKeywordChange={handleKeywordChange} />
-      </div>
-      <div>
-        <p className="text-gray-500 text-right px-20">Select Time and Date</p>
+        <Seperator onCityChange={handleCityChange} onKeywordChange={handleKeywordChange} />
       </div>
       <div className="px-20">
-      {loading ? (
-          <p>Loading...</p>
+        {loading ? (
+          <Spin />
         ) : (
-          <JobPostsPage jobs={jobs} keyword={""} selectedCity={null} />
+          <JobPostsPage jobs={jobs} keyword={keyword} selectedCity={selectedCity} />
         )}
-      
       </div>
     </div>
   );
 };
 
 export default HomePageJobSeeker;
-
-
