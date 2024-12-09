@@ -12,7 +12,6 @@ import ProtectedRoute from "./protectedRoutes";
 import HomePageJobSeeker from "../pages/HomePageJobSeeker";
 import PostJob from "../pages/PostJob";
 import BlankPage from "../pages/BlankPage";
-import ChatPage from "../pages/ChatPage";
 import AdminProfile from "../pages/AdminProfile";
 import ViewJobPost from "../pages/ViewJob";
 
@@ -38,12 +37,14 @@ function AppRoutes() {
       <Route path="/JobViewPage" element={<HomePageForJobProvider />} />
       <Route path="/userHome" element={<HomePageJobSeeker />} />
       <Route path="/waiting" element={<Navigate to={"/userHome"} replace />} />
+      <Route
+        path="/jobProviderDashboard"
+        element={<Navigate to={"/userHome"} replace />}
+      />
       <Route path="/login" element={<Navigate to={"/userHome"} replace />} />
       <Route path="/" element={<HomePageJobSeeker />} />
       <Route path="*" element={<HomePageJobSeeker />} />
-      <Route path="/chat" element={<ChatPage />} />
-      <Route path="/userProfile" element={<AdminProfile/>} />
-      
+      <Route path="*" element={<Navigate to={"/userHome"} replace />} />
     </>
   );
 
@@ -51,20 +52,17 @@ function AppRoutes() {
   const adminRoutes = (
     <>
       <Route path="/postjob" element={<PostJob />} />
-
       <Route path="/jobProviderDashboard" element={<JobProviderDashboard />} />
-      <Route path="/chat" element={<ChatPage />} />
-
       <Route
         path="/"
         element={<Navigate to={"/jobProviderDashboard"} replace />}
       />
       <Route
-        path="/login"
+        path="*"
         element={<Navigate to={"/jobProviderDashboard"} replace />}
       />
       <Route
-        path="*"
+        path="/login"
         element={<Navigate to={"/jobProviderDashboard"} replace />}
       />
       <Route path="/userProfile" element={<AdminProfile/>} />
@@ -78,7 +76,7 @@ function AppRoutes() {
 
       {authenticated ? (
         <Route element={<ProtectedRoute />}>
-          {userType == "Admin"  ? adminRoutes : userRoutes}
+          {userType == "Admin" ? adminRoutes : userRoutes}
         </Route>
       ) : (
         <Route>{publicRoutes}</Route>
