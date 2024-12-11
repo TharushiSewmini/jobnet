@@ -1,15 +1,13 @@
 // src/components/JobModal.tsx
-import React from "react";
-import { Modal } from "antd";
-import JobPost from "../JobPost";
+import React from 'react';
+import { Modal } from 'antd';
+import JobPost from '../../Components/JobPost';
 
 interface JobModalProps {
   visible: boolean;
   onCancel: () => void;
   jobDetails: {
-    id:string,
-    userEmail :string,
-    image: string;
+    image:string,
     title: string;
     uploadDate: string;
     remainingTime: string;
@@ -18,11 +16,7 @@ interface JobModalProps {
   };
 }
 
-const JobModal: React.FC<JobModalProps> = ({
-  visible,
-  onCancel,
-  jobDetails,
-}) => {
+const JobModal: React.FC<JobModalProps> = ({ visible, onCancel, jobDetails }) => {
   return (
     <Modal
       visible={visible}

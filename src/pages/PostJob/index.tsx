@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from "react";
+import { FaBriefcase } from "react-icons/fa6";
 import jobPost from "../../assets/jobpost.jpg";
+import { Flex, Spin } from "antd";
 import MaterPlusbtn from "../../components/MasterPlusButton";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css";
 
-const PostJob = () => {
+const PostJob: React.FC = () => {
+
+
+
   const [click, setClick] = useState(false);
-  const onClick = () => {
-    setClick(!click);
-  };
-  return (
+  const onClick=()=>{
+setClick(!click);
+  }
+  return(
+
     <div className=" bg-[#098023] w-full h-screen flex ">
+     
       <div className=" w-full lg:w-3/5 overflow-y-auto ">
         <div className="pt-4 h-full sm:mx-20 mx-4">
           <div className="  text-3xl font-medium text-white pb-2">
@@ -104,14 +109,9 @@ const PostJob = () => {
         </div>
       </div>
 
-      <div className="w-2/5 h-full invisible hidden lg:visible lg:block relative overflow-y-hidden ">
-        <MaterPlusbtn isClick={click} onClick={onClick} />
-        <LazyLoadImage
-          src={jobPost}
-          effect="blur"
-          className="w-full h-full object-cover"
-          alt="Job Post"
-        />
+      <div className="w-2/5 h-full invisible hidden lg:visible lg:block relative ">
+      <  MaterPlusbtn isClick={click} onClick={onClick}/>
+        <img src={jobPost} className="w-full h-full object-cover " />
         <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black opacity-40"></div>
       </div>
     </div>

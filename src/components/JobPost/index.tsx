@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import { Card, Typography, Button } from "antd";
 import { FaMapMarkerAlt, FaDollarSign, FaCalendarAlt } from "react-icons/fa"; // Importing the required icons
-import { applyForTheJob } from "../../controllers/user/applyJob";
 
 interface JobPostProps {
-  id: string;
-  userEmail: string;
   image: string;
   title: string;
   uploadDate: string;
@@ -17,8 +14,6 @@ interface JobPostProps {
 const { Title, Text } = Typography;
 
 const JobPost: React.FC<JobPostProps> = ({
-  id,
-  userEmail,
   image,
   title,
   uploadDate,
@@ -40,7 +35,6 @@ const JobPost: React.FC<JobPostProps> = ({
   // Toggle the clicked state when card or button is clicked
   const handleClick = () => {
     setIsClicked(!isClicked);
-    applyForTheJob(id, userEmail);
   };
 
   return (

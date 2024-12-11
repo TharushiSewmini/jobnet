@@ -7,7 +7,6 @@ import JobList from "../../components/DashBoardTable";
 import { Button, Modal } from "antd";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../utils/firebaseConfig";
 
 const JobProviderDashboard = () => {
   const { logout } = useAuthContext();
@@ -15,9 +14,6 @@ const JobProviderDashboard = () => {
   const NavigationToJobPost = () => {
     navigate("/postjob");
   };
-
-  const userName = auth.currentUser?.displayName;
-  
   return (
     <div className="job-provider-dashboard">
       <div className="job-provider-dshboard-top-row">
@@ -36,7 +32,7 @@ const JobProviderDashboard = () => {
               imageIcon={signOut}
               textColor="#767F8C"
               tileText="Edit details"
-              onClick={() => navigate("/userprofile")}
+              onClick={function (e: any): void {}}
             />
             <JobNetSymbol
               imageIcon={signOut}
@@ -50,7 +46,7 @@ const JobProviderDashboard = () => {
         </div>
         <div className="job-provider-dshboard-bottom-container-middle">
           <h2 className="job-provider-dshboard-bottom-container-middle-helllo">
-            Hello , {userName}
+            Hello , Dulari 
           </h2>
           <h5 className="job-provider-dshboard-bottom-container-middle-helllo-under">
             Here is your daily activities and applications

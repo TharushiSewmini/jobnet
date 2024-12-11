@@ -61,7 +61,7 @@ const CreateAccountPage = () => {
     setIsLoading(false);
   }
 
-return !isloading ? (
+  return !isloading ? (
     <div className="sign-up-container">
       <JobNetTopBar />
       <div className="sign-up-up-container">

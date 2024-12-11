@@ -28,7 +28,7 @@ const SignInContainer = ({
 }: SignInContainerProps) => {
   const navigate = useNavigate();
   const [isUser, setUser] = useState(true);
-  const { setUserType, setAuthenticated } = useAuthContext();
+const {setUserType , setAuthenticated} = useAuthContext();
   // google sign in function
   const cookies = new Cookie();
 
@@ -38,6 +38,7 @@ const SignInContainer = ({
     username: string
   ) {
     try {
+     
       const user = result.user;
 
       // Check if the user already exists in the Firestore users collection
@@ -48,10 +49,9 @@ const SignInContainer = ({
         // If the user does not exist, create the user document
         await setDoc(userDocRef, {
           userEmail: user.email,
-          userImage: user.photoURL,
           userFullName: user.displayName,
           userName: username, // or custom logic for username
-          userType: isUser ? "User" : "Admin",
+          userType: isUser ?"User" :"Admin",
           createdAt: new Date().getTime(),
           timeStamp: Timestamp.fromDate(new Date()),
         });
@@ -68,22 +68,23 @@ const SignInContainer = ({
   const handleGoogleSignIn = async () => {
     try {
       setAuthenticated(true);
-      setUserType(isUser ? "User" : "Admin");
+      setUserType(isUser ?"User" :"Admin")
       if (isUser) {
         navigate("/userHome");
       } else {
         navigate("/jobProviderDashboard");
       }
       const result = await signInWithPopup(auth, provider);
-
+      
       // Set the auth token as a cookie
       cookies.set("auth-token", result.user.refreshToken, { path: "/" });
 
       // Call createUserWithGoogle to handle user storage in Firestore
       await createUserWithGoogle(result, ""); // Change "user" to "admin" if needed
       console.log("Google sign-in successful", result);
-
+      
       // alert(userType + "user type");
+      
     } catch (error) {
       console.log("Error during Google sign-in:", error);
     }

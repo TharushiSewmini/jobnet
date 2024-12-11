@@ -1,61 +1,72 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import checkCircle from "../../assets/CheckCircle.svg";
 import users from "../../assets/Users.svg";
 import expireIcon from "../../assets/XCircle.svg";
 import editIcon from "../../assets/DotsThreeVertical.svg";
 import "./index.css";
 import "../../comman.css";
-import { Flex, Modal, Spin } from "antd";
-import { fetchJobsFromAdminId } from "../../controllers/admin/fetchJobsFromAdminId";
+import { Modal } from "antd";
 
-interface JobPost {
-  Time: string;
-  description: string;
-  expireDate: Date;
-  jobLocation: string;
-  jobTitle: string;
-  noOfVacancies: 5;
-  responsibilities: string[];
-  salary: string;
-  userEmail: string;
-  userId: string;
-}
+const jobs = [
+  {
+    title: "UI/UX Designer",
+    type: "Full Time",
+    remaining: "27 days remaining",
+    status: "Active",
+    applications: "798 Applications",
+  },
+  {
+    title: "Senior UX Designer",
+    type: "Internship",
+    remaining: "8 days remaining",
+    status: "Active",
+    applications: "185 Applications",
+  },
+  {
+    title: "Technical Support Specialist",
+    type: "Part Time",
+    remaining: "4 days remaining",
+    status: "Active",
+    applications: "556 Applications",
+  },
+  {
+    title: "Junior Graphic Designer",
+    type: "Full Time",
+    remaining: "24 days remaining",
+    status: "Active",
+    applications: "583 Applications",
+  },
+  {
+    title: "Front End Developer",
+    type: "Full Time",
+    remaining: "Dec 7, 2019",
+    status: "Expire",
+    applications: "740 Applications",
+  },
+  {
+    title: "Technical Support Specialist",
+    type: "Part Time",
+    remaining: "4 days remaining",
+    status: "Active",
+    applications: "556 Applications",
+  },
+  {
+    title: "Junior Graphic Designer",
+    type: "Full Time",
+    remaining: "24 days remaining",
+    status: "Active",
+    applications: "583 Applications",
+  },
+  {
+    title: "Front End Developer",
+    type: "Full Time",
+    remaining: "Dec 7, 2019",
+    status: "Expire",
+    applications: "740 Applications",
+  },
+];
 
 const JobList = () => {
-  const [jobs, setJobPosts] = useState<JobPost[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [active, setActive] = useState(false);
-
-  useEffect(() => {
-    const fetchJobs = async () => {
-      const jobs = await fetchJobsFromAdminId();
-      if (jobs) {
-        setJobPosts(jobs);
-        setIsLoading(false);
-      }
-    };
-
-    fetchJobs();
-  }, []);
-
-  const isWithinFiveDays = (targetDateInput: Date | string): boolean => {
-    const today = new Date();
-    const targetDate = new Date(targetDateInput); // Ensure targetDate is a Date object
-
-    // Set both dates to midnight to only compare dates, not times
-    today.setHours(0, 0, 0, 0);
-    targetDate.setHours(0, 0, 0, 0);
-
-    // Calculate the difference in time (in milliseconds) between today and the target date
-    const timeDifference = targetDate.getTime() - today.getTime();
-
-    // Convert time difference to days
-    const dayDifference = timeDifference / (1000 * 60 * 60 * 24);
-
-    // Check if the difference is 5 days or less and return true or false
-    return dayDifference <= 5 && dayDifference >= 0;
-  };
-
   // Create an array of false values initially, corresponding to each job
   const [clicked, setClicked] = useState(Array(jobs.length).fill(false));
 
@@ -79,7 +90,6 @@ const JobList = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
   return (
     <div className="jobs-container">
       <Modal
@@ -89,9 +99,7 @@ const JobList = () => {
         closable
         okText="EDIT POST"
         cancelText="DELETE POST"
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
+        open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
       ></Modal>
       {/* Header Row */}
       <div className="table-header">
@@ -101,67 +109,47 @@ const JobList = () => {
         <div className="header-column">ACTIONS</div>
       </div>
       <div className="job-list">
-        {isLoading ? (
-          <Flex
-            align="center"
-            gap="middle"
-            className="w-screen h-screen flex justify-center items-center bg-transparent"
-          >
-            <Spin size="large" />
-          </Flex>
-        ) : jobs.length === 0 ? (
-          <div className="w-full h-full flex justify-center items-center lg:-scroll-mt-52 mt-32 lg:text-xl text-gray-500 text-sm">
-            You Don't have posted any Job{" "}
-          </div>
-        ) : (
-          jobs.map((job, index) => (
-            <div key={index} className="job-item">
-              <div className="job-details">
-                <strong>{job.jobTitle}</strong>
-                <span>
-                  {job.jobTitle} • {job.noOfVacancies}
-                </span>
-              </div>
-              <div className="job-status">
-                <img
-                  src={
-                    isWithinFiveDays(job.expireDate) ? checkCircle : expireIcon
-                  }
-                  className="job-status-icon"
-                />
-
-                <span
-                  className={
-                    isWithinFiveDays(job.expireDate)
-                      ? "active-status"
-                      : "expire-status"
-                  }
-                >
-                  {isWithinFiveDays(job.expireDate) ? "Active" : "Expired"}
-                </span>
-              </div>
-              <div className="job-applications">
-                <img className="icon" src={users} />
-                <span>{job.salary}</span>
-              </div>
-              <div className="job-actions">
-                <button
-                  className={
-                    clicked[index] ? "view-post-notclick" : "view-post"
-                  }
-                  onClick={() => handleButtonClick(index)}
-                >
-                  View Post
-                </button>
-                <img
-                  className="view-post-edit-icon"
-                  src={editIcon}
-                  onClick={showModal}
-                />
-              </div>
+        {jobs.map((job, index) => (
+          <div key={index} className="job-item">
+            <div className="job-details">
+              <strong>{job.title}</strong>
+              <span>
+                {job.type} • {job.remaining}
+              </span>
             </div>
-          ))
-        )}
+            <div className="job-status">
+              <img
+                src={job.status === "Active" ? checkCircle : expireIcon}
+                className="job-status-icon"
+              />
+
+              <span
+                className={
+                  job.status === "Active" ? "active-status" : "expire-status"
+                }
+              >
+                {job.status}
+              </span>
+            </div>
+            <div className="job-applications">
+              <img className="icon" src={users} />
+              <span>{job.applications}</span>
+            </div>
+            <div className="job-actions">
+              <button
+                className={clicked[index] ? "view-post-notclick" : "view-post"}
+                onClick={() => handleButtonClick(index)}
+              >
+                View Post
+              </button>
+              <img
+                className="view-post-edit-icon"
+                src={editIcon}
+                onClick={showModal}
+              />
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
