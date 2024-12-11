@@ -4,7 +4,7 @@ import MaterPlusbtn from "../../components/MasterPlusButton";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-const PostJob: React.FC = () => {
+const PostJob = () => {
   const [click, setClick] = useState(false);
   const onClick = () => {
     setClick(!click);
@@ -107,7 +107,6 @@ const PostJob: React.FC = () => {
       <div className="w-2/5 h-full invisible hidden lg:visible lg:block relative overflow-y-hidden ">
         <MaterPlusbtn isClick={click} onClick={onClick} />
         <LazyLoadImage
-
           src={jobPost}
           effect="blur"
           className="w-full h-full object-cover"
