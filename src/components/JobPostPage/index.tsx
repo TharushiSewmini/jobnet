@@ -1,6 +1,6 @@
 import React from "react";
 import JobPost from "../JobPost";
-import softwareCompany from '../../assets/99x.png';
+import softwareCompany from "../../assets/99x.png";
 
 interface Job {
   id: string;
@@ -43,6 +43,8 @@ const JobPostsPage: React.FC<JobPostsPageProps> = ({ jobs, keyword, selectedCity
       {filteredJobPosts.length > 0 ? (
         filteredJobPosts.map((post) => (
           <JobPost
+            id={post.id}
+            userEmail={post.userEmail}
             key={post.id}
             title={post.jobTitle || "No Title"}
             location={post.jobLocation || "Not Specified"}

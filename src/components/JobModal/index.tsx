@@ -7,6 +7,8 @@ interface JobModalProps {
   visible: boolean;
   onCancel: () => void;
   jobDetails: {
+    id:string,
+    userEmail :string,
     image: string;
     title: string;
     uploadDate: string;
