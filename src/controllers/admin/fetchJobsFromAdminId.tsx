@@ -2,23 +2,24 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { auth, db } from "../../utils/firebaseConfig";
 
 interface JobPost {
+  id: string;
   Time: string;
   description: string;
   expireDate: Date;
   jobLocation: string;
   jobTitle: string;
-  noOfVacancies: 5;
+  noOfVacancies: number;
   responsibilities: string[];
   salary: string;
   userEmail: string;
   userId: string;
 }
 
-export const fetchJobsFromAdminId = async () => {
+export const fetchJobsFromAdminId = async (): Promise<JobPost[]> => {
   try {
     const currentUser = auth.currentUser;
     if (!currentUser) {
-      console.log("No user is logged in");
+      console.warn("No user is logged in.");
       return [];
     }
 
@@ -28,14 +29,12 @@ export const fetchJobsFromAdminId = async () => {
     const jobSnapShot = await getDocs(adminJobsQuery);
 
     if (!jobSnapShot.empty) {
-      const jobList = jobSnapShot.docs.map((doc) => ({
-        ...(doc.data() as JobPost), // Correctly cast each doc.data() to JobPost
-        id: doc.id,                 // Include the document ID
+      return jobSnapShot.docs.map((doc) => ({
+        ...(doc.data() as JobPost),
+        id: doc.id, // Include the document ID
       }));
-      console.log("Fetched Jobs:", jobList);
-      return jobList;
     } else {
-      console.log("No jobs found for this user");
+      console.log("No jobs found for this user.");
       return [];
     }
   } catch (error) {
@@ -43,6 +42,7 @@ export const fetchJobsFromAdminId = async () => {
     return [];
   }
 };
+
 export const adminPostedJobsYet = async () => {
   const currentUser = auth.currentUser;
   if (!currentUser) return 0;
