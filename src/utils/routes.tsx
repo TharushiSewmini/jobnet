@@ -14,6 +14,7 @@ import PostJob from "../pages/PostJob";
 import BlankPage from "../pages/BlankPage";
 import AdminProfile from "../pages/AdminProfile";
 import ViewJobPost from "../pages/ViewJob";
+import EditJobPage from "../pages/EditJob"
 
 function AppRoutes() {
   const { authenticated, userType, isLoading } = useAuthContext();
@@ -67,6 +68,7 @@ function AppRoutes() {
       />
       <Route path="/userProfile" element={<AdminProfile/>} />
       <Route path="/viewJobPost" element={<ViewJobPost/>} /> 
+      <Route path="/job/:jobId" element={<EditJobPage />} />
     </>
   );
 
