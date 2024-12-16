@@ -77,9 +77,7 @@ const JobList = () => {
       } catch (error) {
         console.error("Error deleting post:", error);
         message.error("Failed to delete the post.");
-      } finally {
-        closeModal();
-      }
+      } 
     }
   };
 
@@ -144,17 +142,35 @@ const JobList = () => {
       </div>
 
       <Modal
-        title="Edit/Delete Job"
-        centered
-        open={isModalOpen}
-        okText="Edit Post"
-        cancelText="Delete Post"
-        onOk={() => {
-          navigate(`/edit-job/${selectedJobId}`);
-          closeModal();
-        }}
-        onCancel={handleDeletePost} // Call delete function
-      />
+  title="Edit/Delete Job"
+  centered
+  open={isModalOpen}
+  onCancel={closeModal} // Just close the modal on cancel
+  footer={[
+    <button
+      key="delete"
+      className="px-4 py-2 mr-2 font-semibold text-white transition duration-300 bg-red-500 rounded hover:bg-red-600"
+      onClick={handleDeletePost}
+    >
+      Delete Post
+    </button>,
+    <button
+      key="edit"
+      className="px-4 py-2 font-semibold text-white transition duration-300 bg-blue-500 rounded hover:bg-blue-600"
+      onClick={() => {
+        navigate(`/edit-job/${selectedJobId}`);
+        closeModal();
+      }}
+    >
+      Edit Post
+    </button>,
+  ]}
+>
+  <p className="text-gray-600">Do you want to edit or delete this job post?</p>
+</Modal>
+
+
+
     </div>
   );
 };
