@@ -117,8 +117,16 @@ const AdminProfile = () => {
         updatedPhotoURL = await getDownloadURL(storageRef);
       }
 
-      const updatedProfile = { ...tempProfile, photoURL: updatedPhotoURL };
-      await setDoc(doc(db, 'users', userId), updatedProfile);
+      const updatedProfile = { ...tempProfile, userImage: updatedPhotoURL };
+      Object.keys(updatedProfile).forEach((key) => {
+        if (updatedProfile[key as keyof typeof updatedProfile] === undefined) {
+          delete updatedProfile[key as keyof typeof updatedProfile];
+        }
+      });
+  
+     
+
+      await setDoc(doc(db, 'users', userId), updatedProfile , { merge: true });
       setProfile(updatedProfile);
       setIsEditing(false);
       setFile(null);
@@ -172,7 +180,7 @@ const AdminProfile = () => {
               <div className="space-y-6">
                 <input
                   type="text"
-                  name="name"
+                  name="userFullName"
                   value={tempProfile.userFullName}
                   onChange={handleInputChange}
                   className="w-full p-3 border border-green-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -180,7 +188,7 @@ const AdminProfile = () => {
                 />
                 <input
                   type="email"
-                  name="email"
+                  name="userEmail"
                   value={tempProfile.userEmail}
                   onChange={handleInputChange}
                   className="w-full p-3 border border-green-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
