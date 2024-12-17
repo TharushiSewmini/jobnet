@@ -12,8 +12,10 @@ const PostJob: React.FC = () => {
     jobTitle: "",
     salary: "",
     vacancies: "",
-    expirationDate: "",
+    Date: "",
     time: "",
+    location: "",
+    jobType: "",
     description: "",
     responsibilities: "",
   });
@@ -56,8 +58,10 @@ const PostJob: React.FC = () => {
         jobTitle: "",
         salary: "",
         vacancies: "",
-        expirationDate: "",
+        Date: "",
         time: "",
+        location: "",
+        jobType: "",
         description: "",
         responsibilities: "",
       });
@@ -77,6 +81,7 @@ const PostJob: React.FC = () => {
           {[
             { label: "Job Title", name: "jobTitle", type: "text", placeholder: "Add job title..." },
             { label: "Salary", name: "salary", type: "text", placeholder: "Add salary per day" },
+            { label: "Location", name: "location", type: "text", placeholder: "Enter job location" },
           ].map((field) => (
             <div key={field.name}>
               <label className="block text-base text-white">{field.label}</label>
@@ -93,37 +98,62 @@ const PostJob: React.FC = () => {
 
           <div className="mt-16 mb-6 text-lg text-white">Advance Information</div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            {/* Number Input for Vacancies */}
+            <div>
+              <label className="block text-base text-white">Vacancies</label>
+              <input
+                name="vacancies"
+                type="number"
+                min="1"
+                value={formData.vacancies}
+                onChange={handleChange}
+                placeholder="Number of vacancies"
+                className="mt-2 text-sm border p-3 rounded-md w-4/5"
+              />
+            </div>
+
             {/* Dropdown Inputs */}
-            {[
-              { label: "Vacancies", name: "vacancies", options: ["1", "2", "3", "4", "5"] },
-              { label: "Expiration Date", name: "expirationDate", type: "date" },
-              { label: "Time", name: "time", options: ["Morning", "Afternoon", "Evening"] },
-            ].map((field) => (
-              <div key={field.name}>
-                <label className="block text-base text-white">{field.label}</label>
-                {field.options ? (
-                  <select
-                    name={field.name}
-                    value={formData[field.name as keyof typeof formData]}
-                    onChange={handleChange}
-                    className="mt-2 text-sm border p-3 rounded-md w-4/5"
-                  >
-                    <option value="">Select {field.label}</option>
-                    {field.options.map((opt) => (
-                      <option key={opt} value={opt}>{opt}</option>
-                    ))}
-                  </select>
-                ) : (
-                  <input
-                    name={field.name}
-                    type={field.type}
-                    value={formData[field.name as keyof typeof formData]}
-                    onChange={handleChange}
-                    className="mt-2 text-sm border p-3 rounded-md w-4/5"
-                  />
-                )}
-              </div>
-            ))}
+            <div>
+              <label className="block text-base text-white">Date</label>
+              <input
+                name="Date"
+                type="date"
+                value={formData.Date}
+                onChange={handleChange}
+                className="mt-2 text-sm border p-3 rounded-md w-4/5"
+              />
+            </div>
+
+            <div>
+              <label className="block text-base text-white">Time</label>
+              <select
+                name="time"
+                value={formData.time}
+                onChange={handleChange}
+                className="mt-2 text-sm border p-3 rounded-md w-4/5"
+              >
+                <option value="">Select Time</option>
+                <option value="Morning">Morning</option>
+                <option value="Afternoon">Afternoon</option>
+                <option value="Evening">Evening</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-base text-white">Job Type</label>
+              <select
+                name="jobType"
+                value={formData.jobType}
+                onChange={handleChange}
+                className="mt-2 text-sm border p-3 rounded-md w-4/5"
+              >
+                <option value="">Select Job Type</option>
+                <option value="Full-time">Full-time</option>
+                <option value="Part-time">Part-time</option>
+                <option value="Remote">Remote</option>
+                <option value="Contract">Contract</option>
+              </select>
+            </div>
           </div>
 
           <div className="mt-16 mb-6 text-lg text-white">Description and Responsibility</div>
