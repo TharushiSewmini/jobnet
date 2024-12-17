@@ -5,9 +5,11 @@ import expireIcon from "../../assets/XCircle.svg";
 import editIcon from "../../assets/DotsThreeVertical.svg";
 import "./index.css";
 import "../../comman.css";
-import { Flex, Modal, Spin } from "antd";
+import { Flex, message, Modal, Spin } from "antd";
 import { fetchJobsFromAdminId } from "../../controllers/admin/fetchJobsFromAdminId";
 import { useNavigate } from "react-router-dom";
+import { db } from "../../utils/firebaseConfig";
+import { collection, deleteDoc, doc } from "firebase/firestore";
 
 interface JobPost {
   id: string; // Include the document ID for unique identification
@@ -45,7 +47,7 @@ const JobList = () => {
     fetchJobs();
   }, []);
 
-  const isWithinFiveDays = (targetDateInput: string|Date): boolean => {
+  const isWithinFiveDays = (targetDateInput: string | Date): boolean => {
     const today = new Date();
     const targetDate = new Date(targetDateInput);
     const diffInTime = targetDate.getTime() - today.getTime();
@@ -64,6 +66,19 @@ const JobList = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedJobId(null);
+  };
+
+  const handleDeletePost = async () => {
+    if (selectedJobId) {
+      try {
+        await deleteDoc(doc(db, "jobs", selectedJobId));
+        message.success("Post deleted successfully!");
+        setJobs(jobs.filter((job) => job.id !== selectedJobId)); 
+      } catch (error) {
+        console.error("Error deleting post:", error);
+        message.error("Failed to delete the post.");
+      } 
+    }
   };
 
   return (
@@ -93,12 +108,12 @@ const JobList = () => {
               </div>
               <div className="job-status">
                 <img
-                  src={isWithinFiveDays(job.expireDate)? checkCircle : expireIcon}
+                  src={isWithinFiveDays(job.expireDate) ? checkCircle : expireIcon}
                   className="job-status-icon"
                   alt="status"
                 />
                 <span
-                  className={isWithinFiveDays(job.expireDate) ?"active" : "expired"}
+                  className={isWithinFiveDays(job.expireDate) ? "active" : "expired"}
                 >
                   {isWithinFiveDays(job.expireDate) ? "Active" : "Expired"}
                 </span>
@@ -108,30 +123,52 @@ const JobList = () => {
                 <span>Salary: {job.salary}</span>
               </div>
               <div className="job-actions">
-                <button className="view-post" onClick={() => handleViewPost(job.id)}>
+                <button
+                  className="view-post"
+                  onClick={() => handleViewPost(job.id)}
+                >
                   View Post
                 </button>
-                <img
+                {/*<img
                   src={editIcon}
                   className="edit-icon"
                   alt="edit"
                   onClick={() => handleEditModal(job.id)}
-                />
+                />*/}
               </div>
             </div>
           ))
         )}
       </div>
 
-      <Modal
-        title="Edit/Delete Job"
-        centered
-        visible={isModalOpen}
-        okText="Edit Post"
-        cancelText="Delete Post"
-        onOk={() => navigate(`/edit-job/${selectedJobId}`)}
-        onCancel={closeModal}
-      />
+  {/* <Modal
+  title="Edit/Delete Job"
+  centered
+  open={isModalOpen}
+  onCancel={closeModal} // Just close the modal on cancel
+  footer={[
+    <button
+      key="delete"
+      className="px-4 py-2 mr-2 font-semibold text-white transition duration-300 bg-red-500 rounded hover:bg-red-600"
+      onClick={handleDeletePost}
+    >
+      Delete Post
+    </button>,
+    <button
+      key="edit"
+      className="px-4 py-2 font-semibold text-white transition duration-300 bg-blue-500 rounded hover:bg-blue-600"
+      onClick={() => {
+        navigate(`/edit-job/${selectedJobId}`);
+        closeModal();
+      }}
+    >
+      Edit Post
+    </button>,
+  ]}
+>
+  <p className="text-gray-600">Do you want to edit or delete this job post?</p>
+</Modal> */}
+
     </div>
   );
 };

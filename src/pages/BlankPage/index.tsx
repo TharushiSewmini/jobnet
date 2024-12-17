@@ -6,7 +6,7 @@ const BlankPage = () => {
     <Flex
       align="center"
       gap="middle"
-      className="w-screen h-screen flex justify-center items-center bg-transparent"
+      className="flex items-center justify-center w-screen h-screen bg-transparent"
     >
       <Spin size="large" />
     </Flex>
