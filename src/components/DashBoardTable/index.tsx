@@ -129,19 +129,19 @@ const JobList = () => {
                 >
                   View Post
                 </button>
-                <img
+                {/*<img
                   src={editIcon}
                   className="edit-icon"
                   alt="edit"
                   onClick={() => handleEditModal(job.id)}
-                />
+                />*/}
               </div>
             </div>
           ))
         )}
       </div>
 
-      <Modal
+  {/* <Modal
   title="Edit/Delete Job"
   centered
   open={isModalOpen}
@@ -167,9 +167,7 @@ const JobList = () => {
   ]}
 >
   <p className="text-gray-600">Do you want to edit or delete this job post?</p>
-</Modal>
-
-
+</Modal> */}
 
     </div>
   );

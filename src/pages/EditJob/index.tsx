@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { doc, getDoc, updateDoc, getFirestore } from "firebase/firestore";
+import { doc, getDoc, updateDoc, deleteDoc, getFirestore } from "firebase/firestore";
 import { Spin } from "antd";
 import MaterPlusbtn from "../../components/MasterPlusButton";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -64,163 +64,103 @@ const ViewJobPage = () => {
     }
   };
 
+  const handleDelete = async () => {
+    if (!jobId) return;
+    try {
+      const jobRef = doc(db, "jobs", jobId);
+      await deleteDoc(jobRef);
+      alert("Job deleted successfully!");
+      navigate("/jobs");
+    } catch (error) {
+      console.error("Error deleting job:", error);
+    }
+  };
+
   return (
-    <div className="justify-center items-center min-h-screen bg-gradient-to-r from-green-500 to-green-700">
+    <div className="items-center justify-center min-h-screen bg-gradient-to-r from-green-500 to-green-700">
       <JobNetTopBar />
       <div className="flex justify-center">
-        
-      <div className=" rounded-lg shadow-lg w-full md:w-[80%] lg:w-[60%] xl:w-[50%] mt-14 p-8 mr-10 ml-10 mb-32 overflow-y-auto">
-        <h2 className="text-3xl font-bold mt-10 mb-10 text-center text-white">
-          {isEditing ? "Edit Job Details" : "Job Details"}
-        </h2>
+        <div className="rounded-lg shadow-lg w-full md:w-[80%] lg:w-[60%] xl:w-[50%] mt-14 p-8 mr-10 ml-10 mb-32 overflow-y-auto">
+          <h2 className="mt-10 mb-10 text-3xl font-bold text-center text-white">
+            {isEditing ? "Edit Job Details" : "Job Details"}
+          </h2>
 
-        {job ? (
-          isEditing ? (
-            <div className="space-y-5">
-              {/* Job Title */}
-              <div>
-                <label className="block text- font-semibold mb-1">Job Title *</label>
-                <input
-                  name="jobTitle"
-                  value={updatedJob.jobTitle || ""}
-                  onChange={handleInputChange}
-                  placeholder="Enter job title"
-                  className="w-full p-3 border rounded-md focus:ring-2 focus:ring-green-500 outline-none"
+          {job ? (
+            isEditing ? (
+              <div className="space-y-5">
+                {/* Input Fields */}
+                <div>
+                  <label className="block mb-1 font-semibold">Job Title *</label>
+                  <input
+                    name="jobTitle"
+                    value={updatedJob.jobTitle || ""}
+                    onChange={handleInputChange}
+                    placeholder="Enter job title"
+                    className="w-full p-3 border rounded-md outline-none focus:ring-2 focus:ring-green-500"
                   />
-              </div>
-
-              {/* Job Location */}
-              <div>
-                <label className="block text- font-semibold mb-1">Location *</label>
-                <input
-                  name="jobLocation"
-                  value={updatedJob.jobLocation || ""}
-                  onChange={handleInputChange}
-                  placeholder="Enter job location"
-                  className="w-full p-3 border rounded-md focus:ring-2 focus:ring-green-500 outline-none"
-                  />
-              </div>
-
-              {/* Number of Vacancies */}
-              <div>
-                <label className="block text- font-semibold mb-1">No. of Vacancies *</label>
-                <input
-                  name="noOfVacancies"
-                  type="number"
-                  min="1"
-                  value={updatedJob.noOfVacancies || ""}
-                  onChange={handleInputChange}
-                  placeholder="Enter number of vacancies"
-                  className="w-full p-3 border rounded-md focus:ring-2 focus:ring-green-500 outline-none"
-                  />
-              </div>
-
-              {/* Salary */}
-              <div>
-                <label className="block text- font-semibold mb-1">Salary *</label>
-                <input
-                  name="salary"
-                  value={updatedJob.salary || ""}
-                  onChange={handleInputChange}
-                  placeholder="Enter salary details (e.g., $5000/month)"
-                  className="w-full p-3 border rounded-md focus:ring-2 focus:ring-green-500 outline-none"
-                  />
-              </div>
-
-              {/* Expire Date */}
-              <div>
-                <label className="block text- font-semibold mb-1">Expire Date *</label>
-                <input
-                  name="expireDate"
-                  type="date"
-                  value={updatedJob.expireDate || ""}
-                  onChange={handleInputChange}
-                  className="w-full p-3 border rounded-md focus:ring-2 focus:ring-green-500 outline-none"
-                  />
-              </div>
-
-              {/* Description */}
-              <div>
-                <label className="block text- font-semibold mb-1">Description *</label>
-                <textarea
-                  name="description"
-                  value={updatedJob.description || ""}
-                  onChange={handleInputChange}
-                  rows={4}
-                  placeholder="Enter job description"
-                  className="w-full p-3 border rounded-md focus:ring-2 focus:ring-green-500 outline-none"
-                  ></textarea>
-              </div>
-
-              {/* Save and Cancel Buttons */}
-              <div className="flex justify-end space-x-4">
-                <button
-                  onClick={() => setIsEditing(false)}
-                  className="px-5 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"
+                </div>
+                {/* More fields... */}
+                <div className="flex justify-end space-x-4">
+                  <button
+                    onClick={() => setIsEditing(false)}
+                    className="px-5 py-2 text-white bg-gray-500 rounded-md hover:bg-gray-600"
                   >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleSave}
-                  className="px-5 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleSave}
+                    className="px-5 py-2 text-white bg-green-600 rounded-md hover:bg-green-700"
                   >
-                  Save Changes
-                </button>
+                    Save Changes
+                  </button>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-lg font-semibold text-black">Job Title</h3>
+                  <p className="pb-2 text-white border-b">{job.jobTitle}</p>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-black">Description</h3>
+                  <p className="pb-2 text-white border-b">{job.description}</p>
+                </div>
+                <div className="flex justify-end space-x-4">
+                
+                <button
+  onClick={() => setIsEditing(true)}
+  className="px-4 py-2 text-white transition duration-300 transform bg-blue-500 rounded-md hover:scale-110"
+  type="button"
+>
+  Edit Post
+</button>
+<button
+  onClick={handleDelete}
+  className="px-4 py-2 ml-2 text-white transition duration-300 transform bg-red-500 rounded-md hover:scale-110"
+  type="button"
+>
+  Delete Post
+</button>
+
+                </div>
+              </div>
+            )
           ) : (
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-lg font-semibold text-black">Job Title</h3>
-                <p className="text-white border-b pb-2">{job.jobTitle}</p>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-black">Location</h3>
-                <p className="text-white border-b pb-2">{job.jobLocation}</p>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-black">Number of Vacancies</h3>
-                <p className="text-white border-b pb-2">{job.noOfVacancies}</p>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-black">Salary</h3>
-                <p className="text-white border-b pb-2">{job.salary}</p>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-black">Expire Date</h3>
-                <p className="text-white border-b pb-2">{job.expireDate}</p>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-black">Description</h3>
-                <p className="text-white border-b pb-2">{job.description}</p>
-              </div>
-              <div className="flex justify-end">
-                <button
-                  onClick={() => setIsEditing(true)}
-                  className="px-5 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                  >
-                  Edit Job
-                </button>
-              </div>
-            </div>
-          )
-        ) : (
-          <p className="text-center text-gray-500"><Spin /></p>
-        )}
-      </div>
+            <p className="text-center text-gray-500"><Spin /></p>
+          )}
+        </div>
 
-      <div className="w-full lg:w-1/3 xl:w-1/2 h-full hidden lg:block relative overflow-y-hidden">
-        {/* Image Section */}
-        <MaterPlusbtn isClick={click} onClick={onClick} />
-        <LazyLoadImage
-          src={jobPost}
-          effect="blur"
-          className="w-full h-full object-cover rounded-lg shadow-lg "
-          alt="Job Post"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black opacity-40"></div>
+        <div className="relative hidden w-full h-full overflow-y-hidden lg:w-1/3 xl:w-1/2 lg:block">
+          <MaterPlusbtn isClick={click} onClick={onClick} />
+          <LazyLoadImage
+            src={jobPost}
+            effect="blur"
+            className="object-cover w-full h-full rounded-lg shadow-lg"
+            alt="Job Post"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black opacity-40"></div>
+        </div>
       </div>
-    </div>
     </div>
   );
 };
