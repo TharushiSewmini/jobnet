@@ -19,7 +19,9 @@ const PostJob: React.FC = () => {
     description: "",
     responsibilities: "",
   });
+
   const [click, setClick] = useState(false);
+  const [buttonState, setButtonState] = useState<"Post A Job" | "Posting..." | "Posted">("Post A Job");
 
   const onClick = () => setClick(!click);
 
@@ -45,6 +47,9 @@ const PostJob: React.FC = () => {
     }
 
     try {
+      // Change button text to 'Posting...'
+      setButtonState("Posting...");
+
       const jobData = {
         ...formData,
         userId: currentUser.uid,
@@ -53,7 +58,11 @@ const PostJob: React.FC = () => {
       };
 
       await addDoc(collection(db, "jobs"), jobData);
-      alert("Job posted successfully!");
+
+      // Change button text to 'Posted'
+      setButtonState("Posted");
+
+      // Clear the form
       setFormData({
         jobTitle: "",
         salary: "",
@@ -65,9 +74,14 @@ const PostJob: React.FC = () => {
         description: "",
         responsibilities: "",
       });
+
+      alert("Job posted successfully!");
     } catch (error) {
       console.error("Error posting job: ", error);
       alert("Failed to post the job. Try again!");
+
+      // Revert button state to 'Post A Job'
+      setButtonState("Post A Job");
     }
   };
 
@@ -76,7 +90,7 @@ const PostJob: React.FC = () => {
       <div className="w-full overflow-y-auto lg:w-3/5">
         <div className="h-full pt-4 mx-4 sm:mx-20">
           <div className="pb-2 text-3xl font-medium text-white">Post a Job</div>
-          
+
           {/* Form Inputs */}
           {[
             { label: "Job Title", name: "jobTitle", type: "text", placeholder: "Add job title..." },
@@ -172,14 +186,16 @@ const PostJob: React.FC = () => {
               </div>
             ))}
           </div>
-          <button
-  onClick={handlePostJob}
-  className="px-4 py-2 m-10 text-white transition duration-300 transform rounded-md bg-amber-950 hover:scale-110"
-  type="button"
->
-  Post A Job →
-</button>
 
+          {/* Button with dynamic text */}
+          <button
+            onClick={handlePostJob}
+            className="px-4 py-2 m-10 text-white transition duration-300 transform rounded-md bg-amber-950 hover:scale-110"
+            type="button"
+            disabled={buttonState === "Posting..."} // Disable button during 'Posting...'
+          >
+            {buttonState}
+          </button>
         </div>
       </div>
 

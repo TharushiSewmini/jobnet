@@ -20,6 +20,7 @@ import HomePageJobSeeker from "./pages/HomePageJobSeeker";
 import PostJob from "./pages/PostJob";
 
 
+
 function App() {
   return (
     <div className="App">

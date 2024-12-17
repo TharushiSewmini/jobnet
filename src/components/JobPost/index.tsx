@@ -53,20 +53,20 @@ const JobPost: React.FC<JobPostProps> = ({
       onClick={handleClick} // Handle the card click
     >
       {/* Display the job image and details in a responsive layout */}
-      <div className="flex flex-col md:flex-row justify-between w-full gap-20 items-center px-10">
+      <div className="flex flex-col items-center justify-between w-full gap-20 px-10 md:flex-row">
         {/* Image */}
         <div>
           <img
             src={image}
             alt={title}
-            className="w-20 h-20 object-cover rounded-md "
+            className="object-cover w-20 h-20 rounded-md "
           />
         </div>
 
         {/* Job details */}
         <div className="flex-grow">
           {/* Title and upload date */}
-          <div className="flex items-center justify-between md:justify-start md:gap-4 mb-3">
+          <div className="flex items-center justify-between mb-3 md:justify-start md:gap-4">
             <Title level={4} className="mb-0">
               {title}
             </Title>
@@ -79,21 +79,21 @@ const JobPost: React.FC<JobPostProps> = ({
           <div className="flex flex-wrap gap-5 md:gap-10">
             {/* Location */}
             <div className="flex items-center">
-              <FaMapMarkerAlt className="text-gray-400 mr-2" />{" "}
+              <FaMapMarkerAlt className="mr-2 text-gray-400" />{" "}
               {/* Location Icon */}
               <Text>{location}</Text>
             </div>
 
             {/* Salary */}
             <div className="flex items-center">
-              <FaDollarSign className="text-gray-400 mr-2" />{" "}
+              <FaDollarSign className="mr-2 text-gray-400" />{" "}
               {/* Dollar Icon */}
               <Text>{salary}</Text>
             </div>
 
             {/* Remaining Time */}
             <div className="flex items-center">
-              <FaCalendarAlt className="text-gray-400 mr-2" />{" "}
+              <FaCalendarAlt className="mr-2 text-gray-400" />{" "}
               {/* Calendar Icon */}
               <Text>{remainingTime}</Text>
             </div>
