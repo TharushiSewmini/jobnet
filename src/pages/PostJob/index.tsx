@@ -73,9 +73,9 @@ const PostJob: React.FC = () => {
 
   return (
     <div className="bg-[#098023] w-full h-screen flex">
-      <div className="w-full lg:w-3/5 overflow-y-auto">
-        <div className="pt-4 h-full sm:mx-20 mx-4">
-          <div className="text-3xl font-medium text-white pb-2">Post a Job</div>
+      <div className="w-full overflow-y-auto lg:w-3/5">
+        <div className="h-full pt-4 mx-4 sm:mx-20">
+          <div className="pb-2 text-3xl font-medium text-white">Post a Job</div>
           
           {/* Form Inputs */}
           {[
@@ -91,7 +91,7 @@ const PostJob: React.FC = () => {
                 onChange={handleChange}
                 type={field.type}
                 placeholder={field.placeholder}
-                className="w-4/5 mt-2 mb-6 text-sm p-3 rounded-md"
+                className="w-4/5 p-3 mt-2 mb-6 text-sm rounded-md"
               />
             </div>
           ))}
@@ -108,7 +108,7 @@ const PostJob: React.FC = () => {
                 value={formData.vacancies}
                 onChange={handleChange}
                 placeholder="Number of vacancies"
-                className="mt-2 text-sm border p-3 rounded-md w-4/5"
+                className="w-4/5 p-3 mt-2 text-sm border rounded-md"
               />
             </div>
 
@@ -120,7 +120,7 @@ const PostJob: React.FC = () => {
                 type="date"
                 value={formData.Date}
                 onChange={handleChange}
-                className="mt-2 text-sm border p-3 rounded-md w-4/5"
+                className="w-4/5 p-3 mt-2 text-sm border rounded-md"
               />
             </div>
 
@@ -130,7 +130,7 @@ const PostJob: React.FC = () => {
                 name="time"
                 value={formData.time}
                 onChange={handleChange}
-                className="mt-2 text-sm border p-3 rounded-md w-4/5"
+                className="w-4/5 p-3 mt-2 text-sm border rounded-md"
               >
                 <option value="">Select Time</option>
                 <option value="Morning">Morning</option>
@@ -145,7 +145,7 @@ const PostJob: React.FC = () => {
                 name="jobType"
                 value={formData.jobType}
                 onChange={handleChange}
-                className="mt-2 text-sm border p-3 rounded-md w-4/5"
+                className="w-4/5 p-3 mt-2 text-sm border rounded-md"
               >
                 <option value="">Select Job Type</option>
                 <option value="Full-time">Full-time</option>
@@ -165,30 +165,31 @@ const PostJob: React.FC = () => {
                   name={field}
                   value={formData[field as keyof typeof formData]}
                   onChange={handleChange}
-                  className="w-11/12 mt-1 text-sm p-3 rounded-md"
+                  className="w-11/12 p-3 mt-1 text-sm rounded-md"
                   placeholder={`Add your job ${field}...`}
                   rows={5}
                 />
               </div>
             ))}
           </div>
-
           <button
-            onClick={handlePostJob}
-            className="text-base font-bold text-white bg-amber-950 p-3 rounded-md my-4"
-          >
-            Post A Job →
-          </button>
+  onClick={handlePostJob}
+  className="px-4 py-2 m-10 text-white transition duration-300 transform rounded-md bg-amber-950 hover:scale-110"
+  type="button"
+>
+  Post A Job →
+</button>
+
         </div>
       </div>
 
       {/* Image Section */}
-      <div className="w-2/5 h-full invisible hidden lg:visible lg:block relative overflow-y-hidden">
+      <div className="relative invisible hidden w-2/5 h-full overflow-y-hidden lg:visible lg:block">
         <MaterPlusbtn isClick={click} onClick={onClick} />
         <LazyLoadImage
           src={jobPost}
           effect="blur"
-          className="w-full h-full object-cover"
+          className="object-cover w-full h-full"
           alt="Job Post"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black opacity-40"></div>
