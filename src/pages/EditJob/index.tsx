@@ -11,11 +11,14 @@ const db = getFirestore();
 
 interface JobPost {
   jobTitle: string;
-  jobLocation: string;
+  location: string;
   description: string;
-  noOfVacancies: number;
+  vacancies: number;
   salary: string;
-  expireDate: string;
+  Date: string;
+  time: string;
+  responsibilities: string;
+  jobType: string;
 }
 
 const ViewJobPage = () => {
@@ -99,7 +102,95 @@ const ViewJobPage = () => {
                     className="w-full p-3 border rounded-md outline-none focus:ring-2 focus:ring-green-500"
                   />
                 </div>
-                {/* More fields... */}
+
+                {/* Job Location */}
+                <div>
+                  <label className="block mb-1 font-semibold">Location *</label>
+                  <input
+                    name="location"
+                    value={updatedJob.location || ""}
+                    onChange={handleInputChange}
+                    placeholder="Enter job location"
+                    className="w-full p-3 border rounded-md outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+
+                {/* Number of Vacancies */}
+                <div>
+                  <label className="block mb-1 font-semibold">No. of Vacancies *</label>
+                  <input
+                    name="vacancies"
+                    type="number"
+                    min="1"
+                    value={updatedJob.vacancies || ""}
+                    onChange={handleInputChange}
+                    placeholder="Enter number of vacancies"
+                    className="w-full p-3 border rounded-md outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+
+                {/* Salary */}
+                <div>
+                  <label className="block mb-1 font-semibold">Salary *</label>
+                  <input
+                    name="salary"
+                    value={updatedJob.salary || ""}
+                    onChange={handleInputChange}
+                    placeholder="Enter salary details (e.g., $5000/month)"
+                    className="w-full p-3 border rounded-md outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+
+                {/* Date */}
+                <div>
+                  <label className="block mb-1 font-semibold">Date *</label>
+                  <input
+                    name="Date"
+                    type="date"
+                    value={updatedJob.Date || ""}
+                    onChange={handleInputChange}
+                    className="w-full p-3 border rounded-md outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+
+                {/* Job Type */}
+                <div>
+                  <label className="block mb-1 font-semibold">Job Type *</label>
+                  <input
+                    name="jobType"
+                    value={updatedJob.jobType || ""}
+                    onChange={handleInputChange}
+                    className="w-full p-3 border rounded-md outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+
+                {/* Description */}
+                <div>
+                  <label className="block mb-1 font-semibold">Description *</label>
+                  <textarea
+                    name="description"
+                    value={updatedJob.description || ""}
+                    onChange={handleInputChange}
+                    rows={4}
+                    placeholder="Enter job description"
+                    className="w-full p-3 border rounded-md outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+
+                {/* Responsibilities */}
+                <div>
+                  <label className="block mb-1 font-semibold">Responsibilities *</label>
+                  <textarea
+                    name="responsibilities"
+                    value={updatedJob.responsibilities || ""}
+                    onChange={handleInputChange}
+                    rows={4}
+                    placeholder="Enter responsibilities"
+                    className="w-full p-3 border rounded-md outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+
+                {/* Save and Cancel Buttons */}
                 <div className="flex justify-end space-x-4">
                   <button
                     onClick={() => setIsEditing(false)}
@@ -126,22 +217,18 @@ const ViewJobPage = () => {
                   <p className="pb-2 text-white border-b">{job.description}</p>
                 </div>
                 <div className="flex justify-end space-x-4">
-                
-                <button
-  onClick={() => setIsEditing(true)}
-  className="px-4 py-2 text-white transition duration-300 transform bg-blue-500 rounded-md hover:scale-110"
-  type="button"
->
-  Edit Post
-</button>
-<button
-  onClick={handleDelete}
-  className="px-4 py-2 ml-2 text-white transition duration-300 transform bg-red-500 rounded-md hover:scale-110"
-  type="button"
->
-  Delete Post
-</button>
-
+                  <button
+                    onClick={() => setIsEditing(true)}
+                    className="px-4 py-2 text-white transition duration-300 transform bg-blue-500 rounded-md hover:scale-110"
+                  >
+                    Edit Post
+                  </button>
+                  <button
+                    onClick={handleDelete}
+                    className="px-4 py-2 ml-2 text-white transition duration-300 transform bg-red-500 rounded-md hover:scale-110"
+                  >
+                    Delete Post
+                  </button>
                 </div>
               </div>
             )
