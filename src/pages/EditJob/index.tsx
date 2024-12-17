@@ -11,11 +11,14 @@ const db = getFirestore();
 
 interface JobPost {
   jobTitle: string;
-  jobLocation: string;
+  location: string;
   description: string;
-  noOfVacancies: number;
+  vacancies: number;
   salary: string;
-  expireDate: string;
+  Date: string;
+  time:string;
+  responsibilities: string;
+  jobType:string;
 }
 
 const ViewJobPage = () => {
@@ -93,8 +96,8 @@ const ViewJobPage = () => {
               <div>
                 <label className="block text- font-semibold mb-1">Location *</label>
                 <input
-                  name="jobLocation"
-                  value={updatedJob.jobLocation || ""}
+                  name="location"
+                  value={updatedJob.location || ""}
                   onChange={handleInputChange}
                   placeholder="Enter job location"
                   className="w-full p-3 border rounded-md focus:ring-2 focus:ring-green-500 outline-none"
@@ -105,10 +108,10 @@ const ViewJobPage = () => {
               <div>
                 <label className="block text- font-semibold mb-1">No. of Vacancies *</label>
                 <input
-                  name="noOfVacancies"
+                  name="vacancies"
                   type="number"
                   min="1"
-                  value={updatedJob.noOfVacancies || ""}
+                  value={updatedJob.vacancies || ""}
                   onChange={handleInputChange}
                   placeholder="Enter number of vacancies"
                   className="w-full p-3 border rounded-md focus:ring-2 focus:ring-green-500 outline-none"
@@ -127,13 +130,24 @@ const ViewJobPage = () => {
                   />
               </div>
 
-              {/* Expire Date */}
+              {/*Date */}
               <div>
-                <label className="block text- font-semibold mb-1">Expire Date *</label>
+                <label className="block text- font-semibold mb-1">Date *</label>
                 <input
-                  name="expireDate"
+                  name="Date"
                   type="date"
-                  value={updatedJob.expireDate || ""}
+                  value={updatedJob.Date || ""}
+                  onChange={handleInputChange}
+                  className="w-full p-3 border rounded-md focus:ring-2 focus:ring-green-500 outline-none"
+                  />
+              </div>
+
+              <div>
+                <label className="block text- font-semibold mb-1">Job Type *</label>
+                <input
+                  name="jobType"
+                  type=""
+                  value={updatedJob.jobType || ""}
                   onChange={handleInputChange}
                   className="w-full p-3 border rounded-md focus:ring-2 focus:ring-green-500 outline-none"
                   />
@@ -148,6 +162,18 @@ const ViewJobPage = () => {
                   onChange={handleInputChange}
                   rows={4}
                   placeholder="Enter job description"
+                  className="w-full p-3 border rounded-md focus:ring-2 focus:ring-green-500 outline-none"
+                  ></textarea>
+              </div>
+               {/* Responsibilites */}
+               <div>
+                <label className="block text- font-semibold mb-1">Responsibilites *</label>
+                <textarea
+                  name="responsibilities"
+                  value={updatedJob.responsibilities || ""}
+                  onChange={handleInputChange}
+                  rows={4}
+                  placeholder="Responsibilites"
                   className="w-full p-3 border rounded-md focus:ring-2 focus:ring-green-500 outline-none"
                   ></textarea>
               </div>
@@ -176,23 +202,31 @@ const ViewJobPage = () => {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-black">Location</h3>
-                <p className="text-white border-b pb-2">{job.jobLocation}</p>
+                <p className="text-white border-b pb-2">{job.location}</p>
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-black">Number of Vacancies</h3>
-                <p className="text-white border-b pb-2">{job.noOfVacancies}</p>
+                <p className="text-white border-b pb-2">{job.vacancies}</p>
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-black">Salary</h3>
                 <p className="text-white border-b pb-2">{job.salary}</p>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-black">Expire Date</h3>
-                <p className="text-white border-b pb-2">{job.expireDate}</p>
+                <h3 className="text-lg font-semibold text-black">Date</h3>
+                <p className="text-white border-b pb-2">{job.Date}</p>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-black">Job Type</h3>
+                <p className="text-white border-b pb-2">{job.jobType}</p>
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-black">Description</h3>
                 <p className="text-white border-b pb-2">{job.description}</p>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-black">Responsibilites</h3>
+                <p className="text-white border-b pb-2">{job.responsibilities}</p>
               </div>
               <div className="flex justify-end">
                 <button
