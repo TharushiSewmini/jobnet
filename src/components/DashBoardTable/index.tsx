@@ -7,14 +7,16 @@ import "./index.css";
 import "../../comman.css";
 import { Flex, Modal, Spin } from "antd";
 import { fetchJobsFromAdminId } from "../../controllers/admin/fetchJobsFromAdminId";
+import { useNavigate } from "react-router-dom";
 
 interface JobPost {
+  id: string; // Include the document ID for unique identification
   Time: string;
   description: string;
   expireDate: Date;
   jobLocation: string;
   jobTitle: string;
-  noOfVacancies: 5;
+  noOfVacancies: number;
   responsibilities: string[];
   salary: string;
   userEmail: string;
@@ -22,100 +24,67 @@ interface JobPost {
 }
 
 const JobList = () => {
-  const [jobs, setJobPosts] = useState<JobPost[]>([]);
+  const [jobs, setJobs] = useState<JobPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [active, setActive] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchJobs = async () => {
-      const jobs = await fetchJobsFromAdminId();
-      if (jobs) {
-        setJobPosts(jobs);
+      try {
+        const fetchedJobs = await fetchJobsFromAdminId();
+        setJobs(fetchedJobs || []);
+      } catch (error) {
+        console.error("Error fetching jobs:", error);
+      } finally {
         setIsLoading(false);
       }
     };
-
     fetchJobs();
   }, []);
 
-  const isWithinFiveDays = (targetDateInput: Date | string): boolean => {
+  const isWithinFiveDays = (targetDateInput: string|Date): boolean => {
     const today = new Date();
-    const targetDate = new Date(targetDateInput); // Ensure targetDate is a Date object
-
-    // Set both dates to midnight to only compare dates, not times
-    today.setHours(0, 0, 0, 0);
-    targetDate.setHours(0, 0, 0, 0);
-
-    // Calculate the difference in time (in milliseconds) between today and the target date
-    const timeDifference = targetDate.getTime() - today.getTime();
-
-    // Convert time difference to days
-    const dayDifference = timeDifference / (1000 * 60 * 60 * 24);
-
-    // Check if the difference is 5 days or less and return true or false
-    return dayDifference <= 5 && dayDifference >= 0;
+    const targetDate = new Date(targetDateInput);
+    const diffInTime = targetDate.getTime() - today.getTime();
+    return diffInTime >= 0 && diffInTime <= 5 * 24 * 60 * 60 * 1000;
   };
 
-  // Create an array of false values initially, corresponding to each job
-  const [clicked, setClicked] = useState(Array(jobs.length).fill(false));
-
-  // Function to handle button click
-  const handleButtonClick = (index: number) => {
-    // Create a new array, changing only the value of the clicked index
-    const newClicked = [...clicked];
-    newClicked[index] = true; // Update clicked state for this button
-    setClicked(newClicked);
+  const handleViewPost = (jobId: string) => {
+    navigate(`/job/${jobId}`);
   };
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const showModal = () => {
+  const handleEditModal = (jobId: string) => {
+    setSelectedJobId(jobId);
     setIsModalOpen(true);
   };
 
-  const handleOk = () => {
+  const closeModal = () => {
     setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
+    setSelectedJobId(null);
   };
 
   return (
     <div className="jobs-container">
-      <Modal
-        styles={{}}
-        style={{}}
-        centered
-        closable
-        okText="EDIT POST"
-        cancelText="DELETE POST"
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      ></Modal>
-      {/* Header Row */}
       <div className="table-header">
         <div className="header-column">JOBS</div>
         <div className="header-column">STATUS</div>
         <div className="header-column">APPLICATIONS</div>
         <div className="header-column">ACTIONS</div>
       </div>
+
       <div className="job-list">
         {isLoading ? (
-          <Flex
-            align="center"
-            gap="middle"
-            className="w-screen h-screen flex justify-center items-center bg-transparent"
-          >
+          <Flex align="center" justify="center" className="loading-container">
             <Spin size="large" />
           </Flex>
         ) : jobs.length === 0 ? (
-          <div className="w-full h-full flex justify-center items-center lg:-scroll-mt-52 mt-32 lg:text-xl text-gray-500 text-sm">
-            You Don't have posted any Job{" "}
-          </div>
+          <div className="empty-message">You don't have any posted jobs.</div>
         ) : (
-          jobs.map((job, index) => (
-            <div key={index} className="job-item">
+          jobs.map((job) => (
+            <div key={job.id} className="job-item">
               <div className="job-details">
                 <strong>{job.jobTitle}</strong>
                 <span>
@@ -124,45 +93,45 @@ const JobList = () => {
               </div>
               <div className="job-status">
                 <img
-                  src={
-                    isWithinFiveDays(job.expireDate) ? checkCircle : expireIcon
-                  }
+                  src={isWithinFiveDays(job.expireDate)? checkCircle : expireIcon}
                   className="job-status-icon"
+                  alt="status"
                 />
-
                 <span
-                  className={
-                    isWithinFiveDays(job.expireDate)
-                      ? "active-status"
-                      : "expire-status"
-                  }
+                  className={isWithinFiveDays(job.expireDate) ?"active" : "expired"}
                 >
                   {isWithinFiveDays(job.expireDate) ? "Active" : "Expired"}
                 </span>
               </div>
               <div className="job-applications">
-                <img className="icon" src={users} />
-                <span>{job.salary}</span>
+                <img className="icon" src={users} alt="applications" />
+                <span>Salary: {job.salary}</span>
               </div>
               <div className="job-actions">
-                <button
-                  className={
-                    clicked[index] ? "view-post-notclick" : "view-post"
-                  }
-                  onClick={() => handleButtonClick(index)}
-                >
+                <button className="view-post" onClick={() => handleViewPost(job.id)}>
                   View Post
                 </button>
                 <img
-                  className="view-post-edit-icon"
                   src={editIcon}
-                  onClick={showModal}
+                  className="edit-icon"
+                  alt="edit"
+                  onClick={() => handleEditModal(job.id)}
                 />
               </div>
             </div>
           ))
         )}
       </div>
+
+      <Modal
+        title="Edit/Delete Job"
+        centered
+        visible={isModalOpen}
+        okText="Edit Post"
+        cancelText="Delete Post"
+        onOk={() => navigate(`/edit-job/${selectedJobId}`)}
+        onCancel={closeModal}
+      />
     </div>
   );
 };
