@@ -58,7 +58,7 @@ const JobList = () => {
     navigate(`/job/${jobId}`);
   };
 
-  const handleEditModal = (jobId: string) => {
+  {/*const handleEditModal = (jobId: string) => {
     setSelectedJobId(jobId);
     setIsModalOpen(true);
   };
@@ -79,7 +79,7 @@ const JobList = () => {
         message.error("Failed to delete the post.");
       } 
     }
-  };
+  }; */}
 
   return (
     <div className="jobs-container">
