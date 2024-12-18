@@ -257,7 +257,7 @@ const ViewJobPage = () => {
   className="px-4 py-2 ml-2 text-white transition duration-300 transform bg-red-500 rounded-md hover:scale-110"
   type="button"
 >
-  Delete Post
+  Delete Post
 </button>
               </div>
             </div>
