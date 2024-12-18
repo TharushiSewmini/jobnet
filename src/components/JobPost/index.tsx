@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { Card, Typography, Button } from "antd";
-import { FaMapMarkerAlt, FaDollarSign, FaCalendarAlt } from "react-icons/fa"; // Importing the required icons
+import { FaMapMarkerAlt, FaDollarSign, FaCalendarAlt, FaBriefcase } from "react-icons/fa"; 
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { applyForTheJob } from "../../controllers/user/applyJob";
 
 interface JobPostProps {
   id: string;
-  userEmail: string;
-  image: string;
-  title: string;
-  uploadDate: string;
-  remainingTime: string;
+  jobTitle: string;
   salary: string;
+  Date: string;
   location: string;
+  userEmail: string;
+  jobType: string;
 }
 
 const { Title, Text } = Typography;
@@ -19,102 +19,81 @@ const { Title, Text } = Typography;
 const JobPost: React.FC<JobPostProps> = ({
   id,
   userEmail,
-  image,
-  title,
-  uploadDate,
-  remainingTime,
+  jobTitle,
+  Date,
   salary,
   location,
+  jobType,
 }) => {
-  const [isClicked, setIsClicked] = useState(false);
+  const [hasApplied, setHasApplied] = useState(false); // New state to track job application
+  const [isLoading, setIsLoading] = useState(false); // Loading state for the button
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
-  const buttonStyle = {
-    backgroundColor: isClicked ? "#e7f0fa" : "black", // Change button background color based on click state
-    padding: "20px",
-    color: isClicked ? "black" : "white", // Change text color based on click state
-    border: "none",
-    width: "100%",
-    transition: "background-color 0.1s, color 0.1s",
+  const handleApply = async (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent card click propagation
+    if (hasApplied) return; // Prevent duplicate submissions
+
+    setIsLoading(true); // Show loading state on button
+    try {
+      await applyForTheJob(id, userEmail);
+      setHasApplied(true); // Mark as applied after success
+      alert("Application successful!");
+    } catch (error) {
+      console.error("Failed to apply for the job:", error);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  // Toggle the clicked state when card or button is clicked
-  const handleClick = () => {
-    setIsClicked(!isClicked);
-    applyForTheJob(id, userEmail);
+  const handleView = () => {
+    navigate(`/job/${id}`); // Navigate to the job view page using the job ID
   };
 
   return (
     <Card
       className="w-full"
       style={{
-        border: `2px solid ${isClicked ? "black" : "#f0f0f0"}`, // Change border color based on click state
-        transition: "border-color 0.2s", // Smooth transition for border color change
+        border: `2px solid ${hasApplied ? "green" : "#f0f0f0"}`,
+        transition: "border-color 0.2s",
       }}
-      onClick={handleClick} // Handle the card click
     >
-      {/* Display the job image and details in a responsive layout */}
-      <div className="flex flex-col md:flex-row justify-between w-full gap-20 items-center px-10">
-        {/* Image */}
-        <div>
-          <img
-            src={image}
-            alt={title}
-            className="w-20 h-20 object-cover rounded-md "
-          />
-        </div>
-
-        {/* Job details */}
+      <div className="flex flex-col md:flex-row justify-between w-full gap-5 items-center px-5">
+        {/* Job Details */}
         <div className="flex-grow">
-          {/* Title and upload date */}
-          <div className="flex items-center justify-between md:justify-start md:gap-4 mb-3">
-            <Title level={4} className="mb-0">
-              {title}
-            </Title>
-            <Text className="rounded-full bg-[#e7f0fa] text-black px-3 py-1 inline-block">
-              {uploadDate}
-            </Text>
-          </div>
-
-          {/* Location, salary, and remaining time with icons */}
-          <div className="flex flex-wrap gap-5 md:gap-10">
-            {/* Location */}
+          <Title level={4}>{jobTitle}</Title>
+          <div className="flex flex-wrap gap-4 md:gap-6 text-gray-600">
             <div className="flex items-center">
-              <FaMapMarkerAlt className="text-gray-400 mr-2" />{" "}
-              {/* Location Icon */}
+              <FaMapMarkerAlt className="mr-2" />
               <Text>{location}</Text>
             </div>
-
-            {/* Salary */}
             <div className="flex items-center">
-              <FaDollarSign className="text-gray-400 mr-2" />{" "}
-              {/* Dollar Icon */}
+              <FaDollarSign className="mr-2" />
               <Text>{salary}</Text>
             </div>
-
-            {/* Remaining Time */}
             <div className="flex items-center">
-              <FaCalendarAlt className="text-gray-400 mr-2" />{" "}
-              {/* Calendar Icon */}
-              <Text>{remainingTime}</Text>
+              <FaBriefcase className="mr-2" />
+              <Text>{jobType}</Text>
+            </div>
+            <div className="flex items-center">
+              <FaCalendarAlt className="mr-2" />
+              <Text>{Date}</Text>
             </div>
           </div>
         </div>
 
-        {/* Button to apply */}
-        <div>
-          <div className="flex-shrink-0" style={{ maxWidth: "200px" }}>
-            <Button
-              type="primary"
-              style={buttonStyle}
-              onClick={(e) => {
-                e.stopPropagation(); // Prevent event bubbling to the card's onClick
-                handleClick();
-              }}
-            >
-              {isClicked ? "Apply Now" : "Apply Now"}{" "}
-              {/* You can modify this if needed */}
-            </Button>
-          </div>
+        {/* Buttons */}
+        <div className="flex gap-4">
+          <Button
+            type="primary"
+            style={{ backgroundColor: hasApplied ? "gray" : "black" }}
+            loading={isLoading}
+            disabled={hasApplied}
+            onClick={handleApply}
+          >
+            {hasApplied ? "Applied" : "Apply Now"}
+          </Button>
+          <Button type="default" onClick={handleView}>View</Button> {/* Added onClick for view button */}
         </div>
       </div>
     </Card>

@@ -1,18 +1,15 @@
 import React from "react";
 import JobPost from "../JobPost";
-import softwareCompany from "../../assets/99x.png";
+
 
 interface Job {
   id: string;
   jobTitle: string;
   salary: string;
-  noOfVacancies: number;
-  expireDate: string;
-  Time: string;
-  description: string;
-  responsibilities: string;
-  jobLocation: string;
+  Date: string;
+  location: string;
   userEmail: string;
+  jobType: string;
 }
 
 interface JobPostsPageProps {
@@ -26,13 +23,12 @@ const JobPostsPage: React.FC<JobPostsPageProps> = ({ jobs, keyword, selectedCity
   const filteredJobPosts = jobs.filter((post) => {
     // Check if the job location matches the selected city (if a city is selected)
     const matchesCity = selectedCity
-      ? post.jobLocation?.toLowerCase() === selectedCity.toLowerCase()
+      ? post.location?.toLowerCase() === selectedCity.toLowerCase()
       : true;
 
     // Check if the job title or description matches the entered keyword
     const matchesKeyword = keyword
-      ? post.jobTitle?.toLowerCase().includes(keyword.toLowerCase()) ||
-        post.description?.toLowerCase().includes(keyword.toLowerCase())
+      ? post.jobTitle?.toLowerCase().includes(keyword.toLowerCase())
       : true;
 
     return matchesCity && matchesKeyword;
@@ -46,12 +42,11 @@ const JobPostsPage: React.FC<JobPostsPageProps> = ({ jobs, keyword, selectedCity
             id={post.id}
             userEmail={post.userEmail}
             key={post.id}
-            title={post.jobTitle || "No Title"}
-            location={post.jobLocation || "Not Specified"}
+            jobTitle={post.jobTitle || "No Title"}
+            location={post.location || "Not Specified"}
             salary={post.salary || "N/A"}
-            remainingTime={post.expireDate || "N/A"}
-            image={softwareCompany}
-            uploadDate={post.expireDate || "N/A"}
+            Date={post.Date || "N/A"}
+            jobType={post.jobType || "N/A"}
           />
         ))
       ) : (
