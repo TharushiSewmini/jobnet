@@ -7,14 +7,13 @@ interface JobModalProps {
   visible: boolean;
   onCancel: () => void;
   jobDetails: {
-    id:string,
-    userEmail :string,
-    image: string;
-    title: string;
-    uploadDate: string;
-    remainingTime: string;
-    salary: string;
-    location: string;
+  id: string;
+  jobTitle: string;
+  salary: string;
+  Date: string;
+  location: string;
+  userEmail: string;
+  jobType: string;
   };
 }
 
@@ -26,7 +25,7 @@ const JobModal: React.FC<JobModalProps> = ({
   return (
     <Modal
       visible={visible}
-      title={jobDetails.title}
+      title={jobDetails.jobTitle}
       onCancel={onCancel}
       footer={null}
       width={600} // Adjust width as needed

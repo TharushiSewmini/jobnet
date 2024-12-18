@@ -61,13 +61,13 @@ const AdminProfile = () => {
       console.log(userData.userImage);
       
       
-      const cleanProfile: ProfileData =  {
-        userFullName: userData.userFullName ,
-        userEmail: userData.userEmail ,
-        bio: userData.bio ,
-        location: userData.location ,
-        userImage: userData.userImage ,
-        userType: userData.userType ,
+      const cleanProfile: ProfileData = {
+        userFullName: userData.userFullName,
+        userEmail: userData.userEmail,
+        bio: userData.bio || '',
+        location: userData.location || '',
+        userImage: userData.userImage || '', 
+        userType: userData.userType || '', 
       };
  
       

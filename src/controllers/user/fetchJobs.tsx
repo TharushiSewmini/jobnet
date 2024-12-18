@@ -5,13 +5,10 @@ interface Job {
   id: string;
   jobTitle: string;
   salary: string;
-  noOfVacancies: number;
-  expireDate: string;
-  Time: string;
-  description: string;
-  responsibilities: string;
-  jobLocation: string;
+  Date: string;
+  location: string;
   userEmail: string;
+  jobType: string;
 }
 
 const fetchJobs = async (): Promise<Job[]> => {
@@ -19,12 +16,9 @@ const fetchJobs = async (): Promise<Job[]> => {
   const querySnapshot = await getDocs(collection(db, "jobs"));
   
   querySnapshot.forEach((doc) => {
-    const jobData = doc.data() as Omit<Job, "id" | "expireDate">; // Exclude id and expireDate temporarily
-    const expireDate = (doc.data().expireDate instanceof Timestamp)
-    ? doc.data().expireDate.toDate().toLocaleDateString()
-    : "";
-    
-    jobList.push({ id: doc.id, ...jobData, expireDate }); 
+    const jobData = doc.data() as Omit<Job, "id" | "Date">; // Exclude id and expireDate temporarily
+    const Date = (doc.data().Date)  
+    jobList.push({ id: doc.id, ...jobData, Date }); 
   });
 
   return jobList;

@@ -46,6 +46,8 @@ function AppRoutes() {
       <Route path="/" element={<HomePageJobSeeker />} />
       <Route path="*" element={<HomePageJobSeeker />} />
       <Route path="*" element={<Navigate to={"/userHome"} replace />} />
+      <Route path="/userProfile" element={<AdminProfile/>} />
+      <Route path="/job/:jobId" element={<EditJobPage />} />
     </>
   );
 
@@ -66,9 +68,9 @@ function AppRoutes() {
         path="/login"
         element={<Navigate to={"/jobProviderDashboard"} replace />}
       />
-      <Route path="/userProfile" element={<AdminProfile/>} />
       <Route path="/viewJobPost" element={<ViewJobPost/>} /> 
       <Route path="/job/:jobId" element={<EditJobPage />} />
+      <Route path="/userProfile" element={<AdminProfile/>} />
     </>
   );
 
