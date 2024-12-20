@@ -97,9 +97,10 @@ const ViewJobPage = () => {
 
   return (
     <div className="items-center justify-center min-h-screen bg-gradient-to-r from-green-500 to-green-700">
+       <div className="relative px-4 py-2 bg-white md:px-8 md:py-2"></div>
       <JobNetTopBar />
       <div className="flex justify-center">
-        <div className="rounded-lg shadow-lg w-full md:w-[80%] lg:w-[60%] xl:w-[50%] mt-14 p-8 mr-10 ml-10 mb-32 overflow-y-auto">
+        <div className="rounded-lg shadow-lg w-full md:w-[80%] lg:w-[60%] xl:w-[50%] mt-14 p-8 mr-10 ml-10 mb-20 overflow-y-auto">
           <h2 className="mt-10 mb-10 text-3xl font-bold text-center text-white">
             {isEditing ? "Edit Job Details" : "Job Details"}
           </h2>
@@ -273,17 +274,22 @@ const ViewJobPage = () => {
         </div>
 
         {/* Job Image Section */}
-        <div className="relative hidden w-full h-full overflow-y-hidden lg:w-1/3 xl:w-1/2 lg:block">
-          <LazyLoadImage
-            src={jobPost}
-            effect="blur"
-            className="object-cover w-full h-full rounded-lg shadow-lg"
-            alt="Job Post"
-          />
-          <MaterPlusbtn isClick={click} onClick={onClick}/>
+        <div className="relative hidden w-full lg:w-1/3 xl:w-1/2 lg:block">
+  <div className="absolute left-0 w-full px-4 bottom-24">
+    <LazyLoadImage
+      src={jobPost}
+      effect="blur"
+      className="object-cover w-full h-auto rounded-lg shadow-lg"
+      alt="Job Post"
+    />
+  </div>
+</div>
+
+         <div className="fixed right-0 bottom-4">
+      <MaterPlusbtn isClick={click} onClick={onClick} />
+    </div>
         </div>
       </div>
-    </div>
   );
 };
 
