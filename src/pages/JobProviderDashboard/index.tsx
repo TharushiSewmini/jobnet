@@ -26,11 +26,13 @@ const JobProviderDashboard = () => {
       <div className="job-provider-dshboard-top-row">
         <JobNetSymbol onClick={function (e: any): void {}} />
         <button
-          className="job-provider-dshboard-top-row-button"
-          onClick={NavigationToJobPost}
-        >
-          Post a Job{" "}
-        </button>
+  className="job-provider-dshboard-top-row-button"
+  onClick={NavigationToJobPost}
+  onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
+  onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+>
+  Post a Job
+</button>
       </div>
       <div className="job-provider-dshboard-bottom-container">
         <div className="job-provider-dshboard-bottom-container-left">
@@ -64,9 +66,9 @@ const JobProviderDashboard = () => {
             <span className="job-provider-dshboard-bottom-container-middle-recent-left">
               Recently post jobs
             </span>
-            <span className="job-provider-dshboard-bottom-container-middle-recent-right">
+            {/*<span className="job-provider-dshboard-bottom-container-middle-recent-right">
               View All
-            </span>
+            </span> */}
           </div>
           <JobList />
           <MaterPlusbtn isClick={click} onClick={onClick} />

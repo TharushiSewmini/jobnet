@@ -58,11 +58,11 @@ const JobPost: React.FC<JobPostProps> = ({
         transition: "border-color 0.2s",
       }}
     >
-      <div className="flex flex-col md:flex-row justify-between w-full gap-5 items-center px-5">
+      <div className="flex flex-col items-center justify-between w-full gap-5 px-5 md:flex-row">
         {/* Job Details */}
         <div className="flex-grow">
           <Title level={4}>{jobTitle}</Title>
-          <div className="flex flex-wrap gap-4 md:gap-6 text-gray-600">
+          <div className="flex flex-wrap gap-4 text-gray-600 md:gap-6">
             <div className="flex items-center">
               <FaMapMarkerAlt className="mr-2" />
               <Text>{location}</Text>
@@ -85,6 +85,7 @@ const JobPost: React.FC<JobPostProps> = ({
         {/* Buttons */}
         <div className="flex gap-4">
           <Button
+            className= "hover:scale-110"
             type="primary"
             style={{ backgroundColor: hasApplied ? "gray" : "black" }}
             loading={isLoading}
@@ -93,7 +94,7 @@ const JobPost: React.FC<JobPostProps> = ({
           >
             {hasApplied ? "Applied" : "Apply Now"}
           </Button>
-          <Button type="default" onClick={handleView}>View</Button> {/* Added onClick for view button */}
+          <Button className= "hover:scale-110" type="default" onClick={handleView}>View</Button> {/* Added onClick for view button */}
         </div>
       </div>
     </Card>
