@@ -54,11 +54,11 @@ const JobPost: React.FC<JobPostProps> = ({
     <Card
       className="w-full"
       style={{
-        border: `2px solid ${hasApplied ? "green" : "#f0f0f0"}`,
+       
         transition: "border-color 0.2s",
       }}
     >
-      <div className="flex flex-col items-center justify-between w-full gap-5 px-5 md:flex-row">
+      <div className="flex flex-col items-center justify-between w-full gap-5 px-5 md:flex-row poppins">
         {/* Job Details */}
         <div className="flex-grow">
           <Title level={4}>{jobTitle}</Title>

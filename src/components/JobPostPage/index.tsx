@@ -35,9 +35,10 @@ const JobPostsPage: React.FC<JobPostsPageProps> = ({ jobs, keyword, selectedCity
   });
 
   return (
-    <div className="mt-5 grid grid-cols-1 gap-5">
+    <div className="mt-5 grid grid-cols-3 gap-5 ">
       {filteredJobPosts.length > 0 ? (
         filteredJobPosts.map((post) => (
+          
           <JobPost
             id={post.id}
             userEmail={post.userEmail}
@@ -48,6 +49,7 @@ const JobPostsPage: React.FC<JobPostsPageProps> = ({ jobs, keyword, selectedCity
             Date={post.Date || "N/A"}
             jobType={post.jobType || "N/A"}
           />
+
         ))
       ) : (
         <p className="text-center text-gray-500">No job posts found.</p>
