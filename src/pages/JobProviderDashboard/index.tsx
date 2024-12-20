@@ -66,9 +66,9 @@ const JobProviderDashboard = () => {
             <span className="job-provider-dshboard-bottom-container-middle-recent-left">
               Recently post jobs
             </span>
-            <span className="job-provider-dshboard-bottom-container-middle-recent-right">
+            {/*<span className="job-provider-dshboard-bottom-container-middle-recent-right">
               View All
-            </span>
+            </span> */}
           </div>
           <JobList />
           <MaterPlusbtn isClick={click} onClick={onClick} />

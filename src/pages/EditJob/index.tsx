@@ -196,18 +196,21 @@ const ViewJobPage = () => {
 
               {/* Save and Cancel Buttons */}
               <div className="flex justify-end space-x-4">
-                <button
-                  onClick={() => setIsEditing(false)}
-                  className="px-5 py-2 text-white bg-gray-500 rounded-md hover:bg-gray-600"
-                  >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleSave}
-                  className="px-5 py-2 text-white bg-green-600 rounded-md hover:bg-green-700"
-                  >
-                  Save Changes
-                </button>
+              <button
+  onClick={() => setIsEditing(false)}
+  className="px-4 py-2 text-white transition duration-300 transform bg-gray-500 rounded-md hover:scale-110 hover:bg-gray-600"
+  type="button"
+>
+  Cancel
+</button>
+<button
+  onClick={handleSave}
+  className="px-4 py-2 ml-2 text-white transition duration-300 transform bg-green-600 rounded-md hover:scale-110 hover:bg-green-700"
+  type="button"
+>
+  Save Changes
+</button>
+
               </div>
             </div>
           ) : (
