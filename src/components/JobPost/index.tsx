@@ -1,8 +1,8 @@
+import { Button } from "antd";
+import Card from "antd/es/card/Card";
 import React, { useState } from "react";
-import { Card, Typography, Button } from "antd";
-import { FaMapMarkerAlt, FaDollarSign, FaCalendarAlt, FaBriefcase } from "react-icons/fa"; 
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-import { applyForTheJob } from "../../controllers/user/applyJob";
+import { FaCalendar, FaDollarSign, FaLocationArrow } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 interface JobPostProps {
   id: string;
@@ -14,9 +14,7 @@ interface JobPostProps {
   jobType: string;
 }
 
-const { Title, Text } = Typography;
-
-const JobPost: React.FC<JobPostProps> = ({
+const JobPost = ({
   id,
   userEmail,
   jobTitle,
@@ -24,19 +22,19 @@ const JobPost: React.FC<JobPostProps> = ({
   salary,
   location,
   jobType,
-}) => {
-  const [hasApplied, setHasApplied] = useState(false); // New state to track job application
-  const [isLoading, setIsLoading] = useState(false); // Loading state for the button
-  const navigate = useNavigate(); // Initialize useNavigate hook
-
+}: JobPostProps) => {
+  const [hasApplied, setHasApplied] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   const handleApply = async (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent card click propagation
-    if (hasApplied) return; // Prevent duplicate submissions
+    e.stopPropagation();
+    if (hasApplied) return;
 
-    setIsLoading(true); // Show loading state on button
+    setIsLoading(true);
     try {
-      await applyForTheJob(id, userEmail);
-      setHasApplied(true); // Mark as applied after success
+      // Mock function call - replace with actual implementation
+      // await applyForTheJob(id, userEmail);
+      setHasApplied(true);
       alert("Application successful!");
     } catch (error) {
       console.error("Failed to apply for the job:", error);
@@ -51,50 +49,75 @@ const JobPost: React.FC<JobPostProps> = ({
   };
 
   return (
-    <Card
-      className="w-full"
-      style={{
-       
-        transition: "border-color 0.2s",
-      }}
-    >
-      <div className="flex flex-col items-center justify-between w-full gap-5 px-5 md:flex-row poppins">
-        {/* Job Details */}
-        <div className="flex-grow">
-          <Title level={4}>{jobTitle}</Title>
-          <div className="flex flex-wrap gap-4 text-gray-600 md:gap-6">
-            <div className="flex items-center">
-              <FaMapMarkerAlt className="mr-2" />
-              <Text>{location}</Text>
+    <Card className="group overflow-hidden border border-gray-200 bg-white p-6 transition-all duration-300 hover:shadow-lg">
+      <div className="flex flex-col space-y-6 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
+        {/* Left section with job details */}
+        <div className="flex-grow space-y-4">
+          {/* Job title and type */}
+          <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
+            <h3 className="text-xl font-bold text-gray-900 group-hover:text-[#3CB356] md:text-2xl">
+              {jobTitle}
+            </h3>
+            <span className="inline-flex w-fit rounded-full bg-gray-200 px-3 py-1 text-sm font-medium text-black-800">
+              {jobType}
+            </span>
+          </div>
+
+          {/* Job metadata */}
+          <div className="flex flex-wrap gap-4">
+            <div className="flex items-center text-gray-600">
+              <FaLocationArrow className="mr-2 h-4 w-4" />
+              <span className="text-sm">{location}</span>
             </div>
-            <div className="flex items-center">
-              <FaDollarSign className="mr-2" />
-              <Text>{salary}</Text>
+            <div className="flex items-center text-gray-600">
+              <FaDollarSign className="mr-2 h-4 w-4" />
+              <span className="text-sm">{salary}</span>
             </div>
-            <div className="flex items-center">
-              <FaBriefcase className="mr-2" />
-              <Text>{jobType}</Text>
-            </div>
-            <div className="flex items-center">
-              <FaCalendarAlt className="mr-2" />
-              <Text>{Date}</Text>
+            <div className="flex items-center text-gray-600">
+              <FaCalendar className="mr-2 h-4 w-4" />
+              <span className="text-sm">{Date}</span>
             </div>
           </div>
         </div>
 
-        {/* Buttons */}
-        <div className="flex gap-4">
+        {/* Right section with buttons */}
+        <div className="flex flex-col gap-3 flex-col sm:gap-4">
           <Button
-            className= "hover:scale-110"
-            type="primary"
-            style={{ backgroundColor: hasApplied ? "gray" : "black" }}
-            loading={isLoading}
-            disabled={hasApplied}
+            className={`transform transition-all duration-200 hover:scale-105 ${
+              hasApplied ? "bg-gray-400" : "bg-[#3CB356] hover:bg-blue-700"
+            }`}
+            disabled={hasApplied || isLoading}
             onClick={handleApply}
           >
-            {hasApplied ? "Applied" : "Apply Now"}
+            {isLoading ? (
+              "Applying..."
+            ) : hasApplied ? (
+              <span className="flex items-center">
+                <svg
+                  className="mr-2 h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                Applied
+              </span>
+            ) : (
+              "Apply Now"
+            )}
           </Button>
-          <Button className= "hover:scale-110" type="default" onClick={handleView}>View</Button> {/* Added onClick for view button */}
+          <Button
+            className="transform border-gray-300 transition-all duration-200 hover:scale-105 hover:bg-gray-50"
+            onClick={handleView}
+          >
+            View Details
+          </Button>
         </div>
       </div>
     </Card>

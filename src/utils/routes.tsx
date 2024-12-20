@@ -38,16 +38,17 @@ function AppRoutes() {
       <Route path="/JobViewPage" element={<HomePageForJobProvider />} />
       <Route path="/userHome" element={<HomePageJobSeeker />} />
       <Route path="/waiting" element={<Navigate to={"/userHome"} replace />} />
-      <Route
+      {/* <Route
         path="/jobProviderDashboard"
         element={<Navigate to={"/userHome"} replace />}
-      />
+      /> */}
       <Route path="/login" element={<Navigate to={"/userHome"} replace />} />
       <Route path="/" element={<HomePageJobSeeker />} />
       <Route path="*" element={<HomePageJobSeeker />} />
       <Route path="*" element={<Navigate to={"/userHome"} replace />} />
       <Route path="/userProfile" element={<AdminProfile/>} />
       <Route path="/job/:jobId" element={<EditJobPage />} />
+      <Route path="/jobProviderDashboard" element={<JobProviderDashboard />} />
     </>
   );
 

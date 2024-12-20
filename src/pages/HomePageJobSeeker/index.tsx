@@ -63,14 +63,14 @@ const HomePageJobSeeker: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen bg-green-700 ">
+    <div className="min-h-screen bg-[#3CB356] ">
       
       <div className="fixed right-0 bottom-4">
       <MaterPlusbtn isClick={click} onClick={onClick} />
     </div>
 
       {/* Top bar section with reduced height and adjusted user icon */}
-      <div className="relative px-4 py-2 bg-white md:px-8 md:py-2">
+      <div className="relative px-4 py-2 bg-white md:px-8 md:py-2 ">
         {/* JobNetTopBar */}
         <JobNetTopBar />
 
@@ -84,7 +84,7 @@ const HomePageJobSeeker: React.FC = () => {
       </div>
 
       {/* Search and filter section */}
-      <div>
+      <div className="w-full ">
         <Seperator onCityChange={handleCityChange} onKeywordChange={handleKeywordChange} />
       </div>
 

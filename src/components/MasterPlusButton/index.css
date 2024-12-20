@@ -3,11 +3,11 @@
   display: inline-block;
   bottom: 20px;
   right: 20px;
-  z-index: 15;
+  z-index: 100003;
 }
 
 .plus-button {
-  background-color: white;
+  background-color: rgb(241, 240, 240);
   border: none;
   border-radius: 50%;
   width: 50px;

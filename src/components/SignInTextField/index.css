@@ -12,7 +12,7 @@
   box-shadow: none;
 }
 .signin-textfield-content:focus-within {
-  border-color: #098023;
+  border-color: #3CB356;
 
   box-shadow: none;
   outline: none;

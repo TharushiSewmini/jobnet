@@ -86,7 +86,7 @@ const PostJob: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#098023] w-full h-screen flex">
+    <div className="bg-[#3CB356] w-full h-screen flex">
       <div className="w-full overflow-y-auto lg:w-3/5">
         <div className="h-full pt-4 mx-4 sm:mx-20">
           <div className="pb-2 text-3xl font-medium text-white">Post a Job</div>

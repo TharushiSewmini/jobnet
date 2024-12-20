@@ -18,7 +18,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ borderless, placeholder, width, o
       className={`relative ${borderless ? "" : "border border-slate-300 hover:border-slate-400"} rounded-md`}
       style={{ width: width || '100%' }} // Set the width dynamically
     >
-      <CiSearch className="absolute text-[#098023] top-2 left-4 h-5 w-5" />
+      <CiSearch className="absolute text-[#3CB356] top-2 left-4 h-5 w-5" />
       <input
         placeholder={placeholder || "Job Title, Keyword, Company"}
         type="text"

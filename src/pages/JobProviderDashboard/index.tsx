@@ -20,19 +20,19 @@ const JobProviderDashboard = () => {
   const userName = auth.currentUser?.displayName;
   const [click, setClick] = useState(false);
   const onClick = () => setClick(!click);
-  
+
   return (
     <div className="job-provider-dashboard">
       <div className="job-provider-dshboard-top-row">
         <JobNetSymbol onClick={function (e: any): void {}} />
         <button
-  className="job-provider-dshboard-top-row-button"
-  onClick={NavigationToJobPost}
-  onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
-  onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
->
-  Post a Job
-</button>
+          className="job-provider-dshboard-top-row-button"
+          onClick={NavigationToJobPost}
+          onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
+          onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+        >
+          Post a Job
+        </button>
       </div>
       <div className="job-provider-dshboard-bottom-container">
         <div className="job-provider-dshboard-bottom-container-left">
@@ -53,15 +53,19 @@ const JobProviderDashboard = () => {
             />
           </div>
         </div>
-        <div className="job-provider-dshboard-bottom-container-middle">
-          <h2 className="job-provider-dshboard-bottom-container-middle-helllo">
-            Hello , {userName}
-          </h2>
-          <h5 className="job-provider-dshboard-bottom-container-middle-helllo-under">
-            Here is your daily activities and applications
-          </h5>
+        <div className="job-provider-dshboard-bottom-container-middle ">
+          <div className="flex lg:flex-row flex-col w-full lg:justify-between ">
+            <div >
+              <h2 className="job-provider-dshboard-bottom-container-middle-helllo">
+                Hello , {userName}
+              </h2>
+              <h5 className="job-provider-dshboard-bottom-container-middle-helllo-under">
+                Here is your daily activities and applications
+              </h5>
+            </div>{" "}
+            <OpenBoxContainer />
+          </div>
 
-          <OpenBoxContainer />
           <div className="job-provider-dshboard-bottom-container-middle-recent-row">
             <span className="job-provider-dshboard-bottom-container-middle-recent-left">
               Recently post jobs
