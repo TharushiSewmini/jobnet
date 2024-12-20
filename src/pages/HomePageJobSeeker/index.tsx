@@ -63,15 +63,15 @@ const HomePageJobSeeker: React.FC = () => {
   });
 
   return (
-    <div className="bg-green-700 h-screen">
+    <div className="min-h-screen bg-green-700">
       <MaterPlusbtn isClick={click} onClick={onClick} />
-      <div className="bg-white px-4 py-4 md:px-8 md:py-6 relative">
+      <div className="relative px-4 py-4 bg-white md:px-8 md:py-6">
         {/* JobNetTopBar */}
         <JobNetTopBar />
         
         {/* User Icon - Added Only on This Page */}
         <button
-          className="absolute right-4 top-4 sm:right-8 sm:top-8 text-gray-600 hover:text-green-700"
+          className="absolute text-gray-600 right-4 top-4 sm:right-8 sm:top-8 hover:text-green-700"
           onClick={handleProfileClick}
         >
           <FaUserCircle size={30} />
@@ -80,7 +80,7 @@ const HomePageJobSeeker: React.FC = () => {
       <div>
         <Seperator onCityChange={handleCityChange} onKeywordChange={handleKeywordChange} />
       </div>
-      <div className="px-4 sm:px-8 md:px-16 py-4">
+      <div className="px-4 py-4 sm:px-8 md:px-16">
         {loading ? (
           <Spin />
         ) : (
