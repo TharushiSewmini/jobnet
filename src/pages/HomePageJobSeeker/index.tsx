@@ -63,23 +63,32 @@ const HomePageJobSeeker: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen bg-green-700">
+    <div className="min-h-screen bg-green-700 ">
+      
+      <div className="fixed right-0 bottom-4">
       <MaterPlusbtn isClick={click} onClick={onClick} />
-      <div className="relative px-4 py-4 bg-white md:px-8 md:py-6">
+    </div>
+
+      {/* Top bar section with reduced height and adjusted user icon */}
+      <div className="relative px-4 py-2 bg-white md:px-8 md:py-2">
         {/* JobNetTopBar */}
         <JobNetTopBar />
-        
-        {/* User Icon - Added Only on This Page */}
+
+        {/* User Icon */}
         <button
-          className="absolute text-gray-600 right-4 top-4 sm:right-8 sm:top-8 hover:text-green-700"
+          className="absolute text-gray-600 right-20 top-2 sm:top-4 hover:text-green-700"
           onClick={handleProfileClick}
         >
           <FaUserCircle size={30} />
         </button>
       </div>
+
+      {/* Search and filter section */}
       <div>
         <Seperator onCityChange={handleCityChange} onKeywordChange={handleKeywordChange} />
       </div>
+
+      {/* Job posts section */}
       <div className="px-4 py-4 sm:px-8 md:px-16">
         {loading ? (
           <Spin />
