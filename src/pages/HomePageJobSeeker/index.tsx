@@ -54,8 +54,8 @@ const HomePageJobSeeker: React.FC = () => {
   return (
     <div className="bg-[#cdf4e1] h-screen">
       <MaterPlusbtn isClick={click} onClick={onClick} />
-      <div className="bg-white px-2 py-5">
-        <div className="max-w-md mx-auto rounded-lg overflow-hidden md:max-w-xl">
+      <div className="px-2 py-5 bg-white">
+        <div className="max-w-md mx-auto overflow-hidden rounded-lg md:max-w-xl">
           <div className="md:flex">
             <SearchBar onKeywordChange={handleKeywordChange} />
           </div>
