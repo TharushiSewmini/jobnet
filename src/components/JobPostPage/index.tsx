@@ -35,7 +35,7 @@ const JobPostsPage: React.FC<JobPostsPageProps> = ({ jobs, keyword, selectedCity
   });
 
   return (
-    <div className="mt-5 grid xl:grid-cols-3 grid-cols-1 w-full gap-4">
+    <div className="mt-5 grid xl:grid-cols-3 grid-cols-1 w-full gap-8">
       {filteredJobPosts.length > 0 ? (
         filteredJobPosts.map((post) => (
           

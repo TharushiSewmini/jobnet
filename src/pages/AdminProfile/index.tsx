@@ -150,11 +150,11 @@ const AdminProfile = () => {
                  src={
                   profile.userImage
                     ? profile.userImage
-                    : `https://ui-avatars.com/api/?name=${profile.userFullName
+                    : `https://ui-avatars.com/api/?name=${profile.userFullName}`
                         .split(' ')
                         .map((word) => word[0])
                         .join('')
-                        .toUpperCase()}`
+                        .toUpperCase()
                 }
                
                   className="w-32 h-32 rounded-full object-cover shadow-lg border-4 border-green-700"

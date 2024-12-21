@@ -49,7 +49,7 @@ const JobPost = ({
   };
 
   return (
-    <Card className="group overflow-hidden border border-gray-200 bg-white p-6 transition-all duration-300 hover:shadow-lg">
+    <Card className="group overflow-hidden border border-gray-200 bg-white p-4 transition-all duration-300 hover:shadow-lg  hover:scale-105">
       <div className="flex flex-col space-y-6 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
         {/* Left section with job details */}
         <div className="flex-grow space-y-4">
@@ -81,7 +81,7 @@ const JobPost = ({
         </div>
 
         {/* Right section with buttons */}
-        <div className="flex flex-col gap-3 flex-col sm:gap-4">
+        <div className="flex flex-col gap-3  sm:gap-4">
           <Button
             className={`transform transition-all duration-200 hover:scale-105 ${
               hasApplied ? "bg-gray-400" : "bg-[#3CB356] hover:bg-blue-700"
