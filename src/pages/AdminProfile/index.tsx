@@ -172,7 +172,7 @@ const AdminProfile = () => {
               <div className="space-y-6">
                 <input
                   type="text"
-                  name="name"
+                  name="userFullName"
                   value={tempProfile.userFullName}
                   onChange={handleInputChange}
                   className="w-full p-3 border border-green-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -180,7 +180,7 @@ const AdminProfile = () => {
                 />
                 <input
                   type="email"
-                  name="email"
+                  name="userEmail"
                   value={tempProfile.userEmail}
                   onChange={handleInputChange}
                   className="w-full p-3 border border-green-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
