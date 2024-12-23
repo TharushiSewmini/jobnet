@@ -97,7 +97,7 @@ const ViewJobPage = () => {
 
   return (
     <div className="items-center justify-center min-h-screen bg-gradient-to-r from-green-500 to-green-700">
-       <div className="relative px-4 py-2 bg-white md:px-8 md:py-2"></div>
+       <div className="relative px-4 pt-2 bg-white md:px-8 md:py-2"></div>
       <JobNetTopBar />
       <div className="flex justify-center">
         <div className="rounded-lg shadow-lg w-full md:w-[80%] lg:w-[60%] xl:w-[50%] mt-14 p-8 mr-10 ml-10 mb-20 overflow-y-auto">
@@ -211,7 +211,7 @@ const ViewJobPage = () => {
                 </div>
               </div>
             ) : (
-              <div className="space-y-6">
+              <div className="space-y-10">
                 {/* Job Details */}
                 <div>
                   <h3 className="text-lg font-semibold text-black">Job Title</h3>
@@ -274,20 +274,15 @@ const ViewJobPage = () => {
         </div>
 
         {/* Job Image Section */}
-        <div className="relative hidden w-full lg:w-1/3 xl:w-1/2 lg:block">
-  <div className="absolute left-0 w-full px-4 bottom-24">
-    <LazyLoadImage
-      src={jobPost}
-      effect="blur"
-      className="object-cover w-full h-auto rounded-lg shadow-lg"
-      alt="Job Post"
-    />
-  </div>
-</div>
-
-         <div className="fixed right-0 bottom-4">
-      <MaterPlusbtn isClick={click} onClick={onClick} />
-    </div>
+        <div className="relative invisible hidden w-1/2 h-full overflow-y-hidden lg:visible lg:block">
+        <MaterPlusbtn isClick={click} onClick={onClick} />
+        <LazyLoadImage
+          src={jobPost}
+          effect="blur"
+          className="object-cover w-full h-full"
+          alt="Job Post"
+        />
+        </div>
         </div>
       </div>
   );
