@@ -9,10 +9,16 @@ import { Flex, message, Modal, Spin } from "antd";
 import { fetchJobsFromAdminId } from "../../controllers/admin/fetchJobsFromAdminId";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../utils/firebaseConfig";
-import { collection, deleteDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+} from "firebase/firestore";
 
 interface JobPost {
-  id: string; // Include the document ID for unique identification
+  id: string;
   Time: string;
   description: string;
   expireDate: Date;
@@ -23,6 +29,17 @@ interface JobPost {
   salary: string;
   userEmail: string;
   userId: string;
+  applicants: {
+    userId: string;
+    status: string;
+    timeStamp: number;
+  }[];
+}
+
+interface Applicant {
+  userId: string;
+  status: string;
+  timeStamp: number;
 }
 
 const JobList = () => {
@@ -30,6 +47,8 @@ const JobList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
+  const [isApplicantsModalOpen, setIsApplicantsModalOpen] = useState(false);
+  const [applicants, setApplicants] = useState<any[]>([]);
 
   const navigate = useNavigate();
 
@@ -37,7 +56,13 @@ const JobList = () => {
     const fetchJobs = async () => {
       try {
         const fetchedJobs = await fetchJobsFromAdminId();
-        setJobs(fetchedJobs || []);
+        const normalizedJobs = (fetchedJobs || []).map(
+          (job: Partial<JobPost>) => ({
+            ...job,
+            applicants: job.applicants || [], // Ensure applicants is always an array
+          })
+        );
+        setJobs(normalizedJobs as JobPost[]);
       } catch (error) {
         console.error("Error fetching jobs:", error);
       } finally {
@@ -73,20 +98,59 @@ const JobList = () => {
       try {
         await deleteDoc(doc(db, "jobs", selectedJobId));
         message.success("Post deleted successfully!");
-        setJobs(jobs.filter((job) => job.id !== selectedJobId)); 
+        setJobs(jobs.filter((job) => job.id !== selectedJobId));
+        closeModal();
       } catch (error) {
         console.error("Error deleting post:", error);
         message.error("Failed to delete the post.");
-      } 
+      }
     }
   };
 
+  // Fetch applicants for a specific job from Firestore
+  // const handleViewApplicants = async (jobId: string) => {
+  //   try {
+  //     const applicantsRef = collection(db, "jobs", jobId, "applicants");
+  //     const querySnapshot = await getDocs(applicantsRef);
+  //     const applicantsList = querySnapshot.docs.map((doc) => doc.data());
+  //     setApplicants(applicantsList);
+  //     setIsApplicantsModalOpen(true);
+  //   } catch (error) {
+  //     console.error("Error fetching applicants:", error);
+  //   }
+  // };
+
+  const handleViewApplicants = async (jobId: string) => {
+    try {
+      const jobRef = doc(db, "jobs", jobId);
+      const jobDoc = await getDoc(jobRef);
+      
+      if (jobDoc.exists()) {
+        const jobData = jobDoc.data();
+        if (jobData.applicants && Array.isArray(jobData.applicants)) {
+          setApplicants(jobData.applicants);
+          setIsApplicantsModalOpen(true);
+        } else {
+          setApplicants([]);
+          setIsApplicantsModalOpen(true);
+        }
+      } else {
+        console.error("Job document not found");
+        setApplicants([]);
+      }
+    } catch (error) {
+      console.error("Error fetching applicants:", error);
+      setApplicants([]);
+    }
+  };
+  
   return (
     <div className="jobs-container">
       <div className="table-header">
         <div className="header-column">JOBS</div>
         <div className="header-column">STATUS</div>
         <div className="header-column">APPLICATIONS</div>
+        <div className="header-column">APPLICANTS</div>
         <div className="header-column">ACTIONS</div>
       </div>
 
@@ -108,12 +172,16 @@ const JobList = () => {
               </div>
               <div className="job-status">
                 <img
-                  src={isWithinFiveDays(job.expireDate) ? checkCircle : expireIcon}
+                  src={
+                    isWithinFiveDays(job.expireDate) ? checkCircle : expireIcon
+                  }
                   className="job-status-icon"
                   alt="status"
                 />
                 <span
-                  className={isWithinFiveDays(job.expireDate) ? "active" : "expired"}
+                  className={
+                    isWithinFiveDays(job.expireDate) ? "active" : "expired"
+                  }
                 >
                   {isWithinFiveDays(job.expireDate) ? "Active" : "Expired"}
                 </span>
@@ -129,46 +197,58 @@ const JobList = () => {
                 >
                   View Post
                 </button>
-                {/*<img
+                <button
+                  className="view-applicants"
+                  onClick={() => handleViewApplicants(job.id)}
+                >
+                  View Applicants
+                </button>
+                <img
                   src={editIcon}
                   className="edit-icon"
                   alt="edit"
                   onClick={() => handleEditModal(job.id)}
-                />*/}
+                />
               </div>
             </div>
           ))
         )}
       </div>
 
-  {/* <Modal
-  title="Edit/Delete Job"
-  centered
-  open={isModalOpen}
-  onCancel={closeModal} // Just close the modal on cancel
-  footer={[
-    <button
-      key="delete"
-      className="px-4 py-2 mr-2 font-semibold text-white transition duration-300 bg-red-500 rounded hover:bg-red-600"
-      onClick={handleDeletePost}
-    >
-      Delete Post
-    </button>,
-    <button
-      key="edit"
-      className="px-4 py-2 font-semibold text-white transition duration-300 bg-blue-500 rounded hover:bg-blue-600"
-      onClick={() => {
-        navigate(`/edit-job/${selectedJobId}`);
-        closeModal();
-      }}
-    >
-      Edit Post
-    </button>,
-  ]}
->
-  <p className="text-gray-600">Do you want to edit or delete this job post?</p>
-</Modal> */}
+      <Modal
+        title="Applicants List"
+        centered
+        open={isApplicantsModalOpen}
+        onCancel={() => setIsApplicantsModalOpen(false)}
+        footer={null}
+      >
+        {applicants.length > 0 ? (
+          <ul>
+            {applicants.map((applicant, index) => (
+              <li key={index} className="border p-4 rounded-lg">
+                <p>User ID: {applicant.userId}</p>
+                <p>Status: {applicant.status}</p>
+                <p>Applied on: {new Date(applicant.timeStamp).toLocaleString()}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No applicants found.</p>
+        )}
+      </Modal>
 
+      {/* Modal for editing/deleting jobs */}
+      {/* <Modal
+        title="Edit/Delete Job"
+        centered
+        open={isModalOpen}
+        onCancel={closeModal}
+        footer={[...]}
+      >
+        <p className="text-gray-600">
+          Do you want to edit or delete this job post?
+        </p>
+      </Modal> */}
     </div>
   );
 };
