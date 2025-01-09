@@ -124,9 +124,12 @@ const JobList = () => {
     try {
       const jobRef = doc(db, "jobs", jobId);
       const jobDoc = await getDoc(jobRef);
+      console.log("::jobs list" , jobDoc.data());
+      
       
       if (jobDoc.exists()) {
-        const jobData = jobDoc.data();
+        const jobData = jobDoc.data() as JobPost;
+        console.log("::jobs data" , jobData.applicants);
         if (jobData.applicants && Array.isArray(jobData.applicants)) {
           setApplicants(jobData.applicants);
           setIsApplicantsModalOpen(true);
