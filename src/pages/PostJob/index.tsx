@@ -204,7 +204,7 @@ const PostJob = () => {
             </button>
 
             {message && (
-              <div className={`ml-4 text-center p-2 mt-6 mb-4 ${messageType === "success" ? "bg-green-300" : "bg-red-500"} text-white rounded-md font-normal text-sm`}>
+              <div className={`ml-4 text-center p-2 mt-6 mb-4 ${messageType === "success" ? "bg-green-7S00" : "bg-red-500"} text-white rounded-md font-normal text-sm`}>
                 {message}
               </div>
             )}
