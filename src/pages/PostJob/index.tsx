@@ -7,7 +7,7 @@ import { db } from "../../utils/firebaseConfig";
 import { collection, addDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
-const PostJob = () => {  
+const PostJob = () => {
   const [formData, setFormData] = useState({
     jobTitle: "",
     salary: "",
@@ -21,13 +21,21 @@ const PostJob = () => {
   });
 
   const [click, setClick] = useState(false);
-  const [buttonState, setButtonState] = useState<"Post A Job" | "Posting..." | "Posted">("Post A Job");
+  const [buttonState, setButtonState] = useState<
+    "Post A Job" | "Posting..." | "Posted"
+  >("Post A Job");
   const [message, setMessage] = useState<string | null>(null);
-  const [messageType, setMessageType] = useState<"success" | "error" | null>(null);
+  const [messageType, setMessageType] = useState<"success" | "error" | null>(
+    null
+  );
 
   const onClick = () => setClick(!click);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
@@ -92,17 +100,37 @@ const PostJob = () => {
 
   return (
     <div className="bg-[#3CB356] w-full h-screen flex">
+      <MaterPlusbtn isClick={click} onClick={onClick} />
       {/* Left Side - Form Section */}
-      <div className="flex flex-col w-full h-screen px-4 overflow-y-auto lg:w-3/5 sm:px-20">
+      <div className="flex flex-col lg:w-3/5 h-full px-4 overflow-y-auto lg:w-3/5 sm:px-20">
         <div className="pt-4">
           <div className="pb-2 text-3xl font-medium text-white">Post a Job</div>
 
           {/* Form Inputs */}
-          {[{ label: "Job Title", name: "jobTitle", type: "text", placeholder: "Add job title..." },
-            { label: "Salary", name: "salary", type: "text", placeholder: "Add salary per day" },
-            { label: "Location", name: "location", type: "text", placeholder: "Enter job location" }].map((field) => (
+          {[
+            {
+              label: "Job Title",
+              name: "jobTitle",
+              type: "text",
+              placeholder: "Add job title...",
+            },
+            {
+              label: "Salary",
+              name: "salary",
+              type: "text",
+              placeholder: "Add salary per day",
+            },
+            {
+              label: "Location",
+              name: "location",
+              type: "text",
+              placeholder: "Enter job location",
+            },
+          ].map((field) => (
             <div key={field.name}>
-              <label className="block text-base text-white">{field.label}</label>
+              <label className="block text-base text-white">
+                {field.label}
+              </label>
               <input
                 name={field.name}
                 value={formData[field.name as keyof typeof formData]}
@@ -114,7 +142,9 @@ const PostJob = () => {
             </div>
           ))}
 
-          <div className="mt-16 mb-6 text-lg text-white">Advance Information</div>
+          <div className="mt-16 mb-6 text-lg text-white">
+            Advance Information
+          </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             {/* Number Input for Vacancies */}
             <div>
@@ -175,11 +205,15 @@ const PostJob = () => {
           </div>
 
           {/* Description and Responsibility */}
-          <div className="mt-16 mb-6 text-lg text-white">Description and Responsibility</div>
+          <div className="mt-16 mb-6 text-lg text-white">
+            Description and Responsibility
+          </div>
           <div>
             {["description", "responsibilities"].map((field) => (
               <div key={field}>
-                <label className="block text-base text-white capitalize">{field}</label>
+                <label className="block text-base text-white capitalize">
+                  {field}
+                </label>
                 <textarea
                   name={field}
                   value={formData[field as keyof typeof formData]}
@@ -204,7 +238,11 @@ const PostJob = () => {
             </button>
 
             {message && (
-              <div className={`ml-4 text-center p-2 mt-6 mb-4 ${messageType === "success" ? "bg-green-7S00" : "bg-red-500"} text-white rounded-md font-normal text-sm`}>
+              <div
+                className={`ml-4 text-center p-2 mt-6 mb-4 ${
+                  messageType === "success" ? "bg-green-7S00" : "bg-red-500"
+                } text-white rounded-md font-normal text-sm`}
+              >
                 {message}
               </div>
             )}
@@ -213,8 +251,16 @@ const PostJob = () => {
       </div>
 
       {/* Right Side - Image Section */}
-      <div className="hidden h-screen lg:block lg:w-2/5">
-        <LazyLoadImage src={jobPost} alt="Job Post" effect="blur" className="object-cover w-full h-full" />
+      <div className=" h-full lg:block lg:w-2/5">
+        {/* <img src={jobPost} alt="Job Post" className=" h-full w-full" /> */}
+        <LazyLoadImage
+          src={jobPost}
+          alt="Job Post"
+          width={"100%"}
+          height={"100%"}
+          effect="blur"
+          className="h-full w-full"
+        />
       </div>
     </div>
   );

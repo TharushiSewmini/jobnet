@@ -55,7 +55,7 @@ const JobProviderDashboard = () => {
         </div>
         <div className="job-provider-dshboard-bottom-container-middle ">
           <div className="flex lg:flex-row flex-col w-full lg:justify-between ">
-            <div >
+            <div>
               <h2 className="job-provider-dshboard-bottom-container-middle-helllo">
                 Hello , {userName}
               </h2>
