@@ -13,7 +13,7 @@ const SignInTextField = ({placeHolderValue , value , onChange}:SignInTextFieldPr
         className='signin-textfield-content'
         placeholder={placeHolderValue}
         value={value}
-        onChange={e=>onChange(e)}
+        onChange={e=>onChange(e.target.value)}
 
         />
     </div>
