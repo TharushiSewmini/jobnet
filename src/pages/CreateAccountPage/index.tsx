@@ -7,7 +7,7 @@ import happiest from "../../assets/happiest.png";
 import love from "../../assets/love.png";
 import SignUpContainer from "../../components/SignUpContainer";
 import JobNetTopBar from "../../components/JobNetTopBar";
-import { Flex, Spin } from "antd";
+import { Flex, message, Spin } from "antd";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -40,6 +40,7 @@ const CreateAccountPage = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [uType, setUserType] = useState(options[1]);
   const [isloading, setIsLoading] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
 
   const user: User = {
     userFullName: userFullName,
@@ -56,12 +57,25 @@ const CreateAccountPage = () => {
 
   //handle signup
   async function handleSignUp(user: User) {
-    setIsLoading(true);
-    createUser(user, userType, navigate);
-    setIsLoading(false);
+    try {
+      setIsLoading(true);
+      createUser(user, userType, navigate);
+      setIsLoading(false);
+      messageApi.open({
+        type: "success",
+        content: "You have logged in successfully.",
+        duration: 5,
+      });
+    } catch (error) {
+      messageApi.open({
+        type: "error",
+        content: "Login unsuccessful. Check your credentials and try again.",
+        duration: 5,
+      });
+    }
   }
 
-return !isloading ? (
+  return !isloading ? (
     <div className="sign-up-container">
       <JobNetTopBar />
       <div className="sign-up-up-container">
@@ -70,6 +84,7 @@ return !isloading ? (
         </div>
 
         <div className="sign-up-main-forum-container">
+          {contextHolder}
           <SignUpContainer
             onChangeUserFullName={(e) => setUserFullName(e.target.value)} // Correct usage
             onChangeUserName={(e) => setUserName(e.target.value)} // Correct usage

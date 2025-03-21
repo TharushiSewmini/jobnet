@@ -7,7 +7,7 @@ import happiest from "../../assets/happiest.png";
 import love from "../../assets/love.png";
 import SignInContainer from "../../components/SignInContainer";
 import JobNetTopBar from "../../components/JobNetTopBar";
-import { Flex, Spin } from "antd";
+import { Flex, message, Spin } from "antd";
 import { useAuthContext } from "../../contexts/AuthContext";
 
 import { useNavigate } from "react-router-dom";
@@ -23,7 +23,7 @@ const SignInPage = () => {
   const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
+  const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
 
   const user: User = {
@@ -37,8 +37,18 @@ const SignInPage = () => {
       setIsLoading(true);
       //login user function
       LoginUser(user, userType, navigate);
+      messageApi.open({
+        type: "success",
+        content: "You have logged in successfully.",
+        duration: 5,
+      });
       setIsLoading(false);
     } catch (error) {
+      messageApi.open({
+        type: "error",
+        content: "Login unsuccessful. Check your credentials and try again.",
+        duration: 5,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -52,6 +62,7 @@ const SignInPage = () => {
           <img src={fly} className="sign-up-container-image-fly" alt="Fly" />
         </div>
         <div className="sign-up-main-forum-container" >
+        {contextHolder}
           <SignInContainer
             onChangeEmail={(e) => setUserEmail(e.target.value)}
             onChangePassword={(e) => setPassword(e.target.value)}
