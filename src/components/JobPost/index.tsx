@@ -3,6 +3,7 @@ import Card from "antd/es/card/Card";
 import React, { useState } from "react";
 import { FaCalendar, FaDollarSign, FaLocationArrow } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { applyForTheJob } from "../../controllers/user/applyJob";
 
 interface JobPostProps {
   id: string;
@@ -33,7 +34,7 @@ const JobPost = ({
     setIsLoading(true);
     try {
       // Mock function call - replace with actual implementation
-      // await applyForTheJob(id, userEmail);
+      await applyForTheJob(id, userEmail); 
       setHasApplied(true);
       alert("Application successful!");
     } catch (error) {

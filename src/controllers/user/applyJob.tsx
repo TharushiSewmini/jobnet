@@ -25,7 +25,7 @@ export const applyForTheJob = async (
     // for now disbled sice only 200 request can be do
     emailjs
       .send(
-        "service_ygnbsbb",
+        "service_ukvb7tq",
         "template_xvscs7r",
         {
           from_name: "JobNet",

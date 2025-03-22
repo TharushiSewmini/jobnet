@@ -68,12 +68,12 @@ console.log();
         userEmail: userData.userEmail,
         bio: userData.bio || "",
         location: userData.location || "",
-        userImage: auth.currentUser?.photoURL || "",
+        userImage: userData.userImage || auth.currentUser?.photoURL || "",
         userType: userData.userType || "",
       };
 
       setProfile(cleanProfile);
-      console.log("ewdew", cleanProfile.userImage, profile.userImage);
+      console.log("ewdew", profile.userImage);
 
       setTempProfile(cleanProfile);
 
@@ -151,8 +151,8 @@ console.log();
                 
                 <img
                   src={
-                    profile.userImage
-                      ? profile.userImage
+                   profile.userImage != null
+                      ?    profile.userImage 
                       : `https://ui-avatars.com/api/?name=${profile.userFullName}`
                           .split(" ")
                           .map((word) => word[0])
