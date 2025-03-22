@@ -35,7 +35,7 @@ const ForgetPasswordContainer = () => {
         onChange={(e) => {
           console.log(e);
 
-          setEmail(e);
+          setEmail(e.target.value);
         }}
       />
 
