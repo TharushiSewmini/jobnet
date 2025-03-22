@@ -20,6 +20,11 @@ interface User {
   uType: string;
 }
 
+interface Response {
+  statusType: string;
+  message: string;
+}
+
 const auth = getAuth();
 const db = getFirestore();
 
@@ -27,15 +32,19 @@ export async function createUser(
   user: User,
   userType: string | undefined,
   navigate: NavigateFunction
-) {
+): Promise<Response> {
   try {
     // Check if the username already exists
     const usernameDoc = await getDoc(doc(db, "usernames", user.userName));
 
     if (usernameDoc.exists()) {
       // Username already exists, show an alert
-      alert("This username is already taken. Please choose a different one.");
-      return; // Exit the function if the username exists
+      // alert("This username is already taken. Please choose a different one.");
+      return {
+        statusType: "error",
+        message:
+          "This username is already taken. Please choose a different one.",
+      }; // Exit the function if the username exists
     }
 
     // Create the user in Firebase Auth
@@ -61,8 +70,16 @@ export async function createUser(
     await setDoc(doc(db, "usernames", user.userName), {
       uid: createdUser.uid,
     });
+    return {
+      statusType: "success",
+      message: "Your Account Created Successfully",
+    };
   } catch (error) {
     console.error("Error during signup:", error);
+    return {
+      statusType: "error",
+      message: "Error during signup",
+    };
   }
 
   // userType === "Admin"

@@ -23,6 +23,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { createUser } from "../../controllers/auth/createUser";
+import { NoticeType } from "antd/es/message/interface";
 interface User {
   userFullName: string;
   userName: string;
@@ -56,22 +57,20 @@ const CreateAccountPage = () => {
   const { userType } = useAuthContext();
 
   //handle signup
-  async function handleSignUp(user: User) {
+  async function handleSignUp(user: User)  {
     try {
       setIsLoading(true);
-      createUser(user, userType, navigate);
+    var  res = await createUser(user, userType, navigate);
+    messageApi.open({
+      type: res.statusType as NoticeType,
+      content: res.message,
+      duration: 5,
+    });
       setIsLoading(false);
-      messageApi.open({
-        type: "success",
-        content: "You have logged in successfully.",
-        duration: 5,
-      });
+     
     } catch (error) {
-      messageApi.open({
-        type: "error",
-        content: "Login unsuccessful. Check your credentials and try again.",
-        duration: 5,
-      });
+console.log("error occured while creating");
+
     }
   }
 
