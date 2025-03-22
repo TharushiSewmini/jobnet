@@ -7,7 +7,7 @@ import happiest from "../../assets/happiest.png";
 import love from "../../assets/love.png";
 import SignUpContainer from "../../components/SignUpContainer";
 import JobNetTopBar from "../../components/JobNetTopBar";
-import { Flex, Spin } from "antd";
+import { Flex, message, Spin } from "antd";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -23,6 +23,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { createUser } from "../../controllers/auth/createUser";
+import { NoticeType } from "antd/es/message/interface";
 interface User {
   userFullName: string;
   userName: string;
@@ -40,6 +41,7 @@ const CreateAccountPage = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [uType, setUserType] = useState(options[1]);
   const [isloading, setIsLoading] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
 
   const user: User = {
     userFullName: userFullName,
@@ -55,13 +57,24 @@ const CreateAccountPage = () => {
   const { userType } = useAuthContext();
 
   //handle signup
-  async function handleSignUp(user: User) {
-    setIsLoading(true);
-    createUser(user, userType, navigate);
-    setIsLoading(false);
+  async function handleSignUp(user: User)  {
+    try {
+      setIsLoading(true);
+    var  res = await createUser(user, userType, navigate);
+    messageApi.open({
+      type: res.statusType as NoticeType,
+      content: res.message,
+      duration: 5,
+    });
+      setIsLoading(false);
+     
+    } catch (error) {
+console.log("error occured while creating");
+
+    }
   }
 
-return !isloading ? (
+  return !isloading ? (
     <div className="sign-up-container">
       <JobNetTopBar />
       <div className="sign-up-up-container">
@@ -70,6 +83,7 @@ return !isloading ? (
         </div>
 
         <div className="sign-up-main-forum-container">
+          {contextHolder}
           <SignUpContainer
             onChangeUserFullName={(e) => setUserFullName(e.target.value)} // Correct usage
             onChangeUserName={(e) => setUserName(e.target.value)} // Correct usage

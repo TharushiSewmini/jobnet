@@ -1,120 +1,124 @@
+import { Button } from "antd";
+import Card from "antd/es/card/Card";
 import React, { useState } from "react";
-import { Card, Typography, Button } from "antd";
-import { FaMapMarkerAlt, FaDollarSign, FaCalendarAlt } from "react-icons/fa"; // Importing the required icons
+import { FaCalendar, FaDollarSign, FaLocationArrow } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { applyForTheJob } from "../../controllers/user/applyJob";
 
 interface JobPostProps {
   id: string;
-  userEmail: string;
-  image: string;
-  title: string;
-  uploadDate: string;
-  remainingTime: string;
+  jobTitle: string;
   salary: string;
+  Date: string;
   location: string;
+  userEmail: string;
+  jobType: string;
 }
 
-const { Title, Text } = Typography;
-
-const JobPost: React.FC<JobPostProps> = ({
+const JobPost = ({
   id,
   userEmail,
-  image,
-  title,
-  uploadDate,
-  remainingTime,
+  jobTitle,
+  Date,
   salary,
   location,
-}) => {
-  const [isClicked, setIsClicked] = useState(false);
+  jobType,
+}: JobPostProps) => {
+  const [hasApplied, setHasApplied] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const handleApply = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (hasApplied) return;
 
-  const buttonStyle = {
-    backgroundColor: isClicked ? "#e7f0fa" : "black", // Change button background color based on click state
-    padding: "20px",
-    color: isClicked ? "black" : "white", // Change text color based on click state
-    border: "none",
-    width: "100%",
-    transition: "background-color 0.1s, color 0.1s",
+    setIsLoading(true);
+    try {
+      // Mock function call - replace with actual implementation
+      await applyForTheJob(id, userEmail); 
+      setHasApplied(true);
+      alert("Application successful!");
+    } catch (error) {
+      console.error("Failed to apply for the job:", error);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  // Toggle the clicked state when card or button is clicked
-  const handleClick = () => {
-    setIsClicked(!isClicked);
-    applyForTheJob(id, userEmail);
+  const handleView = () => {
+    navigate(`/job/${id}`); // Navigate to the job view page using the job ID
   };
 
   return (
-    <Card
-      className="w-full"
-      style={{
-        border: `2px solid ${isClicked ? "black" : "#f0f0f0"}`, // Change border color based on click state
-        transition: "border-color 0.2s", // Smooth transition for border color change
-      }}
-      onClick={handleClick} // Handle the card click
-    >
-      {/* Display the job image and details in a responsive layout */}
-      <div className="flex flex-col md:flex-row justify-between w-full gap-20 items-center px-10">
-        {/* Image */}
-        <div>
-          <img
-            src={image}
-            alt={title}
-            className="w-20 h-20 object-cover rounded-md "
-          />
-        </div>
-
-        {/* Job details */}
-        <div className="flex-grow">
-          {/* Title and upload date */}
-          <div className="flex items-center justify-between md:justify-start md:gap-4 mb-3">
-            <Title level={4} className="mb-0">
-              {title}
-            </Title>
-            <Text className="rounded-full bg-[#e7f0fa] text-black px-3 py-1 inline-block">
-              {uploadDate}
-            </Text>
+    <Card className="group overflow-hidden border border-gray-200 bg-white p-4 transition-all duration-300 hover:shadow-lg  hover:scale-105">
+      <div className="flex flex-col space-y-6 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
+        {/* Left section with job details */}
+        <div className="flex-grow space-y-4">
+          {/* Job title and type */}
+          <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
+            <h3 className="text-xl font-bold text-gray-900 group-hover:text-[#3CB356] md:text-2xl">
+              {jobTitle}
+            </h3>
+            <span className="inline-flex w-fit rounded-full bg-gray-200 px-3 py-1 text-sm font-medium text-black-800">
+              {jobType}
+            </span>
           </div>
 
-          {/* Location, salary, and remaining time with icons */}
-          <div className="flex flex-wrap gap-5 md:gap-10">
-            {/* Location */}
-            <div className="flex items-center">
-              <FaMapMarkerAlt className="text-gray-400 mr-2" />{" "}
-              {/* Location Icon */}
-              <Text>{location}</Text>
+          {/* Job metadata */}
+          <div className="flex flex-wrap gap-4">
+            <div className="flex items-center text-gray-600">
+              <FaLocationArrow className="mr-2 h-4 w-4" />
+              <span className="text-sm">{location}</span>
             </div>
-
-            {/* Salary */}
-            <div className="flex items-center">
-              <FaDollarSign className="text-gray-400 mr-2" />{" "}
-              {/* Dollar Icon */}
-              <Text>{salary}</Text>
+            <div className="flex items-center text-gray-600">
+              <FaDollarSign className="mr-2 h-4 w-4" />
+              <span className="text-sm">{salary}</span>
             </div>
-
-            {/* Remaining Time */}
-            <div className="flex items-center">
-              <FaCalendarAlt className="text-gray-400 mr-2" />{" "}
-              {/* Calendar Icon */}
-              <Text>{remainingTime}</Text>
+            <div className="flex items-center text-gray-600">
+              <FaCalendar className="mr-2 h-4 w-4" />
+              <span className="text-sm">{Date}</span>
             </div>
           </div>
         </div>
 
-        {/* Button to apply */}
-        <div>
-          <div className="flex-shrink-0" style={{ maxWidth: "200px" }}>
-            <Button
-              type="primary"
-              style={buttonStyle}
-              onClick={(e) => {
-                e.stopPropagation(); // Prevent event bubbling to the card's onClick
-                handleClick();
-              }}
-            >
-              {isClicked ? "Apply Now" : "Apply Now"}{" "}
-              {/* You can modify this if needed */}
-            </Button>
-          </div>
+        {/* Right section with buttons */}
+        <div className="flex flex-col gap-3  sm:gap-4">
+          <Button
+            className={`transform transition-all duration-200 hover:scale-105 ${
+              hasApplied ? "bg-gray-400" : "bg-[#3CB356] hover:bg-blue-700"
+            }`}
+            disabled={hasApplied || isLoading}
+            onClick={handleApply}
+          >
+            {isLoading ? (
+              "Applying..."
+            ) : hasApplied ? (
+              <span className="flex items-center">
+                <svg
+                  className="mr-2 h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                Applied
+              </span>
+            ) : (
+              "Apply Now"
+            )}
+          </Button>
+          <Button
+            className="transform border-gray-300 transition-all duration-200 hover:scale-105 hover:bg-gray-50"
+            onClick={handleView}
+          >
+            View Details
+          </Button>
         </div>
       </div>
     </Card>

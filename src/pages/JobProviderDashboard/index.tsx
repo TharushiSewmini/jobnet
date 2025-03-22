@@ -8,6 +8,7 @@ import { Button, Modal } from "antd";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../utils/firebaseConfig";
+import MaterPlusbtn from "../../components/MasterPlusButton";
 
 const JobProviderDashboard = () => {
   const { logout } = useAuthContext();
@@ -17,7 +18,9 @@ const JobProviderDashboard = () => {
   };
 
   const userName = auth.currentUser?.displayName;
-  
+  const [click, setClick] = useState(false);
+  const onClick = () => setClick(!click);
+
   return (
     <div className="job-provider-dashboard">
       <div className="job-provider-dshboard-top-row">
@@ -25,8 +28,10 @@ const JobProviderDashboard = () => {
         <button
           className="job-provider-dshboard-top-row-button"
           onClick={NavigationToJobPost}
+          onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
+          onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
         >
-          Post a Job{" "}
+          Post a Job
         </button>
       </div>
       <div className="job-provider-dshboard-bottom-container">
@@ -48,24 +53,29 @@ const JobProviderDashboard = () => {
             />
           </div>
         </div>
-        <div className="job-provider-dshboard-bottom-container-middle">
-          <h2 className="job-provider-dshboard-bottom-container-middle-helllo">
-            Hello , {userName}
-          </h2>
-          <h5 className="job-provider-dshboard-bottom-container-middle-helllo-under">
-            Here is your daily activities and applications
-          </h5>
+        <div className="job-provider-dshboard-bottom-container-middle ">
+          <div className="flex lg:flex-row flex-col w-full lg:justify-between ">
+            <div>
+              <h2 className="job-provider-dshboard-bottom-container-middle-helllo">
+                Hello , {userName}
+              </h2>
+              <h5 className="job-provider-dshboard-bottom-container-middle-helllo-under">
+                Here is your daily activities and applications
+              </h5>
+            </div>{" "}
+            <OpenBoxContainer />
+          </div>
 
-          <OpenBoxContainer />
           <div className="job-provider-dshboard-bottom-container-middle-recent-row">
             <span className="job-provider-dshboard-bottom-container-middle-recent-left">
               Recently post jobs
             </span>
-            <span className="job-provider-dshboard-bottom-container-middle-recent-right">
+            {/*<span className="job-provider-dshboard-bottom-container-middle-recent-right">
               View All
-            </span>
+            </span> */}
           </div>
           <JobList />
+          <MaterPlusbtn isClick={click} onClick={onClick} />
         </div>
         <div className="job-provider-dshboard-bottom-container-right"></div>
       </div>

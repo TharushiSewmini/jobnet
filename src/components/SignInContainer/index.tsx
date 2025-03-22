@@ -118,16 +118,23 @@ const SignInContainer = ({
         <ReusableButton buttonText={"Sign In"} onClick={onSubmit} />
       </div>
 
-      <div className="flex gap-4 bg-white p-2 rounded-md ">
-        <div className="flex gap-2">
-          <label> User </label>
-          <Checkbox onClick={() => setUser(!isUser)} checked={isUser} />
+      <div className="flex items-center justify-between">
+        <div className="flex gap-4 bg-white p-2 rounded-md ">
+          <div className="flex gap-2">
+            <label> User </label>
+            <Checkbox onClick={() => setUser(!isUser)} checked={isUser} />
+          </div>
+          <div className="flex gap-2">
+            <label> Admin </label>
+            <Checkbox checked={!isUser} onClick={() => setUser(!isUser)} />
+          </div>
         </div>
-        <div className="flex gap-2">
-          <label> Admin </label>
-          <Checkbox checked={!isUser} onClick={() => setUser(!isUser)} />
+
+        <div className=" text-blue-600 underline cursor-pointer" onClick={() => navigate("/forgetPassword")}>
+          Forget Your  Password ?
         </div>
       </div>
+
       <center>
         <div
           className="bg-[#F5F5F5] p-3 w-full text-center flex justify-center gap-3 items-center rounded-md cursor-pointer shadow-lg text-base text-[#0A65CC] font-medium"

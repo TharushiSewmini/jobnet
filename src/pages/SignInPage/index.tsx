@@ -7,11 +7,12 @@ import happiest from "../../assets/happiest.png";
 import love from "../../assets/love.png";
 import SignInContainer from "../../components/SignInContainer";
 import JobNetTopBar from "../../components/JobNetTopBar";
-import { Flex, Spin } from "antd";
+import { Flex, message, Spin } from "antd";
 import { useAuthContext } from "../../contexts/AuthContext";
 
 import { useNavigate } from "react-router-dom";
 import { LoginUser } from "../../controllers/auth/loginUser";
+import { NoticeType } from "antd/es/message/interface";
 
 interface User {
   userEmail: string;
@@ -23,7 +24,7 @@ const SignInPage = () => {
   const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
+  const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
 
   const user: User = {
@@ -34,24 +35,31 @@ const SignInPage = () => {
   //handling sign function
   const handleSignIn = async () => {
     try {
-      setIsLoading(true);
+      // setIsLoading(true);
       //login user function
-      LoginUser(user, userType, navigate);
-      setIsLoading(false);
+      var res = await LoginUser(user);
+      messageApi.open({
+        type: res.statusType as NoticeType,
+        content: res.message,
+        duration: 5,
+      });
+      // setIsLoading(false);
     } catch (error) {
+     
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 
   return !isLoading ? (
     <div className="sign-up-container">
       <JobNetTopBar />
-      <div className="sign-up-up-container" >
+      <div className="sign-up-up-container">
         <div className="sign-up-up-img-main-container">
           <img src={fly} className="sign-up-container-image-fly" alt="Fly" />
         </div>
-        <div className="sign-up-main-forum-container" >
+        <div className="sign-up-main-forum-container">
+          {contextHolder}
           <SignInContainer
             onChangeEmail={(e) => setUserEmail(e.target.value)}
             onChangePassword={(e) => setPassword(e.target.value)}
@@ -59,7 +67,6 @@ const SignInPage = () => {
             password={password}
             onSubmit={handleSignIn}
           />
-       
         </div>
         <div className="sign-up-rotate-box">
           <img src={lightbulb} alt="Lightbulb" />

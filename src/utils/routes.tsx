@@ -11,8 +11,9 @@ import HomePageForJobProvider from "../pages/HomePageForJobProvider";
 import ProtectedRoute from "./protectedRoutes";
 import HomePageJobSeeker from "../pages/HomePageJobSeeker";
 import PostJob from "../pages/PostJob";
-import BlankPage from "../pages/BlankPage";
 import AdminProfile from "../pages/AdminProfile";
+import ViewJobPost from "../pages/ViewJob";
+import EditJobPage from "../pages/EditJob"
 
 function AppRoutes() {
   const { authenticated, userType, isLoading } = useAuthContext();
@@ -21,7 +22,6 @@ function AppRoutes() {
   const publicRoutes = (
     <>
       <Route path="/" element={<SignInPage />} />
-      <Route path="/waiting" element={<BlankPage />} />
       <Route path="*" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<SignInPage />} />
       <Route path="/createAccount" element={<CreateAccountPage />} />
@@ -44,6 +44,9 @@ function AppRoutes() {
       <Route path="/" element={<HomePageJobSeeker />} />
       <Route path="*" element={<HomePageJobSeeker />} />
       <Route path="*" element={<Navigate to={"/userHome"} replace />} />
+      <Route path="/userProfile" element={<AdminProfile/>} />
+      <Route path="/job/:jobId" element={<EditJobPage />} />
+   
     </>
   );
 
@@ -64,6 +67,8 @@ function AppRoutes() {
         path="/login"
         element={<Navigate to={"/jobProviderDashboard"} replace />}
       />
+      <Route path="/viewJobPost" element={<ViewJobPost/>} /> 
+      <Route path="/job/:jobId" element={<EditJobPage />} />
       <Route path="/userProfile" element={<AdminProfile/>} />
     </>
   );

@@ -91,7 +91,7 @@ const AuthProvider = ({ children }: Props) => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         await fetchinguserType(user.email);
-         setUserEmail(auth.currentUser!.email as string | undefined);
+        setUserEmail(auth.currentUser!.email as string | undefined);
         setAuthenticated(true);
       } else {
         setAuthenticated(false);

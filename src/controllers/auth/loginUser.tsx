@@ -1,35 +1,41 @@
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 
-
 interface User {
   userEmail: string;
   userPassword: string;
 }
+interface Response {
+  statusType: string;
+  message: string;
+}
 
 export const LoginUser = async (
   user: User,
-  userType: string | undefined,
-  navigate: NavigateFunction
-) => {
+): Promise<Response> => {
   const auth = getAuth();
 
   try {
-    await signInWithEmailAndPassword(auth, user.userEmail, user.userPassword);
-    // switch (userType) {
-    //   case "admin":
-    //     navigate("/jobProviderDashboard");
-    //     break;
-    //   case "User":
-    //     navigate("/userHome");
-    //     break;
-    //   default:
-    //     navigate("/waiting");
-    //     break;
-    // }
+    var res = await signInWithEmailAndPassword(
+      auth,
+      user.userEmail,
+      user.userPassword
+    );
+    if (res.user.email != null) {
+      return { statusType: "success", message: "You Logged in Successfully" };
+    } else {
+      return {
+        statusType: "error",
+        message: "Failed to sign in. Please check your credentials.",
+      };
+    }
   } catch (error) {
     console.error("Error signing in: ", error);
-    alert("Failed to sign in. Please check your credentials.");
+    return {
+      statusType: "error",
+      message: "Failed to sign in. Please check your credentials.",
+    };
+    // alert("Failed to sign in. Please check your credentials.");
   } finally {
   }
 };
